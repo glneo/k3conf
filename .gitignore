@@ -1,0 +1,14 @@
+*.o
+k3conf
+builddate.c
+version.c
+cscope*
+tags
+*.swp
+*.swo
+*.orig
+*.rej
+*~
+\#*#
+*.patch
+*.diff
