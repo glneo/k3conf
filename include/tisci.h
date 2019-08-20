@@ -50,5 +50,11 @@ struct ti_sci_info {
 	struct ti_sci_version_info version;
 };
 
+#define MAX_DEVICE_STATE_LENGTH		25
+
 int ti_sci_init(void);
+const char *ti_sci_cmd_get_device_status(uint32_t dev_id);
+int ti_sci_cmd_disable_device(uint32_t dev_id);
+int ti_sci_cmd_enable_device(uint32_t dev_id);
+
 #endif

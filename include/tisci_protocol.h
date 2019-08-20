@@ -40,6 +40,9 @@
 #include <sec_proxy.h>
 
 #define TI_SCI_MSG_VERSION		0x0002
+/* Device requests */
+#define TI_SCI_MSG_SET_DEVICE_STATE	0x0200
+#define TI_SCI_MSG_GET_DEVICE_STATE	0x0201
 
 #define TI_SCI_MSG_FLAG(val)			(1 << (val))
 #define TI_SCI_FLAG_REQ_GENERIC_NORESPONSE	0x0
@@ -68,6 +71,39 @@ struct ti_sci_secure_msg_hdr {
 	uint16_t reserved;
 } __attribute__ ((__packed__));
 
+struct ti_sci_msg_req_set_device_state {
+	/* Additional hdr->flags options */
+#define MSG_FLAG_DEVICE_WAKE_ENABLED	TI_SCI_MSG_FLAG(8)
+#define MSG_FLAG_DEVICE_RESET_ISO	TI_SCI_MSG_FLAG(9)
+#define MSG_FLAG_DEVICE_EXCLUSIVE	TI_SCI_MSG_FLAG(10)
+	struct ti_sci_msg_hdr hdr;
+	uint32_t id;
+	uint32_t reserved;
+#define MSG_DEVICE_SW_STATE_AUTO_OFF	0
+#define MSG_DEVICE_SW_STATE_RETENTION	1
+#define MSG_DEVICE_SW_STATE_ON		2
+	uint8_t state;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_req_get_device_state {
+	struct ti_sci_msg_hdr hdr;
+	uint32_t id;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_resp_get_device_state {
+	struct ti_sci_msg_hdr hdr;
+	uint32_t context_loss_count;
+	uint32_t resets;
+	uint8_t programmed_state;
+#define MSG_DEVICE_HW_STATE_OFF		0
+#define MSG_DEVICE_HW_STATE_ON		1
+#define MSG_DEVICE_HW_STATE_TRANS	2
+#define MAX_DEVICE_HW_STATES		3
+	uint8_t current_state;
+} __attribute__ ((__packed__));
+
+void ti_sci_setup_header(struct ti_sci_msg_hdr *hdr, uint16_t type,
+			 uint32_t flags);
 int ti_sci_xfer_msg(struct k3_sec_proxy_msg *msg);
 
 static inline uint8_t ti_sci_is_response_ack(uint8_t *resp)
