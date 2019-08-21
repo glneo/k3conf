@@ -38,6 +38,7 @@
 #include <string.h>
 #include <sec_proxy.h>
 #include <soc/am65x/am65x_host_info.h>
+#include <soc/j721e/j721e_host_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -85,6 +86,14 @@ static void am654_init(void)
 	sci_info->num_hosts = AM65X_MAX_HOST_IDS;
 }
 
+static void j721e_init(void)
+{
+	struct ti_sci_info *sci_info = &soc_info.sci_info;
+
+	sci_info->host_info = j721e_host_info;
+	sci_info->num_hosts = J721E_MAX_HOST_IDS;
+}
+
 int soc_init(void)
 {
 	memset(&soc_info, 0, sizeof(soc_info));
@@ -113,6 +122,8 @@ int soc_init(void)
 
 	if (soc_info.soc == AM654)
 		am654_init();
+	else if (soc_info.soc == J721E)
+		j721e_init();
 
 	/* ToDo: Add error if sec_proxy_init/sci_init is failed */
 	if(!k3_sec_proxy_init())
