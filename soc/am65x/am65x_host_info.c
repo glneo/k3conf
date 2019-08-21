@@ -1,8 +1,7 @@
 /*
- * TISCI helper apis header file
+ * SoC Host Info
  *
  * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
- *	Lokesh Vutla <lokeshvutla@ti.com>
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -33,43 +32,26 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __TISCI_H
-#define __TISCI_H
+#include <tisci.h>
+#include <socinfo.h>
 
-#include <stdint.h>
-
-struct ti_sci_version_info {
-	uint8_t abi_major;
-	uint8_t abi_minor;
-	uint16_t firmware_version;
-	char firmware_description[32];
+struct ti_sci_host_info am65x_host_info[] = {
+	[0] = {0, "DMSC", "Secure", "Device Management and Security Control"},
+	[1] = {3, "R5_0", "Non Secure", "Cortex R5 Context 0 on MCU island"},
+	[2] = {4, "R5_1", "Secure", "Cortex R5 Context 1 on MCU island(Boot)"},
+	[3] = {5, "R5_2", "Non Secure", "Cortex R5 Context 2 on MCU island"},
+	[4] = {6, "R5_3", "Secure", "Cortex R5 Context 3 on MCU island"},
+	[5] = {10, "A53_0", "Secure", "Cortex A53 context 0 on Main island"},
+	[6] = {11, "A53_1", "Secure", "Cortex A53 context 1 on Main island"},
+	[7] = {12, "A53_2", "Non Secure", "Cortex A53 context 2 on Main island"},
+	[8] = {13, "A53_3", "Non Secure", "Cortex A53 context 3 on Main island"},
+	[9] = {14, "A53_4", "Non Secure", "Cortex A53 context 4 on Main island"},
+	[10] = {15, "A53_5", "Non Secure", "Cortex A53 context 5 on Main island"},
+	[11] = {16, "A53_6", "Non Secure", "Cortex A53 context 6 on Main island"},
+	[12] = {17, "A53_7", "Non Secure", "Cortex A53 context 7 on Main island"},
+	[13] = {30, "GPU_0", "Non Secure", "SGX544 Context 0 on Main island"},
+	[14] = {31, "GPU_1", "Non Secure", "SGX544 Context 1 on Main island"},
+	[15] = {50, "ICSSG_0", "Non Secure", "ICSS Context 0 on Main island"},
+	[16] = {51, "ICSSG_1", "Non Secure", "ICSS Context 1 on Main island"},
+	[17] = {52, "ICSSG_2", "Non Secure", "ICSS Context 2 on Main island"},
 };
-
-struct ti_sci_host_info {
-	uint32_t host_id;
-	char host_name[15];
-	char security_status[15];
-	char description[50];
-};
-
-struct ti_sci_info {
-	uint8_t host_id;
-	struct ti_sci_version_info version;
-	struct ti_sci_host_info *host_info;
-	uint32_t num_hosts;
-};
-
-#define MAX_DEVICE_STATE_LENGTH		25
-#define MAX_CLOCK_STATE_LENGTH		25
-
-int ti_sci_init(void);
-const char *ti_sci_cmd_get_device_status(uint32_t dev_id);
-int ti_sci_cmd_disable_device(uint32_t dev_id);
-int ti_sci_cmd_enable_device(uint32_t dev_id);
-
-int ti_sci_cmd_get_clk(uint32_t dev_id, uint32_t clk_id);
-int ti_sci_cmd_put_clk(uint32_t dev_id, uint32_t clk_id);
-const char *ti_sci_cmd_get_clk_state(uint32_t dev_id, uint32_t clk_id);
-int ti_sci_cmd_set_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t freq);
-int ti_sci_cmd_get_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t *freq);
-#endif

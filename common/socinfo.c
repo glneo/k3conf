@@ -37,6 +37,7 @@
 #include <mmio.h>
 #include <string.h>
 #include <sec_proxy.h>
+#include <soc/am65x/am65x_host_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -76,6 +77,14 @@ static const char soc_revision[REV_PG_MAX + 1][SOC_REVISION_MAX_LENGTH] = {
 	[REV_PG_MAX] = "NULL"
 };
 
+static void am654_init(void)
+{
+	struct ti_sci_info *sci_info = &soc_info.sci_info;
+
+	sci_info->host_info = am65x_host_info;
+	sci_info->num_hosts = AM65X_MAX_HOST_IDS;
+}
+
 int soc_init(void)
 {
 	memset(&soc_info, 0, sizeof(soc_info));
@@ -101,6 +110,9 @@ int soc_init(void)
 	strcat(soc_info.soc_full_name, soc_revision[soc_info.rev]);
 
 	soc_info.host_id = DEFAULT_HOST_ID;
+
+	if (soc_info.soc == AM654)
+		am654_init();
 
 	/* ToDo: Add error if sec_proxy_init/sci_init is failed */
 	if(!k3_sec_proxy_init())

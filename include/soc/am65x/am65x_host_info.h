@@ -1,8 +1,7 @@
 /*
- * TISCI helper apis header file
+ * SoC Host Info
  *
  * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
- *	Lokesh Vutla <lokeshvutla@ti.com>
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -33,43 +32,32 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __TISCI_H
-#define __TISCI_H
+#ifndef __AM65X_HOST_INFO
+#define __AM65X_HOST_INFO
 
+#include <stdio.h>
 #include <stdint.h>
 
-struct ti_sci_version_info {
-	uint8_t abi_major;
-	uint8_t abi_minor;
-	uint16_t firmware_version;
-	char firmware_description[32];
-};
+#define AM65X_HOST_ID_DMSC   0
+#define AM65X_HOST_ID_R5_0   3
+#define AM65X_HOST_ID_R5_1   4
+#define AM65X_HOST_ID_R5_2   5
+#define AM65X_HOST_ID_R5_3   6
+#define AM65X_HOST_ID_A53_0   10
+#define AM65X_HOST_ID_A53_1   11
+#define AM65X_HOST_ID_A53_2   12
+#define AM65X_HOST_ID_A53_3   13
+#define AM65X_HOST_ID_A53_4   14
+#define AM65X_HOST_ID_A53_5   15
+#define AM65X_HOST_ID_A53_6   16
+#define AM65X_HOST_ID_A53_7   17
+#define AM65X_HOST_ID_GPU_0   30
+#define AM65X_HOST_ID_GPU_1   31
+#define AM65X_HOST_ID_ICSSG_0   50
+#define AM65X_HOST_ID_ICSSG_1   51
+#define AM65X_HOST_ID_ICSSG_2   52
 
-struct ti_sci_host_info {
-	uint32_t host_id;
-	char host_name[15];
-	char security_status[15];
-	char description[50];
-};
+#define AM65X_MAX_HOST_IDS	18
 
-struct ti_sci_info {
-	uint8_t host_id;
-	struct ti_sci_version_info version;
-	struct ti_sci_host_info *host_info;
-	uint32_t num_hosts;
-};
-
-#define MAX_DEVICE_STATE_LENGTH		25
-#define MAX_CLOCK_STATE_LENGTH		25
-
-int ti_sci_init(void);
-const char *ti_sci_cmd_get_device_status(uint32_t dev_id);
-int ti_sci_cmd_disable_device(uint32_t dev_id);
-int ti_sci_cmd_enable_device(uint32_t dev_id);
-
-int ti_sci_cmd_get_clk(uint32_t dev_id, uint32_t clk_id);
-int ti_sci_cmd_put_clk(uint32_t dev_id, uint32_t clk_id);
-const char *ti_sci_cmd_get_clk_state(uint32_t dev_id, uint32_t clk_id);
-int ti_sci_cmd_set_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t freq);
-int ti_sci_cmd_get_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t *freq);
+extern struct ti_sci_host_info am65x_host_info[];
 #endif

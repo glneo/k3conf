@@ -66,11 +66,15 @@ COMMONSOURCES=\
 		common/tisci/tisci_device.c \
 		common/tisci/tisci_clock.c
 
+AM65XSOURCES =\
+	      soc/am65x/am65x_host_info.c
+
 COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
+AM65XOBJECTS=	$(AM65XSOURCES:.c=.o)
 
-ALLSOURCES=	$(COMMONSOURCES)
+ALLSOURCES=	$(COMMONSOURCES) $(AM65XSOURCES)
 
-ALLOBJECTS=	$(COMMONOBJECTS)
+ALLOBJECTS=	$(COMMONOBJECTS) $(AM65XOBJECTS)
 
 #
 # Pretty print
