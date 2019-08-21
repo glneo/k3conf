@@ -63,7 +63,8 @@ COMMONSOURCES=\
 		common/socinfo.c \
 		common/sec_proxy.c \
 		common/tisci/tisci_core.c \
-		common/tisci/tisci_device.c
+		common/tisci/tisci_device.c \
+		common/tisci/tisci_clock.c
 
 COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
 

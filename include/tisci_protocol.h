@@ -43,6 +43,12 @@
 /* Device requests */
 #define TI_SCI_MSG_SET_DEVICE_STATE	0x0200
 #define TI_SCI_MSG_GET_DEVICE_STATE	0x0201
+/* Clock requests */
+#define TI_SCI_MSG_SET_CLOCK_STATE	0x0100
+#define TI_SCI_MSG_GET_CLOCK_STATE	0x0101
+#define TI_SCI_MSG_SET_CLOCK_FREQ	0x010c
+#define TI_SCI_MSG_QUERY_CLOCK_FREQ	0x010d
+#define TI_SCI_MSG_GET_CLOCK_FREQ	0x010e
 
 #define TI_SCI_MSG_FLAG(val)			(1 << (val))
 #define TI_SCI_FLAG_REQ_GENERIC_NORESPONSE	0x0
@@ -100,6 +106,74 @@ struct ti_sci_msg_resp_get_device_state {
 #define MSG_DEVICE_HW_STATE_TRANS	2
 #define MAX_DEVICE_HW_STATES		3
 	uint8_t current_state;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_req_set_clock_state {
+	/* Additional hdr->flags options */
+#define MSG_FLAG_CLOCK_ALLOW_SSC		TI_SCI_MSG_FLAG(8)
+#define MSG_FLAG_CLOCK_ALLOW_FREQ_CHANGE	TI_SCI_MSG_FLAG(9)
+#define MSG_FLAG_CLOCK_INPUT_TERM		TI_SCI_MSG_FLAG(10)
+	struct ti_sci_msg_hdr hdr;
+	uint32_t dev_id;
+	uint8_t clk_id;
+#define MSG_CLOCK_SW_STATE_UNREQ	0
+#define MSG_CLOCK_SW_STATE_AUTO		1
+#define MSG_CLOCK_SW_STATE_REQ		2
+	uint8_t request_state;
+	uint32_t clk_id_32;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_req_get_clock_state {
+	struct ti_sci_msg_hdr hdr;
+	uint32_t dev_id;
+	uint8_t clk_id;
+	uint32_t clk_id_32;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_resp_get_clock_state {
+	struct ti_sci_msg_hdr hdr;
+	uint8_t programmed_state;
+#define MSG_CLOCK_HW_STATE_NOT_READY	0
+#define MSG_CLOCK_HW_STATE_READY	1
+#define MAX_CLOCK_HW_STATES		2
+	uint8_t current_state;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_req_query_clock_freq {
+	struct ti_sci_msg_hdr hdr;
+	uint32_t dev_id;
+	uint64_t min_freq_hz;
+	uint64_t target_freq_hz;
+	uint64_t max_freq_hz;
+	uint8_t clk_id;
+	uint32_t clk_id_32;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_resp_query_clock_freq {
+	struct ti_sci_msg_hdr hdr;
+	uint64_t freq_hz;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_req_set_clock_freq {
+	struct ti_sci_msg_hdr hdr;
+	uint32_t dev_id;
+	uint64_t min_freq_hz;
+	uint64_t target_freq_hz;
+	uint64_t max_freq_hz;
+	uint8_t clk_id;
+	uint32_t clk_id_32;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_req_get_clock_freq {
+	struct ti_sci_msg_hdr hdr;
+	uint32_t dev_id;
+	uint8_t clk_id;
+	uint32_t clk_id_32;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_resp_get_clock_freq {
+	struct ti_sci_msg_hdr hdr;
+	uint64_t freq_hz;
 } __attribute__ ((__packed__));
 
 void ti_sci_setup_header(struct ti_sci_msg_hdr *hdr, uint16_t type,

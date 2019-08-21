@@ -51,10 +51,16 @@ struct ti_sci_info {
 };
 
 #define MAX_DEVICE_STATE_LENGTH		25
+#define MAX_CLOCK_STATE_LENGTH		25
 
 int ti_sci_init(void);
 const char *ti_sci_cmd_get_device_status(uint32_t dev_id);
 int ti_sci_cmd_disable_device(uint32_t dev_id);
 int ti_sci_cmd_enable_device(uint32_t dev_id);
 
+int ti_sci_cmd_get_clk(uint32_t dev_id, uint32_t clk_id);
+int ti_sci_cmd_put_clk(uint32_t dev_id, uint32_t clk_id);
+const char *ti_sci_cmd_get_clk_state(uint32_t dev_id, uint32_t clk_id);
+int ti_sci_cmd_set_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t freq);
+int ti_sci_cmd_get_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t *freq);
 #endif
