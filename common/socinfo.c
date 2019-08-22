@@ -40,6 +40,7 @@
 #include <soc/am65x/am65x_host_info.h>
 #include <soc/am65x/am65x_sec_proxy_info.h>
 #include <soc/j721e/j721e_host_info.h>
+#include <soc/j721e/j721e_sec_proxy_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -97,6 +98,10 @@ static void j721e_init(void)
 
 	sci_info->host_info = j721e_host_info;
 	sci_info->num_hosts = J721E_MAX_HOST_IDS;
+	sci_info->sp_info[MAIN_SEC_PROXY] = j721e_main_sp_info;
+	sci_info->num_sp_threads[MAIN_SEC_PROXY] = J721E_MAIN_SEC_PROXY_THREADS;
+	sci_info->sp_info[MCU_SEC_PROXY] = j721e_mcu_sp_info;
+	sci_info->num_sp_threads[MCU_SEC_PROXY] = J721E_MCU_SEC_PROXY_THREADS;
 }
 
 int soc_init(void)

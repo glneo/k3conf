@@ -71,7 +71,8 @@ AM65XSOURCES =\
 	      soc/am65x/am65x_sec_proxy_info.c
 
 J721ESOURCES =\
-	      soc/j721e/j721e_host_info.c
+	      soc/j721e/j721e_host_info.c \
+	      soc/j721e/j721e_sec_proxy_info.c
 
 COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
 AM65XOBJECTS=	$(AM65XSOURCES:.c=.o)
