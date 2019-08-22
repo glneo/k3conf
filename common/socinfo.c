@@ -40,6 +40,7 @@
 #include <soc/am65x/am65x_host_info.h>
 #include <soc/am65x/am65x_sec_proxy_info.h>
 #include <soc/am65x/am65x_processors_info.h>
+#include <soc/am65x/am65x_devices_info.h>
 #include <soc/j721e/j721e_host_info.h>
 #include <soc/j721e/j721e_sec_proxy_info.h>
 #include <soc/j721e/j721e_processors_info.h>
@@ -94,6 +95,8 @@ static void am654_init(void)
 	sci_info->num_sp_threads[MCU_SEC_PROXY] = AM65X_MCU_SEC_PROXY_THREADS;
 	sci_info->processors_info = am65x_processors_info;
 	sci_info->num_processors = AM65X_MAX_PROCESSORS_IDS;
+	sci_info->devices_info = am65x_devices_info;
+	sci_info->num_devices = AM65X_MAX_DEVICES;
 }
 
 static void j721e_init(void)
