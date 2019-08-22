@@ -67,7 +67,8 @@ COMMONSOURCES=\
 		common/tisci/tisci_clock.c
 
 AM65XSOURCES =\
-	      soc/am65x/am65x_host_info.c
+	      soc/am65x/am65x_host_info.c \
+	      soc/am65x/am65x_sec_proxy_info.c
 
 J721ESOURCES =\
 	      soc/j721e/j721e_host_info.c
