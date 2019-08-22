@@ -43,27 +43,42 @@
 #include <socinfo.h>
 #include <help.h>
 #include <string.h>
+#include <autoadjust_table.h>
 
 void k3conf_print_version(FILE *stream)
 {
+	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	struct ti_sci_version_info ver = soc_info.sci_info.version;
+	uint32_t row = 0;
 
 	if (stream == NULL) {
 		fprintf(stderr, "%s(): stream == NULL!!!\n", __func__);
 		return;
 	}
 
-	fprintf(stream, "K3CONF (version %s built %s)\n", k3conf_version,
-		builddate);
-	fprintf(stream, "SoC %s\n", soc_info.soc_full_name);
+	autoadjust_table_init(table);
+	strncpy(table[row][0], "VERSION INFO", TABLE_MAX_ELT_LEN);
+	row++;
+	strncpy(table[row][0], "K3CONF", TABLE_MAX_ELT_LEN);
+	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "(version %s built %s)", k3conf_version, builddate);
+	row++;
+	strncpy(table[row][0], "SoC", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], soc_info.soc_full_name, TABLE_MAX_ELT_LEN);
+	row++;
 
-	if (!soc_info.ti_sci_enabled)
-		return;
+	if (soc_info.ti_sci_enabled) {
+		strncpy(table[row][0], "SYSFW", TABLE_MAX_ELT_LEN);
+		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
+			 "ABI: %d.%d (firmware version 0x%04x '%.*s)')",
+			 ver.abi_major, ver.abi_minor, ver.firmware_version,
+			 (int)sizeof(ver.firmware_description),
+			 ver.firmware_description);
+		row++;
+	}
 
-	fprintf(stream, "SYSFW ABI: %d.%d (firmware version 0x%04x '%.*s)')\n",
-		ver.abi_major, ver.abi_minor, ver.firmware_version,
-		(int)sizeof(ver.firmware_description),
-		ver.firmware_description);
+	autoadjust_table_generic_fprint(stream, table, row, 2, TABLE_HAS_TITLE);
+
+	return;
 }
 
 int main(int argc, char *argv[])
