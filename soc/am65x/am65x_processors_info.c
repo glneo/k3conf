@@ -1,8 +1,7 @@
 /*
- * TISCI helper apis header file
+ * SoC Host Info
  *
  * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
- *	Lokesh Vutla <lokeshvutla@ti.com>
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -33,65 +32,14 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __TISCI_H
-#define __TISCI_H
+#include <tisci.h>
+#include <socinfo.h>
 
-#include <stdint.h>
-
-struct ti_sci_version_info {
-	uint8_t abi_major;
-	uint8_t abi_minor;
-	uint16_t firmware_version;
-	char firmware_description[32];
+struct ti_sci_processors_info am65x_processors_info[] = {
+	[0] = {202, 0, 0x20, "A53_CL0_C0"},
+	[1] = {203, 0, 0x21, "A53_CL0_C1"},
+	[2] = {204, 0, 0x22, "A53_CL1_C0"},
+	[3] = {205, 0, 0x23, "A53_CL1_C1"},
+	[4] = {159, 0, 0x01, "R5_CL0_C0"},
+	[5] = {245, 0, 0x02, "R5_CL0_C1"},
 };
-
-struct ti_sci_host_info {
-	uint32_t host_id;
-	char host_name[15];
-	char security_status[15];
-	char description[50];
-};
-
-#define MAIN_SEC_PROXY	0
-#define MCU_SEC_PROXY	1
-
-struct ti_sci_sec_proxy_info {
-	uint32_t sp_id;
-	char sp_dir[6];
-	uint32_t num_msgs;
-	char host[15];
-	char host_function[25];
-};
-
-struct ti_sci_processors_info {
-	uint32_t dev_id;
-	uint32_t clk_id;
-	uint32_t processor_id;
-	char name[20];
-};
-
-struct ti_sci_info {
-	uint8_t host_id;
-	struct ti_sci_version_info version;
-	struct ti_sci_host_info *host_info;
-	uint32_t num_hosts;
-	struct ti_sci_sec_proxy_info *sp_info[2];
-	uint32_t num_sp_threads[2];
-	struct ti_sci_processors_info *processors_info;
-	uint32_t num_processors;
-};
-
-#define MAX_DEVICE_STATE_LENGTH		25
-#define MAX_CLOCK_STATE_LENGTH		25
-
-int ti_sci_init(void);
-const char *ti_sci_cmd_get_device_status(uint32_t dev_id);
-int ti_sci_cmd_disable_device(uint32_t dev_id);
-int ti_sci_cmd_enable_device(uint32_t dev_id);
-
-int ti_sci_cmd_get_clk(uint32_t dev_id, uint32_t clk_id);
-int ti_sci_cmd_put_clk(uint32_t dev_id, uint32_t clk_id);
-const char *ti_sci_cmd_get_clk_state(uint32_t dev_id, uint32_t clk_id);
-int ti_sci_cmd_set_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t freq);
-int ti_sci_cmd_get_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t *freq);
-#endif
