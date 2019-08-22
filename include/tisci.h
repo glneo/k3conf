@@ -75,6 +75,13 @@ struct ti_sci_devices_info {
 	char name[60];
 };
 
+struct ti_sci_clocks_info {
+	uint32_t dev_id;
+	uint32_t clk_id;
+	char clk_name[100];
+	char clk_function[100];
+};
+
 struct ti_sci_info {
 	uint8_t host_id;
 	struct ti_sci_version_info version;
@@ -86,6 +93,8 @@ struct ti_sci_info {
 	uint32_t num_processors;
 	struct ti_sci_devices_info *devices_info;
 	uint32_t num_devices;
+	struct ti_sci_clocks_info *clocks_info;
+	uint32_t num_clocks;
 };
 
 #define MAX_DEVICE_STATE_LENGTH		25

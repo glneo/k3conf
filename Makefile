@@ -70,7 +70,8 @@ AM65XSOURCES =\
 	      soc/am65x/am65x_host_info.c \
 	      soc/am65x/am65x_sec_proxy_info.c \
 	      soc/am65x/am65x_processors_info.c \
-	      soc/am65x/am65x_devices_info.c
+	      soc/am65x/am65x_devices_info.c \
+	      soc/am65x/am65x_clocks_info.c
 
 J721ESOURCES =\
 	      soc/j721e/j721e_host_info.c \
