@@ -64,7 +64,8 @@ COMMONSOURCES=\
 		common/sec_proxy.c \
 		common/tisci/tisci_core.c \
 		common/tisci/tisci_device.c \
-		common/tisci/tisci_clock.c
+		common/tisci/tisci_clock.c \
+		common/autoadjust_table.c
 
 AM65XSOURCES =\
 	      soc/am65x/am65x_host_info.c \
