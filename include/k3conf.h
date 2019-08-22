@@ -1,5 +1,5 @@
 /*
- * Help Library Header File for K3CONF
+ * K3CONF Main Header file.
  *
  * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
  *	Lokesh Vutla <lokeshvutla@ti.com>
@@ -33,20 +33,16 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __K3CONF_HELP
-#define __K3CONF_HELP
+#include <ctype.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <socinfo.h>
+#include <string.h>
 
-typedef enum {
-	HELP_USAGE,
-	HELP_SHOW,
-	HELP_SHOW_HOST,
-	HELP_SHOW_SEC_PROXY,
-	HELP_SHOW_DEVICE,
-	HELP_SHOW_CLOCK,
-	HELP_SHOW_PROCESSOR,
-	HELP_ALL,
-	HELP_CATEGORY_MAX,
-} help_category;
+#ifndef __K3CONF_H
+#define __K3CONF_H
 
-void help(help_category cat);
+int process_show_command(int argc, char *argv[]);
+
 #endif

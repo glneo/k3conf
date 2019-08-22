@@ -44,6 +44,7 @@
 #include <help.h>
 #include <string.h>
 #include <autoadjust_table.h>
+#include <k3conf.h>
 
 void k3conf_print_version(FILE *stream)
 {
@@ -105,6 +106,11 @@ int main(int argc, char *argv[])
 	} else if (!strcmp(argv[0], "--version")) {
 		k3conf_print_version(stdout);
 		goto main_exit;
+	} else if (!strcmp(argv[0], "show")) {
+		argc--;
+		argv++;
+		k3conf_print_version(stdout);
+		return process_show_command(argc, argv);
 	} else {
 		fprintf(stderr, "Invalid argument %s", argv[0]);
 		help(HELP_USAGE);

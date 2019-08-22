@@ -74,4 +74,37 @@ void help(help_category cat)
 		printf("\n\t--version\n");
 		printf("\t    Print k3conf version.\n");
 	}
+
+	if (cat != HELP_USAGE)
+		printf("\nCOMMANDS\n");
+
+	if ((cat == HELP_ALL) || (cat == HELP_SHOW) ||
+	    (cat == HELP_SHOW_HOST)) {
+		printf("\n\tk3conf show hosts\n");
+		printf("\t	Prints all the available TISCI hosts\n");
+	}
+	if ((cat == HELP_ALL) || (cat == HELP_SHOW) ||
+	    (cat == HELP_SHOW_SEC_PROXY)) {
+		printf("\n\tk3conf show threads\n");
+		printf("\t	Prints all the available TISCI secure proxy threads\n");
+	}
+	if ((cat == HELP_ALL) || (cat == HELP_SHOW) ||
+	    (cat == HELP_SHOW_DEVICE)) {
+		printf("\n\tk3conf show device\n");
+		printf("\t	Prints all the available TISCI devices\n");
+		printf("\n\tk3conf show device <dev_id>\n");
+		printf("\t	Prints the corresponding device id information\n");
+	}
+	if ((cat == HELP_ALL) || (cat == HELP_SHOW) ||
+	    (cat == HELP_SHOW_CLOCK)) {
+		printf("\n\tk3conf show clock\n");
+		printf("\t	Prints all the available TISCI clocks\n");
+		printf("\n\tk3conf show clock <dev_id>\n");
+		printf("\t	Prints the clocks for corresponding device id\n");
+	}
+	if ((cat == HELP_ALL) || (cat == HELP_SHOW) ||
+	    (cat == HELP_SHOW_PROCESSOR)) {
+		printf("\n\tk3conf show processor\n");
+		printf("\t	Prints all the available TISCI processors\n");
+	}
 }
