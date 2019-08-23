@@ -49,7 +49,7 @@ void help(help_category cat)
 		printf("\tk3conf - TI K3 Configuration Diagnostic Tool\n");
 
 		printf("\nSYNOPSIS\n");
-		printf("\tk3conf [--version] [--help] <command> [<args>]\n");
+		printf("\tk3conf [--version] [--help] [--cpuinfo] <command> [<args>]\n");
 		if (cat == HELP_USAGE)
 			printf("\n\tSee 'k3conf --help' for more information.\n\n");
 	}
@@ -73,6 +73,9 @@ void help(help_category cat)
 
 		printf("\n\t--version\n");
 		printf("\t    Print k3conf version.\n");
+
+		printf("\n\t--cpuinfo\n");
+		printf("\t    Print the host processor information.\n");
 	}
 
 	if (cat != HELP_USAGE)

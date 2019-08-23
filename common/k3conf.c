@@ -106,6 +106,10 @@ int main(int argc, char *argv[])
 	} else if (!strcmp(argv[0], "--version")) {
 		k3conf_print_version(stdout);
 		goto main_exit;
+	} else if (!strcmp(argv[0], "--cpuinfo")) {
+		k3conf_print_version(stdout);
+		dump_cpu_info();
+		goto main_exit;
 	} else if (!strcmp(argv[0], "show")) {
 		argc--;
 		argv++;

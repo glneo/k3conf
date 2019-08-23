@@ -42,6 +42,33 @@
 #include <autoadjust_table.h>
 #include <k3conf.h>
 
+int dump_cpu_info(void)
+{
+	struct ti_sci_processors_info *p = soc_info.sci_info.processors_info;
+	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
+	uint32_t row = 0, found = 0;
+	uint64_t freq;
+
+	autoadjust_table_init(table);
+	strncpy(table[row][0], "Processor Name", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Processor State", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][2], "Processor Frequency", TABLE_MAX_ELT_LEN);
+
+	for (row = 0; row < soc_info.sci_info.num_processors; row++) {
+		if (strncmp(p[row].name, "A", 1))
+			continue;
+		strncpy(table[found + 1][0], p[row].name, TABLE_MAX_ELT_LEN);
+		/* ToDo: Should we get the state from proc ops */
+		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%s",
+			 ti_sci_cmd_get_device_status(p[row].dev_id));
+		ti_sci_cmd_get_clk_freq(p[row].dev_id, p[row].clk_id, &freq);
+		snprintf(table[found + 1][2], TABLE_MAX_ELT_LEN, "%lu", freq);
+		found++;
+	}
+
+	return autoadjust_table_print(table, found + 1, 3);
+}
+
 int dump_clocks_info(int argc, char *argv[])
 {
 	struct ti_sci_clocks_info *c = soc_info.sci_info.clocks_info;
