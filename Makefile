@@ -67,7 +67,8 @@ COMMONSOURCES=\
 		common/tisci/tisci_clock.c \
 		common/autoadjust_table.c \
 		common/cmd_show.c \
-		common/cmd_dump.c
+		common/cmd_dump.c \
+		common/cmd_enable.c
 
 AM65XSOURCES =\
 	      soc/am65x/am65x_host_info.c \

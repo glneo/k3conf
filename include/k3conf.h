@@ -48,4 +48,5 @@ int process_dump_command(int argc, char *argv[]);
 int dump_clocks_info(int argc, char *argv[]);
 int dump_devices_info(int argc, char *argv[]);
 int dump_cpu_info(void);
+int process_enable_command(int argc, char *argv[]);
 #endif

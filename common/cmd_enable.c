@@ -1,5 +1,5 @@
 /*
- * Help Library Header File for K3CONF
+ * K3CONF Command Enable
  *
  * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
  *	Lokesh Vutla <lokeshvutla@ti.com>
@@ -33,27 +33,86 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __K3CONF_HELP
-#define __K3CONF_HELP
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <tisci.h>
+#include <socinfo.h>
+#include <help.h>
+#include <k3conf.h>
 
-typedef enum {
-	HELP_USAGE,
-	HELP_SHOW,
-	HELP_SHOW_HOST,
-	HELP_SHOW_SEC_PROXY,
-	HELP_SHOW_DEVICE,
-	HELP_SHOW_CLOCK,
-	HELP_SHOW_PROCESSOR,
-	HELP_DUMP,
-	HELP_DUMP_DEVICE,
-	HELP_DUMP_CLOCK,
-	HELP_DUMP_PROCESSOR,
-	HELP_ENABLE,
-	HELP_ENABLE_DEVICE,
-	HELP_ENABLE_CLOCK,
-	HELP_ALL,
-	HELP_CATEGORY_MAX,
-} help_category;
+static int enable_device(int argc, char *argv[])
+{
+	uint32_t dev_id, ret;
 
-void help(help_category cat);
-#endif
+	if (argc < 1)
+		return -1;
+
+	ret = sscanf(argv[0], "%u", &dev_id);
+	if (ret != 1)
+		return -1;
+
+	ret = ti_sci_cmd_enable_device(dev_id);
+	if (ret)
+		return ret;
+
+	return dump_devices_info(argc, argv);
+}
+
+static int enable_clock(int argc, char *argv[])
+{
+	uint32_t dev_id, clk_id, ret;
+
+	if (argc < 2)
+		return -1;
+
+	ret = sscanf(argv[0], "%u", &dev_id);
+	if (ret != 1)
+		return -1;
+
+	ret = sscanf(argv[1], "%u", &clk_id);
+	if (ret != 1)
+		return -1;
+
+	ret = ti_sci_cmd_get_clk(dev_id, clk_id);
+	if (ret)
+		return ret;
+
+	return dump_clocks_info(argc, argv);
+}
+
+int process_enable_command(int argc, char *argv[])
+{
+	int ret;
+
+	if (argc < 1) {
+		help(HELP_ENABLE);
+		return -1;
+	}
+
+	if (!strncmp(argv[0], "device", 6)) {
+		argc--;
+		argv++;
+		ret = enable_device(argc, argv);
+		if (ret) {
+			fprintf(stderr, "Invalid device arguments\n");
+			help(HELP_ENABLE_DEVICE);
+		}
+	} else if (!strncmp(argv[0], "clock", 5)) {
+		argc--;
+		argv++;
+		ret = enable_clock(argc, argv);
+		if (ret) {
+			fprintf(stderr, "Invalid clock arguments\n");
+			help(HELP_ENABLE_CLOCK);
+		}
+	} else if (!strcmp(argv[0], "--help")) {
+		help(HELP_ENABLE);
+		return 0;
+	} else {
+		fprintf(stderr, "Invalid argument %s\n", argv[1]);
+		help(HELP_ENABLE);
+		return -1;
+	}
+	return ret;
+}

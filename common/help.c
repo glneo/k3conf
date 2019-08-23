@@ -131,4 +131,14 @@ void help(help_category cat)
 		printf("\n\tk3conf dump processor <proc_id>\n");
 		printf("\t	Prints status of the given TISCI processors\n");
 	}
+	if ((cat == HELP_ALL) || (cat == HELP_ENABLE) ||
+	    (cat == HELP_ENABLE_DEVICE)) {
+		printf("\n\tk3conf enable device <dev_id>\n");
+		printf("\t	Enables the TISCI device and prints the status\n");
+	}
+	if ((cat == HELP_ALL) || (cat == HELP_ENABLE) ||
+	    (cat == HELP_ENABLE_CLOCK)) {
+		printf("\n\tk3conf enable clock <dev_id> <clk_id>\n");
+		printf("\t	Enables the TISCI clock and prints the status\n");
+	}
 }
