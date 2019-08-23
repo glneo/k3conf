@@ -44,5 +44,7 @@
 #define __K3CONF_H
 
 int process_show_command(int argc, char *argv[]);
-
+int process_dump_command(int argc, char *argv[]);
+int dump_clocks_info(int argc, char *argv[]);
+int dump_devices_info(int argc, char *argv[]);
 #endif
