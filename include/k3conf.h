@@ -50,4 +50,5 @@ int dump_devices_info(int argc, char *argv[]);
 int dump_cpu_info(void);
 int process_enable_command(int argc, char *argv[]);
 int process_disable_command(int argc, char *argv[]);
+int process_set_command(int argc, char *argv[]);
 #endif

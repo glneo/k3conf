@@ -130,6 +130,11 @@ int main(int argc, char *argv[])
 		argv++;
 		k3conf_print_version(stdout);
 		return process_disable_command(argc, argv);
+	} else if (!strcmp(argv[0], "set")) {
+		argc--;
+		argv++;
+		k3conf_print_version(stdout);
+		return process_set_command(argc, argv);
 	} else {
 		fprintf(stderr, "Invalid argument %s", argv[0]);
 		help(HELP_USAGE);

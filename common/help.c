@@ -151,4 +151,9 @@ void help(help_category cat)
 		printf("\n\tk3conf disable clock <dev_id> <clk_id>\n");
 		printf("\t	Disables the TISCI clock and prints the status\n");
 	}
+	if ((cat == HELP_ALL) || (cat == HELP_SET) ||
+	    (cat == HELP_SET_CLOCK)) {
+		printf("\n\tk3conf set clock <dev_id> <clk_id> <freq>\n");
+		printf("\t	Sets the clock frequency and prints the status\n");
+	}
 }

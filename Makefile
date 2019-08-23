@@ -69,7 +69,8 @@ COMMONSOURCES=\
 		common/cmd_show.c \
 		common/cmd_dump.c \
 		common/cmd_enable.c \
-		common/cmd_disable.c
+		common/cmd_disable.c \
+		common/cmd_set.c
 
 AM65XSOURCES =\
 	      soc/am65x/am65x_host_info.c \
