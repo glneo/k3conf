@@ -1,5 +1,5 @@
 /*
- * K3CONF Main Header file.
+ * K3CONF Command Disable
  *
  * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
  *	Lokesh Vutla <lokeshvutla@ti.com>
@@ -33,21 +33,86 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <ctype.h>
-#include <unistd.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include <socinfo.h>
 #include <string.h>
+#include <stdio.h>
+#include <tisci.h>
+#include <socinfo.h>
+#include <help.h>
+#include <k3conf.h>
 
-#ifndef __K3CONF_H
-#define __K3CONF_H
+static int disable_device(int argc, char *argv[])
+{
+	uint32_t dev_id, ret;
 
-int process_show_command(int argc, char *argv[]);
-int process_dump_command(int argc, char *argv[]);
-int dump_clocks_info(int argc, char *argv[]);
-int dump_devices_info(int argc, char *argv[]);
-int dump_cpu_info(void);
-int process_enable_command(int argc, char *argv[]);
-int process_disable_command(int argc, char *argv[]);
-#endif
+	if (argc < 1)
+		return -1;
+
+	ret = sscanf(argv[0], "%u", &dev_id);
+	if (ret != 1)
+		return -1;
+
+	ret = ti_sci_cmd_disable_device(dev_id);
+	if (ret)
+		return ret;
+
+	return dump_devices_info(argc, argv);
+}
+
+static int disable_clock(int argc, char *argv[])
+{
+	uint32_t dev_id, clk_id, ret;
+
+	if (argc < 2)
+		return -1;
+
+	ret = sscanf(argv[0], "%u", &dev_id);
+	if (ret != 1)
+		return -1;
+
+	ret = sscanf(argv[1], "%u", &clk_id);
+	if (ret != 1)
+		return -1;
+
+	ret = ti_sci_cmd_put_clk(dev_id, clk_id);
+	if (ret)
+		return ret;
+
+	return dump_clocks_info(argc, argv);
+}
+
+int process_disable_command(int argc, char *argv[])
+{
+	int ret;
+
+	if (argc < 1) {
+		help(HELP_DISABLE);
+		return -1;
+	}
+
+	if (!strncmp(argv[0], "device", 6)) {
+		argc--;
+		argv++;
+		ret = disable_device(argc, argv);
+		if (ret) {
+			fprintf(stderr, "Invalid device arguments\n");
+			help(HELP_DISABLE_DEVICE);
+		}
+	} else if (!strncmp(argv[0], "clock", 5)) {
+		argc--;
+		argv++;
+		ret = disable_clock(argc, argv);
+		if (ret) {
+			fprintf(stderr, "Invalid clock arguments\n");
+			help(HELP_DISABLE_CLOCK);
+		}
+	} else if (!strcmp(argv[0], "--help")) {
+		help(HELP_DISABLE);
+		return 0;
+	} else {
+		fprintf(stderr, "Invalid argument %s\n", argv[1]);
+		help(HELP_DISABLE);
+		return -1;
+	}
+	return ret;
+}
