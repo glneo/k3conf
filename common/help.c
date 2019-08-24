@@ -156,4 +156,12 @@ void help(help_category cat)
 		printf("\n\tk3conf set clock <dev_id> <clk_id> <freq>\n");
 		printf("\t	Sets the clock frequency and prints the status\n");
 	}
+	if ((cat == HELP_ALL) || (cat == HELP_READ)) {
+		printf("\n\tk3conf read <addr>\n");
+		printf("\t	Prints the value at the specified io memory\n");
+	}
+	if ((cat == HELP_ALL) || (cat == HELP_WRITE)) {
+		printf("\n\tk3conf write <addr> <val>\n");
+		printf("\t	Writes the value at the specified io memory\n");
+	}
 }

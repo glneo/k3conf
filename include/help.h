@@ -56,6 +56,8 @@ typedef enum {
 	HELP_DISABLE_CLOCK,
 	HELP_SET,
 	HELP_SET_CLOCK,
+	HELP_READ,
+	HELP_WRITE,
 	HELP_ALL,
 	HELP_CATEGORY_MAX,
 } help_category;

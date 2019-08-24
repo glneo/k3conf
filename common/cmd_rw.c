@@ -1,5 +1,5 @@
 /*
- * K3CONF Main Header file.
+ * K3CONF Command Read and write
  *
  * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
  *	Lokesh Vutla <lokeshvutla@ti.com>
@@ -33,24 +33,64 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <ctype.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <tisci.h>
 #include <socinfo.h>
-#include <string.h>
+#include <help.h>
+#include <k3conf.h>
+#include <mmio.h>
 
-#ifndef __K3CONF_H
-#define __K3CONF_H
+int process_read_command(int argc, char *argv[])
+{
+	uint64_t addr = 0;
+	unsigned int val;
+	int ret;
 
-int process_show_command(int argc, char *argv[]);
-int process_dump_command(int argc, char *argv[]);
-int dump_clocks_info(int argc, char *argv[]);
-int dump_devices_info(int argc, char *argv[]);
-int dump_cpu_info(void);
-int process_enable_command(int argc, char *argv[]);
-int process_disable_command(int argc, char *argv[]);
-int process_set_command(int argc, char *argv[]);
-int process_read_command(int argc, char *argv[]);
-int process_write_command(int argc, char *argv[]);
-#endif
+	if (argc < 1) {
+		help(HELP_READ);
+		return -1;
+	}
+
+	ret = sscanf(argv[0], "%lx", &addr);
+	if (ret != 1) {
+		help(HELP_READ);
+		return -1;
+	}
+
+	val = mmio_read_64(addr);
+	fprintf(stdout, "Value at addr 0x%lx = 0x%x\n\n", addr, val);
+
+	return 0;
+}
+
+int process_write_command(int argc, char *argv[])
+{
+	unsigned int val;
+	uint64_t addr;
+	int ret;
+
+	if (argc < 2) {
+		help(HELP_WRITE);
+		return -1;
+	}
+
+	ret = sscanf(argv[0], "%lx", &addr);
+	if (ret != 1) {
+		help(HELP_WRITE);
+		return -1;
+	}
+
+	ret = sscanf(argv[1], "%x", &val);
+	if (ret != 1) {
+		help(HELP_WRITE);
+		return -1;
+	}
+
+	mmio_write_32(addr, val);
+	fprintf(stdout, "Value at addr 0x%lx = 0x%x\n\n", addr,
+		mmio_read_32(addr));
+
+	return 0;
+}

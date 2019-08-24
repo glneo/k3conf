@@ -135,6 +135,16 @@ int main(int argc, char *argv[])
 		argv++;
 		k3conf_print_version(stdout);
 		return process_set_command(argc, argv);
+	} else if (!strcmp(argv[0], "read")) {
+		argc--;
+		argv++;
+		k3conf_print_version(stdout);
+		return process_read_command(argc, argv);
+	} else if (!strcmp(argv[0], "write")) {
+		argc--;
+		argv++;
+		k3conf_print_version(stdout);
+		return process_write_command(argc, argv);
 	} else {
 		fprintf(stderr, "Invalid argument %s", argv[0]);
 		help(HELP_USAGE);
