@@ -122,7 +122,7 @@ static void j721e_init(void)
 	sci_info->num_clocks = J721E_MAX_CLOCKS;
 }
 
-int soc_init(void)
+int soc_init(uint32_t host_id)
 {
 	memset(&soc_info, 0, sizeof(soc_info));
 
@@ -146,7 +146,7 @@ int soc_init(void)
 	strcat(soc_info.soc_full_name, " PG");
 	strcat(soc_info.soc_full_name, soc_revision[soc_info.rev]);
 
-	soc_info.host_id = DEFAULT_HOST_ID;
+	soc_info.host_id = host_id;
 
 	if (soc_info.soc == AM654)
 		am654_init();

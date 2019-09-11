@@ -49,7 +49,7 @@ void help(help_category cat)
 		printf("\tk3conf - TI K3 Configuration Diagnostic Tool\n");
 
 		printf("\nSYNOPSIS\n");
-		printf("\tk3conf [--version] [--help] [--cpuinfo] <command> [<args>]\n");
+		printf("\tk3conf [--host <id>] [--version] [--help] [--cpuinfo] <command> [<args>]\n");
 		if (cat == HELP_USAGE)
 			printf("\n\tSee 'k3conf --help' for more information.\n\n");
 	}
@@ -68,6 +68,9 @@ void help(help_category cat)
 			" to any other area.\n");
 
 		printf("\nOPTIONS\n");
+		printf("\t--host <id>\n");
+		printf("\t    Use this host id for communicating with sysfw\n\n");
+
 		printf("\t--help\n");
 		printf("\t    Print k3conf help.\n");
 

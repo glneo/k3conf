@@ -46,6 +46,12 @@
 #include <autoadjust_table.h>
 #include <k3conf.h>
 
+#ifdef DEBUG
+#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
+#else
+#define dprintf(format, ...)
+#endif
+
 void k3conf_print_version(FILE *stream)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -84,6 +90,7 @@ void k3conf_print_version(FILE *stream)
 
 int main(int argc, char *argv[])
 {
+	uint32_t host_id;
 	int ret = 0;
 
 	/* Scan user arguments for options */
@@ -96,7 +103,20 @@ int main(int argc, char *argv[])
 		goto main_exit;
 	}
 
-	if (soc_init())
+	host_id = DEFAULT_HOST_ID;
+	if (!strcmp(argv[0], "--host")) {
+		argc--; argv++;
+		ret = sscanf(argv[0], "%u", &host_id);
+		if (ret != 1) {
+			fprintf(stderr, "Invalid host id %s\n", argv[0]);
+			return -1;
+		}
+		dprintf("%s: host_id from user = %d\n", __func__,
+			soc_info.host_id);
+		argc--; argv++;
+	}
+
+	if (soc_init(host_id))
 		goto main_exit;
 
 	if (!strcmp(argv[0], "--help")) {

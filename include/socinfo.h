@@ -65,7 +65,7 @@ struct k3conf_soc_info {
 };
 
 extern struct k3conf_soc_info soc_info;
-int soc_init(void);
+int soc_init(uint32_t host_id);
 int soc_is_j721e(void);
 int soc_is_am654(void);
 
