@@ -39,6 +39,13 @@
 #include <mmio.h>
 #include <error.h>
 #include <socinfo.h>
+#include <string.h>
+
+#ifdef DEBUG
+#define dprintf(format, ...)	 printf(format, ## __VA_ARGS__)
+#else
+#define dprintf(format, ...)
+#endif
 
 /* SEC PROXY RT THREAD STATUS */
 #define RT_THREAD_STATUS			0x0
@@ -193,16 +200,59 @@ int k3_sec_proxy_recv(struct k3_sec_proxy_msg *msg)
 	return 0;
 }
 
+static int get_thread_id(char *host_name, char *function)
+{
+	struct ti_sci_info *sci_info = &soc_info.sci_info;
+	uint32_t i;
+
+	for (i = 0; i < sci_info->num_sp_threads[MAIN_SEC_PROXY]; i++)
+		if (!strcmp(host_name,
+			    sci_info->sp_info[MAIN_SEC_PROXY][i].host) &&
+		    !strcmp(function,
+			    sci_info->sp_info[MAIN_SEC_PROXY][i].host_function))
+			return sci_info->sp_info[MAIN_SEC_PROXY][i].sp_id;
+
+	return -1;
+
+}
+
+static char* get_host_name(uint32_t host_id)
+{
+	struct ti_sci_info *sci_info = &soc_info.sci_info;
+	uint32_t i;
+
+	for (i = 0; i < sci_info->num_hosts; i++)
+		if (host_id == sci_info->host_info[i].host_id)
+			return sci_info->host_info[i].host_name;
+
+	return NULL;
+}
+
 int k3_sec_proxy_init(void)
 {
-	uint32_t rx_thread, tx_thread;
+	int rx_thread, tx_thread;
+	char *host_name;
 
-	if (soc_info.host_id == DEFAULT_HOST_ID) {
-		tx_thread = DEFAULT_SEC_PROXY_TX_THREAD;
-		rx_thread = DEFAULT_SEC_PROXY_RX_THREAD;
+	host_name = get_host_name(soc_info.host_id);
+	if (!host_name) {
+		fprintf(stderr, "Invalid host id %d, using default host_id %d\n",
+			soc_info.host_id, DEFAULT_HOST_ID);
+		soc_info.host_id = DEFAULT_HOST_ID;
+		host_name = get_host_name(soc_info.host_id);
 	}
 
-	/* ToDO: Get thread ids using host_id and soc information */
+	rx_thread = get_thread_id(host_name, "response");
+	if (rx_thread < 0) {
+		fprintf(stderr, "Invalid host id %d, using default host_id %d\n",
+			soc_info.host_id, DEFAULT_HOST_ID);
+		soc_info.host_id = DEFAULT_HOST_ID;
+		host_name = get_host_name(soc_info.host_id);
+		rx_thread = get_thread_id(host_name, "response");
+	}
+	tx_thread = get_thread_id(host_name, "low_priority");
+	dprintf("host_name = %s, tx_thread = %d, rx_thread = %d\n",
+		host_name, tx_thread, rx_thread);
+
 	spts[SEC_PROXY_TX_THREAD].id = tx_thread;
 	spts[SEC_PROXY_TX_THREAD].data = SEC_PROXY_THREAD(SEC_PROXY0_SRC_TARGET_DATA, tx_thread);
 	spts[SEC_PROXY_TX_THREAD].scfg = SEC_PROXY_THREAD(SEC_PROXY0_CFG_SCFG, tx_thread);
