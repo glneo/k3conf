@@ -143,7 +143,7 @@ int soc_init(uint32_t host_id)
 
 	strncpy(soc_info.soc_full_name, "", sizeof(soc_info.soc_full_name));
 	strcat(soc_info.soc_full_name, soc_name[soc_info.soc]);
-	strcat(soc_info.soc_full_name, " PG");
+	strcat(soc_info.soc_full_name, " SR");
 	strcat(soc_info.soc_full_name, soc_revision[soc_info.rev]);
 
 	soc_info.host_id = host_id;
