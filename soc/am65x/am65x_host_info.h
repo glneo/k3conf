@@ -1,5 +1,5 @@
 /*
- * AM65X Hosts Info
+ * AM65X Host Info
  *
  * Copyright (C) 2020 Texas Instruments Incorporated - http://www.ti.com/
  *
@@ -32,26 +32,30 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <tisci.h>
-#include <socinfo.h>
+#ifndef __AM65X_HOST_INFO_H
+#define __AM65X_HOST_INFO_H
 
-struct ti_sci_host_info am65x_host_info[] = {
-	[0] = {0, "DMSC", "Secure", "Device Management and Security Control"},
-	[1] = {3, "R5_0", "Non Secure", "Cortex R5 Context 0 on MCU island"},
-	[2] = {4, "R5_1", "Secure", "Cortex R5 Context 1 on MCU island(Boot)"},
-	[3] = {5, "R5_2", "Non Secure", "Cortex R5 Context 2 on MCU island"},
-	[4] = {6, "R5_3", "Secure", "Cortex R5 Context 3 on MCU island"},
-	[5] = {10, "A53_0", "Secure", "Cortex A53 context 0 on Main island"},
-	[6] = {11, "A53_1", "Secure", "Cortex A53 context 1 on Main island"},
-	[7] = {12, "A53_2", "Non Secure", "Cortex A53 context 2 on Main island"},
-	[8] = {13, "A53_3", "Non Secure", "Cortex A53 context 3 on Main island"},
-	[9] = {14, "A53_4", "Non Secure", "Cortex A53 context 4 on Main island"},
-	[10] = {15, "A53_5", "Non Secure", "Cortex A53 context 5 on Main island"},
-	[11] = {16, "A53_6", "Non Secure", "Cortex A53 context 6 on Main island"},
-	[12] = {17, "A53_7", "Non Secure", "Cortex A53 context 7 on Main island"},
-	[13] = {30, "GPU_0", "Non Secure", "SGX544 Context 0 on Main island"},
-	[14] = {31, "GPU_1", "Non Secure", "SGX544 Context 1 on Main island"},
-	[15] = {50, "ICSSG_0", "Non Secure", "ICSS Context 0 on Main island"},
-	[16] = {51, "ICSSG_1", "Non Secure", "ICSS Context 1 on Main island"},
-	[17] = {52, "ICSSG_2", "Non Secure", "ICSS Context 2 on Main island"},
-};
+#define AM65X_HOST_ID_DMSC	0
+#define AM65X_HOST_ID_R5_0	3
+#define AM65X_HOST_ID_R5_1	4
+#define AM65X_HOST_ID_R5_2	5
+#define AM65X_HOST_ID_R5_3	6
+#define AM65X_HOST_ID_A53_0	10
+#define AM65X_HOST_ID_A53_1	11
+#define AM65X_HOST_ID_A53_2	12
+#define AM65X_HOST_ID_A53_3	13
+#define AM65X_HOST_ID_A53_4	14
+#define AM65X_HOST_ID_A53_5	15
+#define AM65X_HOST_ID_A53_6	16
+#define AM65X_HOST_ID_A53_7	17
+#define AM65X_HOST_ID_GPU_0	30
+#define AM65X_HOST_ID_GPU_1	31
+#define AM65X_HOST_ID_ICSSG_0	50
+#define AM65X_HOST_ID_ICSSG_1	51
+#define AM65X_HOST_ID_ICSSG_2	52
+
+#define AM65X_MAX_HOST_IDS	18
+
+extern struct ti_sci_host_info am65x_host_info[];
+
+#endif /* __AM65X_HOST_INFO_H */

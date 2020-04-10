@@ -1,5 +1,5 @@
 /*
- * AM65X Hosts Info
+ * AM65X Processor Info
  *
  * Copyright (C) 2020 Texas Instruments Incorporated - http://www.ti.com/
  *
@@ -32,26 +32,10 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <tisci.h>
-#include <socinfo.h>
+#ifndef __AM65X_PROCESSOR_INFO_H
+#define __AM65X_PROCESSOR_INFO_H
 
-struct ti_sci_host_info am65x_host_info[] = {
-	[0] = {0, "DMSC", "Secure", "Device Management and Security Control"},
-	[1] = {3, "R5_0", "Non Secure", "Cortex R5 Context 0 on MCU island"},
-	[2] = {4, "R5_1", "Secure", "Cortex R5 Context 1 on MCU island(Boot)"},
-	[3] = {5, "R5_2", "Non Secure", "Cortex R5 Context 2 on MCU island"},
-	[4] = {6, "R5_3", "Secure", "Cortex R5 Context 3 on MCU island"},
-	[5] = {10, "A53_0", "Secure", "Cortex A53 context 0 on Main island"},
-	[6] = {11, "A53_1", "Secure", "Cortex A53 context 1 on Main island"},
-	[7] = {12, "A53_2", "Non Secure", "Cortex A53 context 2 on Main island"},
-	[8] = {13, "A53_3", "Non Secure", "Cortex A53 context 3 on Main island"},
-	[9] = {14, "A53_4", "Non Secure", "Cortex A53 context 4 on Main island"},
-	[10] = {15, "A53_5", "Non Secure", "Cortex A53 context 5 on Main island"},
-	[11] = {16, "A53_6", "Non Secure", "Cortex A53 context 6 on Main island"},
-	[12] = {17, "A53_7", "Non Secure", "Cortex A53 context 7 on Main island"},
-	[13] = {30, "GPU_0", "Non Secure", "SGX544 Context 0 on Main island"},
-	[14] = {31, "GPU_1", "Non Secure", "SGX544 Context 1 on Main island"},
-	[15] = {50, "ICSSG_0", "Non Secure", "ICSS Context 0 on Main island"},
-	[16] = {51, "ICSSG_1", "Non Secure", "ICSS Context 1 on Main island"},
-	[17] = {52, "ICSSG_2", "Non Secure", "ICSS Context 2 on Main island"},
-};
+#define AM65X_MAX_PROCESSORS_IDS	6
+extern struct ti_sci_processors_info am65x_processors_info[];
+
+#endif /* __AM65X_PROCESSOR_INFO_H */
