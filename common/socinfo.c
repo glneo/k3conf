@@ -42,6 +42,7 @@
 #include <soc/am65x/am65x_processors_info.h>
 #include <soc/am65x/am65x_devices_info.h>
 #include <soc/am65x/am65x_clocks_info.h>
+#include <soc/am65x_sr2/am65x_sr2_host_info.h>
 #include <soc/j721e/j721e_host_info.h>
 #include <soc/j721e/j721e_sec_proxy_info.h>
 #include <soc/j721e/j721e_processors_info.h>
@@ -104,6 +105,14 @@ static void am654_init(void)
 	sci_info->num_clocks = AM65X_MAX_CLOCKS;
 }
 
+static void am654_sr2_init(void)
+{
+	struct ti_sci_info *sci_info = &soc_info.sci_info;
+
+	sci_info->host_info = am65x_sr2_host_info;
+	sci_info->num_hosts = AM65X_SR2_MAX_HOST_IDS;
+}
+
 static void j721e_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
@@ -148,8 +157,10 @@ int soc_init(uint32_t host_id)
 
 	soc_info.host_id = host_id;
 
-	if (soc_info.soc == AM654)
+	if (soc_info.soc == AM654 && soc_info.rev == REV_SR1_0)
 		am654_init();
+	else if (soc_info.soc == AM654 && soc_info.rev == REV_SR2_0)
+		am654_sr2_init();
 	else if (soc_info.soc == J721E)
 		j721e_init();
 
