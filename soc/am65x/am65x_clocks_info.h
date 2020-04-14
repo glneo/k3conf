@@ -35,7 +35,7 @@
 #ifndef __AM65X_CLOCKS_INFO_H
 #define __AM65X_CLOCKS_INFO_H
 
-#define AM65X_MAX_CLOCKS	961
+#define AM65X_MAX_CLOCKS	1145
 
 extern struct ti_sci_clocks_info am65x_clocks_info[];
 
