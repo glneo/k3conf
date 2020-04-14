@@ -35,7 +35,7 @@
 #ifndef __J721E_CLOCKS_INFO_H
 #define __J721E_CLOCKS_INFO_H
 
-#define J721E_MAX_CLOCKS	2710
+#define J721E_MAX_CLOCKS	2997
 
 extern struct ti_sci_clocks_info j721e_clocks_info[];
 
