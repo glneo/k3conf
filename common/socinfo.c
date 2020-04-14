@@ -81,8 +81,8 @@ static const char soc_name[K3_MAX + 1][SOC_NAME_MAX_LENGTH] = {
 };
 
 static const char soc_revision[REV_PG_MAX + 1][SOC_REVISION_MAX_LENGTH] = {
-	[REV_PG1_0] = "1.0",
-	[REV_PG2_0] = "2.0",
+	[REV_SR1_0] = "1.0",
+	[REV_SR2_0] = "2.0",
 	[REV_PG_MAX] = "NULL"
 };
 

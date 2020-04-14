@@ -50,8 +50,8 @@ typedef enum {
 } k3_soc;
 
 typedef enum {
-	REV_PG1_0,
-	REV_PG2_0,
+	REV_SR1_0,
+	REV_SR2_0,
 	REV_PG_MAX
 } k3_soc_rev;
 
