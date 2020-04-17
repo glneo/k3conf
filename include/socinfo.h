@@ -43,11 +43,8 @@
 #define SOC_REVISION_MAX_LENGTH			5
 #define SOC_FULL_NAME_MAX_LENGTH		20
 
-typedef enum {
-	AM654 = 2,
-	J721E = 4,
-	K3_MAX
-} k3_soc;
+#define AM65X	0xbb5a
+#define J721E	0xbb64
 
 typedef enum {
 	REV_SR1_0,
@@ -56,7 +53,7 @@ typedef enum {
 } k3_soc_rev;
 
 struct k3conf_soc_info {
-	k3_soc soc;
+	uint16_t soc;
 	k3_soc_rev rev;
 	char soc_full_name[SOC_FULL_NAME_MAX_LENGTH];
 	uint8_t host_id;

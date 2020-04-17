@@ -68,7 +68,7 @@
 #define JTAG_ID_VARIANT_SHIFT	28
 #define JTAG_ID_VARIANT_MASK	(0xf << 28)
 #define JTAG_ID_PARTNO_SHIFT	12
-#define JTAG_ID_PARTNO_MASK	(0x7ff << 1)
+#define JTAG_ID_PARTNO_MASK	(0xffff << 12)
 
 #define CTRLMMR_WKUP_DIE_ID0	0x43000020
 #define CTRLMMR_WKUP_DIE_ID1	0x43000024
@@ -78,12 +78,6 @@
 #define CTRLMMR_WKUP_BOOTCFG	0x43000034
 
 struct k3conf_soc_info soc_info;
-
-static const char soc_name[K3_MAX + 1][SOC_NAME_MAX_LENGTH] = {
-	[AM654] = "AM654",
-	[J721E] = "J721E",
-	[K3_MAX] = "UNKNOWN"
-};
 
 static const char soc_revision[REV_PG_MAX + 1][SOC_REVISION_MAX_LENGTH] = {
 	[REV_SR1_0] = "1.0",
@@ -147,33 +141,43 @@ static void j721e_init(void)
 
 int soc_init(uint32_t host_id)
 {
+	char *name;
+
 	memset(&soc_info, 0, sizeof(soc_info));
 
-	soc_info.soc = (mmio_read_32(CTRLMMR_WKUP_JTAG_DEVICE_ID) &
-			DEVICE_ID_FAMILY_MASK) >> DEVICE_ID_FAMILY_SHIFT;
+	soc_info.soc = (mmio_read_32(CTRLMMR_WKUP_JTAG_ID) &
+			JTAG_ID_PARTNO_MASK) >> JTAG_ID_PARTNO_SHIFT;
 	soc_info.rev = (mmio_read_32(CTRLMMR_WKUP_JTAG_ID) &
 			JTAG_ID_VARIANT_MASK) >> JTAG_ID_VARIANT_SHIFT;
 
-	if (soc_info.soc > K3_MAX || !soc_name[soc_info.soc]) {
+	switch (soc_info.soc) {
+	case AM65X:
+		name = "AM65x";
+		break;
+	case J721E:
+		name = "J721E";
+		break;
+	default:
 		fprintf(stderr, "Unknown Silicon %d\n", soc_info.soc);
 		return -1;
-	}
+	};
+
 	if (soc_info.rev > REV_PG_MAX) {
 		fprintf(stderr, "Unknown Silicon revision %d for SoC %s\n",
-			soc_info.rev, soc_name[soc_info.soc]);
+			soc_info.rev, name);
 		return -1;
 	}
 
 	strncpy(soc_info.soc_full_name, "", sizeof(soc_info.soc_full_name));
-	strcat(soc_info.soc_full_name, soc_name[soc_info.soc]);
+	strcat(soc_info.soc_full_name, name);
 	strcat(soc_info.soc_full_name, " SR");
 	strcat(soc_info.soc_full_name, soc_revision[soc_info.rev]);
 
 	soc_info.host_id = host_id;
 
-	if (soc_info.soc == AM654 && soc_info.rev == REV_SR1_0)
+	if (soc_info.soc == AM65X && soc_info.rev == REV_SR1_0)
 		am654_init();
-	else if (soc_info.soc == AM654 && soc_info.rev == REV_SR2_0)
+	else if (soc_info.soc == AM65X && soc_info.rev == REV_SR2_0)
 		am654_sr2_init();
 	else if (soc_info.soc == J721E)
 		j721e_init();
@@ -193,5 +197,5 @@ int soc_is_j721e(void)
 
 int soc_is_am654(void)
 {
-	return soc_info.soc == AM654;
+	return soc_info.soc == AM65X;
 }
