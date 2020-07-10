@@ -94,7 +94,8 @@ J721ESOURCES =\
 	      soc/j7200/j7200_host_info.c \
 	      soc/j7200/j7200_sec_proxy_info.c \
 	      soc/j7200/j7200_processors_info.c \
-	      soc/j7200/j7200_devices_info.c
+	      soc/j7200/j7200_devices_info.c \
+	      soc/j7200/j7200_clocks_info.c
 
 
 COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
