@@ -53,6 +53,7 @@
 #include <soc/j721e/j721e_devices_info.h>
 #include <soc/j721e/j721e_clocks_info.h>
 #include <soc/j7200/j7200_host_info.h>
+#include <soc/j7200/j7200_sec_proxy_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -146,6 +147,10 @@ static void j7200_init(void)
 
 	sci_info->host_info = j7200_host_info;
 	sci_info->num_hosts = J7200_MAX_HOST_IDS;
+	sci_info->sp_info[MAIN_SEC_PROXY] = j7200_main_sp_info;
+	sci_info->num_sp_threads[MAIN_SEC_PROXY] = J7200_MAIN_SEC_PROXY_THREADS;
+	sci_info->sp_info[MCU_SEC_PROXY] = j7200_mcu_sp_info;
+	sci_info->num_sp_threads[MCU_SEC_PROXY] = J7200_MCU_SEC_PROXY_THREADS;
 }
 
 int soc_init(uint32_t host_id)
