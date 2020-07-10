@@ -52,6 +52,7 @@
 #include <soc/j721e/j721e_processors_info.h>
 #include <soc/j721e/j721e_devices_info.h>
 #include <soc/j721e/j721e_clocks_info.h>
+#include <soc/j7200/j7200_host_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -139,6 +140,14 @@ static void j721e_init(void)
 	sci_info->num_clocks = J721E_MAX_CLOCKS;
 }
 
+static void j7200_init(void)
+{
+	struct ti_sci_info *sci_info = &soc_info.sci_info;
+
+	sci_info->host_info = j7200_host_info;
+	sci_info->num_hosts = J7200_MAX_HOST_IDS;
+}
+
 int soc_init(uint32_t host_id)
 {
 	char *name;
@@ -184,6 +193,8 @@ int soc_init(uint32_t host_id)
 		am654_sr2_init();
 	else if (soc_info.soc == J721E)
 		j721e_init();
+	else if (soc_info.soc == J7200)
+		j7200_init();
 
 	/* ToDo: Add error if sec_proxy_init/sci_init is failed */
 	if(!k3_sec_proxy_init())
