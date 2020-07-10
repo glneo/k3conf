@@ -157,6 +157,9 @@ int soc_init(uint32_t host_id)
 	case J721E:
 		name = "J721E";
 		break;
+	case J7200:
+		name = "J7200";
+		break;
 	default:
 		fprintf(stderr, "Unknown Silicon %d\n", soc_info.soc);
 		return -1;

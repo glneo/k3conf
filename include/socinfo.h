@@ -45,6 +45,7 @@
 
 #define AM65X	0xbb5a
 #define J721E	0xbb64
+#define J7200	0xbb6d
 
 typedef enum {
 	REV_SR1_0,
