@@ -113,6 +113,13 @@ void help(help_category cat)
 		printf("\n\tk3conf show processor\n");
 		printf("\t	Prints all the available TISCI processors\n");
 	}
+	if ((cat == HELP_ALL) || (cat == HELP_SHOW) ||
+	    (cat == HELP_SHOW_RM)) {
+		printf("\n\tk3conf show rm\n");
+		printf("\t	Prints resources managed by System firmware\n");
+		printf("\n\tk3conf show rm <dev_id>\n");
+		printf("\t	Prints resources managed by System firmware for corresponding device\n");
+	}
 	if ((cat == HELP_ALL) || (cat == HELP_DUMP) ||
 	    (cat == HELP_DUMP_DEVICE)) {
 		printf("\n\tk3conf dump device\n");

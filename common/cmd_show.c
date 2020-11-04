@@ -221,6 +221,65 @@ print_single_device:
 	return autoadjust_table_print(table, 2, 2);
 }
 
+static int show_rm_info(int argc, char *argv[])
+{
+	struct ti_sci_devices_info *d = soc_info.sci_info.devices_info;
+	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
+	struct ti_sci_rm_info *r = soc_info.sci_info.rm_info;
+	uint32_t filter_type = 0, type, subtype, i, j, row;
+	char *subtype_name;
+
+	if (argc > 1)
+		return -1;
+	if (argc == 1)
+		sscanf(argv[0], "%u", &filter_type);
+
+	snprintf(table[0][0], TABLE_MAX_ELT_LEN,
+			"Resources managed by System Firmware");
+	snprintf(table[1][0], TABLE_MAX_ELT_LEN, "Unique Type");
+	snprintf(table[1][1], TABLE_MAX_ELT_LEN, "dev_id");
+	snprintf(table[1][2], TABLE_MAX_ELT_LEN, "Device name");
+	snprintf(table[1][3], TABLE_MAX_ELT_LEN, "subtype_id");
+	snprintf(table[1][4], TABLE_MAX_ELT_LEN, "Subtype name");
+
+	row = 2;
+	for (i = 0; i < soc_info.sci_info.num_res; i++) {
+
+		type = r[i].utype >> 6;
+		subtype = r[i].utype & 0x3F;
+		subtype_name = r[i].subtype_name;
+
+		if (filter_type && filter_type != type)
+			continue;
+
+		for (j = 0; j < soc_info.sci_info.num_devices; j++) {
+			if (type == d[j].dev_id)
+				break;
+		}
+
+		snprintf(table[row][0], TABLE_MAX_ELT_LEN,
+			"0x%04x", r[i].utype);
+		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
+			"%d", d[j].dev_id);
+		snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+			"%s", d[j].name);
+		snprintf(table[row][3], TABLE_MAX_ELT_LEN,
+			"%d", subtype);
+		snprintf(table[row][4], TABLE_MAX_ELT_LEN,
+			"%s", subtype_name);
+		row++;
+	}
+
+	if (row == 2) {
+		fprintf(stderr, "Resources for type %d are not managed by SYSFW\n",
+				filter_type);
+		return -1;
+	}
+
+	return autoadjust_table_generic_fprint(stdout, table, row, 5,
+			TABLE_HAS_SUBTITLE | TABLE_HAS_TITLE);
+}
+
 static int show_processors_info(void)
 {
 	struct ti_sci_processors_info *p = soc_info.sci_info.processors_info;
@@ -280,6 +339,14 @@ int process_show_command(int argc, char *argv[])
 		ret = show_processors_info();
 		if (ret)
 			help(HELP_SHOW_PROCESSOR);
+	} else if(!strncmp(argv[0], "rm", 2)) {
+		argc--;
+		argv++;
+		ret = show_rm_info(argc, argv);
+		if (ret) {
+			fprintf(stderr, "Invalid device_id arguments\n");
+			help(HELP_SHOW_RM);
+		}
 	} else if (!strcmp(argv[0], "--help")) {
 		help(HELP_SHOW);
 		return 0;
