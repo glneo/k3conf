@@ -54,6 +54,7 @@
 #include <soc/j721e/j721e_processors_info.h>
 #include <soc/j721e/j721e_devices_info.h>
 #include <soc/j721e/j721e_clocks_info.h>
+#include <soc/j721e/j721e_rm_info.h>
 #include <soc/j7200/j7200_host_info.h>
 #include <soc/j7200/j7200_sec_proxy_info.h>
 #include <soc/j7200/j7200_processors_info.h>
@@ -148,6 +149,8 @@ static void j721e_init(void)
 	sci_info->num_devices = J721E_MAX_DEVICES;
 	sci_info->clocks_info = j721e_clocks_info;
 	sci_info->num_clocks = J721E_MAX_CLOCKS;
+	sci_info->rm_info = j721e_rm_info;
+	sci_info->num_res = J721E_MAX_RES;
 }
 
 static void j7200_init(void)
