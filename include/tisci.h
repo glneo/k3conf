@@ -82,6 +82,11 @@ struct ti_sci_clocks_info {
 	char clk_function[100];
 };
 
+struct ti_sci_rm_info {
+	uint32_t utype;
+	char subtype_name[100];
+};
+
 struct ti_sci_info {
 	uint8_t host_id;
 	struct ti_sci_version_info version;
@@ -95,6 +100,15 @@ struct ti_sci_info {
 	uint32_t num_devices;
 	struct ti_sci_clocks_info *clocks_info;
 	uint32_t num_clocks;
+	struct ti_sci_rm_info *rm_info;
+	uint32_t num_res;
+};
+
+struct ti_sci_rm_desc {
+	uint16_t start;
+	uint16_t num;
+	uint16_t start_sec;
+	uint16_t num_sec;
 };
 
 #define MAX_DEVICE_STATE_LENGTH		25
@@ -110,4 +124,6 @@ int ti_sci_cmd_put_clk(uint32_t dev_id, uint32_t clk_id);
 const char *ti_sci_cmd_get_clk_state(uint32_t dev_id, uint32_t clk_id);
 int ti_sci_cmd_set_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t freq);
 int ti_sci_cmd_get_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t *freq);
+int ti_sci_cmd_get_range(uint16_t type, uint16_t subtype, uint16_t host_id,
+				struct ti_sci_rm_desc *desc);
 #endif

@@ -100,3 +100,35 @@ int ti_sci_init(void)
 
 	return 0;
 }
+
+int ti_sci_cmd_get_range(uint16_t type, uint16_t subtype, uint16_t host_id,
+				struct ti_sci_rm_desc *desc)
+{
+	struct ti_sci_msg_resp_get_resource_range *resp;
+	struct ti_sci_msg_req_get_resource_range *req;
+	uint8_t buf[SEC_PROXY_MAX_MSG_SIZE];
+	struct k3_sec_proxy_msg msg;
+	int ret = 0;
+
+	memset(buf, 0, sizeof(buf));
+	ti_sci_setup_header((struct ti_sci_msg_hdr *)buf,
+			    TI_SCI_MSG_GET_RESOURCE_RANGE, 0);
+	req = (struct ti_sci_msg_req_get_resource_range *)buf;
+	req->type = type;
+	req->subtype = subtype;
+	req->secondary_host = host_id;
+
+	msg.len = sizeof(*req);
+	msg.buf = buf;
+	ret = ti_sci_xfer_msg(&msg);
+	if (ret)
+		return ret;
+
+	resp = (struct ti_sci_msg_resp_get_resource_range *)buf;
+	desc->start = resp->range_start;
+	desc->num = resp->range_num;
+	desc->start_sec = resp->range_start_sec;
+	desc->num_sec = resp->range_num_sec;
+
+	return 0;
+}

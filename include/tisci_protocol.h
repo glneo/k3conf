@@ -49,6 +49,8 @@
 #define TI_SCI_MSG_SET_CLOCK_FREQ	0x010c
 #define TI_SCI_MSG_QUERY_CLOCK_FREQ	0x010d
 #define TI_SCI_MSG_GET_CLOCK_FREQ	0x010e
+/* Resource Management Requests */
+#define TI_SCI_MSG_GET_RESOURCE_RANGE	0x1500
 
 #define TI_SCI_MSG_FLAG(val)			(1 << (val))
 #define TI_SCI_FLAG_REQ_GENERIC_NORESPONSE	0x0
@@ -106,6 +108,23 @@ struct ti_sci_msg_resp_get_device_state {
 #define MSG_DEVICE_HW_STATE_TRANS	2
 #define MAX_DEVICE_HW_STATES		3
 	uint8_t current_state;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_req_get_resource_range {
+	struct ti_sci_msg_hdr hdr;
+#define MSG_RM_RESOURCE_TYPE_MASK	0x3ff
+#define MSG_RM_RESOURCE_SUBTYPE_MASK	0x3f
+	uint16_t type;
+	uint8_t subtype;
+	uint8_t secondary_host;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_resp_get_resource_range {
+	struct ti_sci_msg_hdr hdr;
+	uint16_t range_start;
+	uint16_t range_num;
+	uint16_t range_start_sec;
+	uint16_t range_num_sec;
 } __attribute__ ((__packed__));
 
 struct ti_sci_msg_req_set_clock_state {
