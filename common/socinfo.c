@@ -60,6 +60,7 @@
 #include <soc/j7200/j7200_processors_info.h>
 #include <soc/j7200/j7200_devices_info.h>
 #include <soc/j7200/j7200_clocks_info.h>
+#include <soc/j7200/j7200_rm_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -169,6 +170,8 @@ static void j7200_init(void)
 	sci_info->num_devices = J7200_MAX_DEVICES;
 	sci_info->clocks_info = j7200_clocks_info;
 	sci_info->num_clocks = J7200_MAX_CLOCKS;
+	sci_info->rm_info = j7200_rm_info;
+	sci_info->num_res = J7200_MAX_RES;
 }
 
 int soc_init(uint32_t host_id)
