@@ -240,6 +240,139 @@ print_single_processor:
 	return autoadjust_table_print(table, found + 1, 5);
 }
 
+static int dump_rm_resource(u_int32_t type, u_int32_t subtype,
+			u_int32_t host_id, char *value)
+{
+	struct ti_sci_rm_desc desc;
+	int ret;
+
+	ret = ti_sci_cmd_get_range(type, subtype, host_id, &desc);
+	if (ret)
+		return ret;
+
+	if (desc.num_sec && desc.num) {
+
+		/* Print Primary + Secondary range  */
+		snprintf(value, TABLE_MAX_ELT_LEN, "[%5d +%4d] (%4d +%3d)",
+				desc.start, desc.num,
+				desc.start_sec, desc.num_sec);
+
+	} else if (desc.num_sec) {
+
+		/* Print blank + Secondary range  */
+		snprintf(value, TABLE_MAX_ELT_LEN, "[           ] (%4d +%3d)",
+				desc.start_sec, desc.num_sec);
+	} else if (desc.num) {
+
+		/* Print only Primary range */
+		snprintf(value, TABLE_MAX_ELT_LEN,
+				"[%5d +%4d]",
+				desc.start, desc.num);
+	} else {
+		*value = 0;
+	}
+
+	return 0;
+}
+
+static int dump_rm_info(int argc, char *argv[])
+{
+	uint32_t filter_host_id = 0, filter_type = 0, filter_subtype = 0xFFF;
+	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
+	struct ti_sci_host_info *h = soc_info.sci_info.host_info;
+	struct ti_sci_rm_info *r = soc_info.sci_info.rm_info;
+	uint32_t type, subtype, host_id, host_valid;
+	char cell[TABLE_MAX_ELT_LEN], *host_name;
+	uint32_t i, j, row, col;
+	int ret;
+
+	if (argc > 0 && !strcmp(argv[0], "-h")) {
+
+		if (argc == 1)
+			return -1;
+
+		sscanf(argv[1], "%u", &filter_host_id);
+		argc -= 2;
+		argv += 2;
+	}
+
+	if (argc > 0) {
+		sscanf(argv[0], "%u", &filter_type);
+		argc--;
+		argv++;
+	}
+
+	if (argc > 0) {
+		sscanf(argv[0], "%u", &filter_subtype);
+		argc--;
+		argv++;
+	}
+
+	autoadjust_table_init(table);
+	snprintf(table[0][0], TABLE_MAX_ELT_LEN,
+			"Resource allocation => [Primary start +count] (Secondary start +count)");
+	snprintf(table[1][0], TABLE_MAX_ELT_LEN,
+			"utype");
+	snprintf(table[1][1], TABLE_MAX_ELT_LEN,
+			"type");
+	snprintf(table[1][2], TABLE_MAX_ELT_LEN,
+			"subtype");
+
+	row = 2;
+	col = 3;
+	for (i = 0; i < soc_info.sci_info.num_hosts; i++) {
+
+		host_valid =  0;
+		host_id = h[i].host_id;
+		host_name = h[i].host_name;
+		if (filter_host_id && host_id != filter_host_id)
+			continue;
+
+		row = 2;
+		for (j = 0; j < soc_info.sci_info.num_res; j++) {
+
+			type = r[j].utype >> 6;
+			subtype = r[j].utype & 0x3F;
+
+			if (filter_type && type != filter_type)
+				continue;
+			if (filter_subtype != 0xFFF && subtype != filter_subtype)
+				continue;
+
+			snprintf(table[row][0], TABLE_MAX_ELT_LEN,
+				"0x%04x", r[j].utype);
+			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
+				"%d", type);
+			snprintf(table[row][2], TABLE_MAX_ELT_LEN,
+				"%d", subtype);
+
+			ret = dump_rm_resource(type, subtype, host_id, cell);
+			if (ret)
+				return ret;
+
+			if (!cell[0]) {
+				row++;
+				continue;
+			}
+
+			host_valid = 1;
+			snprintf(table[row][col], TABLE_MAX_ELT_LEN,
+				"%s", cell);
+			row++;
+		}
+
+		if (!host_valid)
+			continue;
+
+		snprintf(table[1][col], TABLE_MAX_ELT_LEN,
+				"%s", host_name);
+		col++;
+	}
+
+	return autoadjust_table_generic_fprint(stdout, table, row, col,
+				TABLE_HAS_TITLE | TABLE_HAS_SUBTITLE);
+}
+
 int process_dump_command(int argc, char *argv[])
 {
 	int ret;
@@ -271,6 +404,14 @@ int process_dump_command(int argc, char *argv[])
 		ret = dump_processors_info(argc, argv);
 		if (ret)
 			help(HELP_DUMP_PROCESSOR);
+	} else if(!strncmp(argv[0], "rm", 2)) {
+		argc--;
+		argv++;
+		ret = dump_rm_info(argc, argv);
+		if (ret) {
+			fprintf(stderr, "Invalid arguments\n");
+			help(HELP_DUMP_RM);
+		}
 	} else if (!strcmp(argv[0], "--help")) {
 		help(HELP_DUMP);
 		return 0;

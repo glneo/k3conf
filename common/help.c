@@ -141,6 +141,19 @@ void help(help_category cat)
 		printf("\n\tk3conf dump processor <proc_id>\n");
 		printf("\t	Prints status of the given TISCI processors\n");
 	}
+	if ((cat == HELP_ALL) || (cat == HELP_DUMP) ||
+	    (cat == HELP_DUMP_RM)) {
+		printf("\n\tk3conf dump rm [OPTIONS]\n");
+		printf("\t	Prints resource allocation for all utypes / hosts\n");
+		printf("\n\tk3conf dump rm [OPTIONS] <type>\n");
+		printf("\t	Prints resource allocation for corresponding type\n");
+		printf("\n\tk3conf dump rm [OPTIONS] <type> <subtype>\n");
+		printf("\t	Prints resource allocation for corresponding device/type\n");
+		printf("\t	\n");
+		printf("\t	[OPTIONS]\n");
+		printf("\t	-h <host_id>\n");
+		printf("\t		Filter only for corresponding host_id\n");
+	}
 	if ((cat == HELP_ALL) || (cat == HELP_ENABLE) ||
 	    (cat == HELP_ENABLE_DEVICE)) {
 		printf("\n\tk3conf enable device <dev_id>\n");
