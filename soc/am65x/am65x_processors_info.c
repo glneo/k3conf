@@ -1,5 +1,5 @@
 /*
- * SoC Host Info
+ * AM65X Processor Info
  *
  * Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com/
  *
