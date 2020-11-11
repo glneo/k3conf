@@ -35,8 +35,8 @@
 #ifndef __J7200_SEC_PROXY_INFO_H
 #define __J7200_SEC_PROXY_INFO_H
 
-#define J7200_MAIN_SEC_PROXY_THREADS	45
-#define J7200_MCU_SEC_PROXY_THREADS	20
+#define J7200_MAIN_SEC_PROXY_THREADS	58
+#define J7200_MCU_SEC_PROXY_THREADS	39
 
 extern struct ti_sci_sec_proxy_info j7200_main_sp_info[];
 extern struct ti_sci_sec_proxy_info j7200_mcu_sp_info[];

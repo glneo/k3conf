@@ -36,8 +36,8 @@
 #include <socinfo.h>
 
 struct ti_sci_processors_info j7200_processors_info[] = {
-	[0] = {202, 2, 0x20, "A72SS0_CORE0"},
-	[1] = {203, 0, 0x21, "A72SS0_CORE1"},
+	[0] = {202, 2, 0x20, "A72SS0_CORE0_0"},
+	[1] = {203, 0, 0x21, "A72SS0_CORE0_1"},
 	[2] = {250, 0, 0x01, "MCU_R5FSS0_CORE0"},
 	[3] = {251, 0, 0x02, "MCU_R5FSS0_CORE1"},
 	[4] = {245, 0, 0x06, "R5FSS0_CORE0"},
