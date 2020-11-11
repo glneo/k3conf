@@ -38,8 +38,8 @@
 struct ti_sci_processors_info j721e_processors_info[] = {
 	[0] = {202, 2, 0x20, "A72SS0_CORE0"},
 	[1] = {203, 0, 0x21, "A72SS0_CORE1"},
-	[2] = {142, 0, 0x03, "C66SS0_CORE0"},
-	[3] = {143, 0, 0x04, "C66SS1_CORE0"},
+	[2] = {142, 6, 0x03, "C66SS0_CORE0"},
+	[3] = {143, 6, 0x04, "C66SS1_CORE0"},
 	[4] = {15, 0, 0x30, "C71SS0"},
 	[5] = {250, 0, 0x01, "MCU_R5FSS0_CORE0"},
 	[6] = {251, 0, 0x02, "MCU_R5FSS0_CORE1"},
