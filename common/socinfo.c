@@ -178,6 +178,10 @@ static void j7200_init(void)
 	soc_info.host_id = DEFAULT_HOST_ID;
 }
 
+static void am64x_init(void)
+{
+}
+
 int soc_init(uint32_t host_id)
 {
 	char *name;
@@ -198,6 +202,9 @@ int soc_init(uint32_t host_id)
 		break;
 	case J7200:
 		name = "J7200";
+		break;
+	case AM64X:
+		name = "AM64x";
 		break;
 	default:
 		fprintf(stderr, "Unknown Silicon %d\n", soc_info.soc);
@@ -223,6 +230,8 @@ int soc_init(uint32_t host_id)
 		j721e_init();
 	else if (soc_info.soc == J7200)
 		j7200_init();
+	else if (soc_info.soc == AM64X)
+		am64x_init();
 
 	if (host_id != INVALID_HOST_ID)
 		soc_info.host_id = host_id;
