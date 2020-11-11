@@ -60,7 +60,7 @@ struct ti_sci_sec_proxy_info {
 	char sp_dir[6];
 	uint32_t num_msgs;
 	char host[15];
-	char host_function[25];
+	char host_function[50];
 };
 
 struct ti_sci_processors_info {
