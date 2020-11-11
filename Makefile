@@ -105,6 +105,7 @@ J721ESOURCES =\
 AM64XSOURCES =\
 	      soc/am64x/am64x_host_info.c \
 	      soc/am64x/am64x_sec_proxy_info.c \
+	      soc/am64x/am64x_processors_info.c \
 
 COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
 AM65XOBJECTS=	$(AM65XSOURCES:.c=.o)
