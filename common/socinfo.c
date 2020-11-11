@@ -61,6 +61,7 @@
 #include <soc/j7200/j7200_devices_info.h>
 #include <soc/j7200/j7200_clocks_info.h>
 #include <soc/j7200/j7200_rm_info.h>
+#include <soc/am64x/am64x_host_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -184,6 +185,11 @@ static void j7200_init(void)
 
 static void am64x_init(void)
 {
+	struct ti_sci_info *sci_info = &soc_info.sci_info;
+
+	sci_info->host_info = am64x_host_info;
+	sci_info->num_hosts = AM64X_MAX_HOST_IDS;
+	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 }
 
