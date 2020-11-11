@@ -36,6 +36,7 @@
 #define __J721E_HOST_INFO_H
 
 #define J721E_HOST_ID_DMSC	0
+#define J721E_HOST_ID_DM	254
 #define J721E_HOST_ID_MCU_0_R5_0	3
 #define J721E_HOST_ID_MCU_0_R5_1	4
 #define J721E_HOST_ID_MCU_0_R5_2	5
@@ -61,8 +62,10 @@
 #define J721E_HOST_ID_MAIN_1_R5_2	42
 #define J721E_HOST_ID_MAIN_1_R5_3	43
 #define J721E_HOST_ID_ICSSG_0	50
+#define J721E_HOST_ID_DM2DMSC	250
+#define J721E_HOST_ID_DMSC2DM	251
 
-#define J721E_MAX_HOST_IDS	26
+#define J721E_MAX_HOST_IDS	29
 
 extern struct ti_sci_host_info j721e_host_info[];
 

@@ -1,5 +1,5 @@
 /*
- * SoC Processors Info
+ * J721E Processor Info
  *
  * Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com/
  *
