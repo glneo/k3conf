@@ -66,6 +66,7 @@
 #include <soc/am64x/am64x_processors_info.h>
 #include <soc/am64x/am64x_devices_info.h>
 #include <soc/am64x/am64x_clocks_info.h>
+#include <soc/am64x/am64x_rm_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -203,6 +204,8 @@ static void am64x_init(void)
 	sci_info->num_devices = AM64X_MAX_DEVICES;
 	sci_info->clocks_info = am64x_clocks_info;
 	sci_info->num_clocks = AM64X_MAX_CLOCKS;
+	sci_info->rm_info = am64x_rm_info;
+	sci_info->num_res = AM64X_MAX_RES;
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 }
