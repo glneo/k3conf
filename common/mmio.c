@@ -1,7 +1,7 @@
 /*
  * K3CONF mmio helpers
  *
- * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
+ * Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com/
  *	Lokesh Vutla <lokeshvutla@ti.com>
  *	Nishanth Menon <nm@ti.com>
  *
