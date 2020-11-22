@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 		goto main_exit;
 	}
 
-	host_id = DEFAULT_HOST_ID;
+	host_id = INVALID_HOST_ID;
 	if (!strcmp(argv[0], "--host")) {
 		argc--; argv++;
 		ret = sscanf(argv[0], "%u", &host_id);

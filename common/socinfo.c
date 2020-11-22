@@ -112,6 +112,7 @@ static void am654_init(void)
 	sci_info->num_clocks = AM65X_MAX_CLOCKS;
 	sci_info->rm_info = am65x_rm_info;
 	sci_info->num_res = AM65X_MAX_RES;
+	soc_info.host_id = DEFAULT_HOST_ID;
 }
 
 static void am654_sr2_init(void)
@@ -132,6 +133,7 @@ static void am654_sr2_init(void)
 	sci_info->num_clocks = AM65X_SR2_MAX_CLOCKS;
 	sci_info->rm_info = am65x_sr2_rm_info;
 	sci_info->num_res = AM65X_SR2_MAX_RES;
+	soc_info.host_id = DEFAULT_HOST_ID;
 }
 
 static void j721e_init(void)
@@ -152,6 +154,7 @@ static void j721e_init(void)
 	sci_info->num_clocks = J721E_MAX_CLOCKS;
 	sci_info->rm_info = j721e_rm_info;
 	sci_info->num_res = J721E_MAX_RES;
+	soc_info.host_id = DEFAULT_HOST_ID;
 }
 
 static void j7200_init(void)
@@ -172,6 +175,7 @@ static void j7200_init(void)
 	sci_info->num_clocks = J7200_MAX_CLOCKS;
 	sci_info->rm_info = j7200_rm_info;
 	sci_info->num_res = J7200_MAX_RES;
+	soc_info.host_id = DEFAULT_HOST_ID;
 }
 
 int soc_init(uint32_t host_id)
@@ -211,8 +215,6 @@ int soc_init(uint32_t host_id)
 	strcat(soc_info.soc_full_name, " SR");
 	strcat(soc_info.soc_full_name, soc_revision[soc_info.rev]);
 
-	soc_info.host_id = host_id;
-
 	if (soc_info.soc == AM65X && soc_info.rev == REV_SR1_0)
 		am654_init();
 	else if (soc_info.soc == AM65X && soc_info.rev == REV_SR2_0)
@@ -221,6 +223,9 @@ int soc_init(uint32_t host_id)
 		j721e_init();
 	else if (soc_info.soc == J7200)
 		j7200_init();
+
+	if (host_id != INVALID_HOST_ID)
+		soc_info.host_id = host_id;
 
 	/* ToDo: Add error if sec_proxy_init/sci_init is failed */
 	if(!k3_sec_proxy_init())
