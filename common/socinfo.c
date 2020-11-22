@@ -113,6 +113,7 @@ static void am654_init(void)
 	sci_info->rm_info = am65x_rm_info;
 	sci_info->num_res = AM65X_MAX_RES;
 	soc_info.host_id = DEFAULT_HOST_ID;
+	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 }
 
 static void am654_sr2_init(void)
@@ -134,6 +135,7 @@ static void am654_sr2_init(void)
 	sci_info->rm_info = am65x_sr2_rm_info;
 	sci_info->num_res = AM65X_SR2_MAX_RES;
 	soc_info.host_id = DEFAULT_HOST_ID;
+	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 }
 
 static void j721e_init(void)
@@ -155,6 +157,7 @@ static void j721e_init(void)
 	sci_info->rm_info = j721e_rm_info;
 	sci_info->num_res = J721E_MAX_RES;
 	soc_info.host_id = DEFAULT_HOST_ID;
+	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 }
 
 static void j7200_init(void)
@@ -176,10 +179,12 @@ static void j7200_init(void)
 	sci_info->rm_info = j7200_rm_info;
 	sci_info->num_res = J7200_MAX_RES;
 	soc_info.host_id = DEFAULT_HOST_ID;
+	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 }
 
 static void am64x_init(void)
 {
+	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 }
 
 int soc_init(uint32_t host_id)

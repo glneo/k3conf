@@ -70,11 +70,17 @@
 #define SEC_PROXY_DATA_START_OFFS		0x4
 #define SEC_PROXY_DATA_END_OFFS			0x3c
 
-/* Physical address for AM6 NAVSS 256 Main domain */
-#define SEC_PROXY0_CFG_MMRS		0x31140000
-#define SEC_PROXY0_SRC_TARGET_DATA	0x32C00000
-#define SEC_PROXY0_CFG_SCFG		0x32800000
-#define SEC_PROXY0_CFG_RT		0x32400000
+struct k3_sec_proxy_base k3_generic_sec_proxy_base = {
+	.src_target_data = 0x32c00000,
+	.cfg_scfg = 0x32800000,
+	.cfg_rt = 0x32400000,
+};
+
+struct k3_sec_proxy_base k3_lite_sec_proxy_base = {
+	.src_target_data = 0x4d000000,
+	.cfg_scfg = 0x4a400000,
+	.cfg_rt = 0x4a600000,
+};
 
 struct k3_sec_proxy_thread {
 	uint32_t id;
@@ -230,6 +236,7 @@ static char* get_host_name(uint32_t host_id)
 
 int k3_sec_proxy_init(void)
 {
+	struct k3_sec_proxy_base *spb = soc_info.sec_proxy;
 	int rx_thread, tx_thread;
 	char *host_name;
 
@@ -254,14 +261,14 @@ int k3_sec_proxy_init(void)
 		host_name, tx_thread, rx_thread);
 
 	spts[SEC_PROXY_TX_THREAD].id = tx_thread;
-	spts[SEC_PROXY_TX_THREAD].data = SEC_PROXY_THREAD(SEC_PROXY0_SRC_TARGET_DATA, tx_thread);
-	spts[SEC_PROXY_TX_THREAD].scfg = SEC_PROXY_THREAD(SEC_PROXY0_CFG_SCFG, tx_thread);
-	spts[SEC_PROXY_TX_THREAD].rt = SEC_PROXY_THREAD(SEC_PROXY0_CFG_RT, tx_thread);
+	spts[SEC_PROXY_TX_THREAD].data = SEC_PROXY_THREAD(spb->src_target_data, tx_thread);
+	spts[SEC_PROXY_TX_THREAD].scfg = SEC_PROXY_THREAD(spb->cfg_scfg, tx_thread);
+	spts[SEC_PROXY_TX_THREAD].rt = SEC_PROXY_THREAD(spb->cfg_rt, tx_thread);
 
 	spts[SEC_PROXY_RX_THREAD].id = rx_thread;
-	spts[SEC_PROXY_RX_THREAD].data = SEC_PROXY_THREAD(SEC_PROXY0_SRC_TARGET_DATA, rx_thread);
-	spts[SEC_PROXY_RX_THREAD].scfg = SEC_PROXY_THREAD(SEC_PROXY0_CFG_SCFG, rx_thread);
-	spts[SEC_PROXY_RX_THREAD].rt = SEC_PROXY_THREAD(SEC_PROXY0_CFG_RT, rx_thread);
+	spts[SEC_PROXY_RX_THREAD].data = SEC_PROXY_THREAD(spb->src_target_data, rx_thread);
+	spts[SEC_PROXY_RX_THREAD].scfg = SEC_PROXY_THREAD(spb->cfg_scfg, rx_thread);
+	spts[SEC_PROXY_RX_THREAD].rt = SEC_PROXY_THREAD(spb->cfg_rt, rx_thread);
 
 	return 0;
 }

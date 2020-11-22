@@ -38,6 +38,7 @@
 
 #include <stdint.h>
 #include <tisci.h>
+#include "sec_proxy.h"
 
 #define SOC_NAME_MAX_LENGTH			10
 #define SOC_REVISION_MAX_LENGTH			5
@@ -61,6 +62,7 @@ struct k3conf_soc_info {
 	uint8_t host_id;
 	uint8_t ti_sci_enabled;
 	struct ti_sci_info sci_info;
+	struct k3_sec_proxy_base *sec_proxy;
 };
 
 extern struct k3conf_soc_info soc_info;

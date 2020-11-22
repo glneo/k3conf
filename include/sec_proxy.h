@@ -52,8 +52,17 @@ struct k3_sec_proxy_msg {
 	uint8_t *buf;
 };
 
+struct k3_sec_proxy_base {
+	uint32_t src_target_data;
+	uint32_t cfg_scfg;
+	uint32_t cfg_rt;
+};
+
 int k3_sec_proxy_send(struct k3_sec_proxy_msg *msg);
 int k3_sec_proxy_recv(struct k3_sec_proxy_msg *msg);
 int k3_sec_proxy_init();
+
+extern struct k3_sec_proxy_base k3_generic_sec_proxy_base;
+extern struct k3_sec_proxy_base k3_lite_sec_proxy_base;
 
 #endif /* __SEC_PROXY_H */
