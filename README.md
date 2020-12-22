@@ -23,7 +23,7 @@ dimension. Use at your own risk. And keep the reset button in reach.
 SUPPORT:
 --------
 
-K3CONF currently supports AM654 and J721E Devices. Legacy OMAP and DRA7
+K3CONF currently supports AM654, J721E, J7200 and AM64x Devices. Legacy OMAP and DRA7
 platforms are not supported.
 
 
