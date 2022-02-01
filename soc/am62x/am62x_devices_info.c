@@ -1,0 +1,193 @@
+/*
+ * AM62X Devices Info
+ *
+ * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#include <tisci.h>
+#include <socinfo.h>
+
+struct ti_sci_devices_info am62x_devices_info[] = {
+	[0] = {1, "AM62X_DEV_CMP_EVENT_INTROUTER0"},
+	[1] = {2, "AM62X_DEV_DBGSUSPENDROUTER0"},
+	[2] = {3, "AM62X_DEV_MAIN_GPIOMUX_INTROUTER0"},
+	[3] = {5, "AM62X_DEV_WKUP_MCU_GPIOMUX_INTROUTER0"},
+	[4] = {6, "AM62X_DEV_TIMESYNC_EVENT_ROUTER0"},
+	[5] = {7, "AM62X_DEV_MCU_M4FSS0"},
+	[6] = {8, "AM62X_DEV_MCU_M4FSS0_CBASS_0"},
+	[7] = {9, "AM62X_DEV_MCU_M4FSS0_CORE0"},
+	[8] = {13, "AM62X_DEV_CPSW0"},
+	[9] = {14, "AM62X_DEV_CPT2_AGGR0"},
+	[10] = {15, "AM62X_DEV_STM0"},
+	[11] = {16, "AM62X_DEV_DCC0"},
+	[12] = {17, "AM62X_DEV_DCC1"},
+	[13] = {18, "AM62X_DEV_DCC2"},
+	[14] = {19, "AM62X_DEV_DCC3"},
+	[15] = {20, "AM62X_DEV_DCC4"},
+	[16] = {21, "AM62X_DEV_DCC5"},
+	[17] = {22, "AM62X_DEV_SMS0"},
+	[18] = {23, "AM62X_DEV_MCU_DCC0"},
+	[19] = {24, "AM62X_DEV_DEBUGSS_WRAP0"},
+	[20] = {25, "AM62X_DEV_DMASS0"},
+	[21] = {26, "AM62X_DEV_DMASS0_BCDMA_0"},
+	[22] = {27, "AM62X_DEV_DMASS0_CBASS_0"},
+	[23] = {28, "AM62X_DEV_DMASS0_INTAGGR_0"},
+	[24] = {29, "AM62X_DEV_DMASS0_IPCSS_0"},
+	[25] = {30, "AM62X_DEV_DMASS0_PKTDMA_0"},
+	[26] = {33, "AM62X_DEV_DMASS0_RINGACC_0"},
+	[27] = {35, "AM62X_DEV_MCU_TIMER0"},
+	[28] = {36, "AM62X_DEV_TIMER0"},
+	[29] = {37, "AM62X_DEV_TIMER1"},
+	[30] = {38, "AM62X_DEV_TIMER2"},
+	[31] = {39, "AM62X_DEV_TIMER3"},
+	[32] = {40, "AM62X_DEV_TIMER4"},
+	[33] = {41, "AM62X_DEV_TIMER5"},
+	[34] = {42, "AM62X_DEV_TIMER6"},
+	[35] = {43, "AM62X_DEV_TIMER7"},
+	[36] = {48, "AM62X_DEV_MCU_TIMER1"},
+	[37] = {49, "AM62X_DEV_MCU_TIMER2"},
+	[38] = {50, "AM62X_DEV_MCU_TIMER3"},
+	[39] = {51, "AM62X_DEV_ECAP0"},
+	[40] = {52, "AM62X_DEV_ECAP1"},
+	[41] = {53, "AM62X_DEV_ECAP2"},
+	[42] = {54, "AM62X_DEV_ELM0"},
+	[43] = {55, "AM62X_DEV_EMIF_DATA_ISO_VD"},
+	[44] = {57, "AM62X_DEV_MMCSD0"},
+	[45] = {58, "AM62X_DEV_MMCSD1"},
+	[46] = {59, "AM62X_DEV_EQEP0"},
+	[47] = {60, "AM62X_DEV_EQEP1"},
+	[48] = {61, "AM62X_DEV_WKUP_GTC0"},
+	[49] = {62, "AM62X_DEV_EQEP2"},
+	[50] = {63, "AM62X_DEV_ESM0"},
+	[51] = {64, "AM62X_DEV_WKUP_ESM0"},
+	[52] = {65, "AM62X_DEV_SA3_SS0"},
+	[53] = {66, "AM62X_DEV_SA3_SS0_DMSS_ECCAGGR_0"},
+	[54] = {67, "AM62X_DEV_SA3_SS0_INTAGGR_0"},
+	[55] = {68, "AM62X_DEV_SA3_SS0_PKTDMA_0"},
+	[56] = {69, "AM62X_DEV_SA3_SS0_RINGACC_0"},
+	[57] = {70, "AM62X_DEV_SA3_SS0_SA_UL_0"},
+	[58] = {73, "AM62X_DEV_FSS0"},
+	[59] = {74, "AM62X_DEV_FSS0_FSAS_0"},
+	[60] = {75, "AM62X_DEV_FSS0_OSPI_0"},
+	[61] = {76, "AM62X_DEV_GICSS0"},
+	[62] = {77, "AM62X_DEV_GPIO0"},
+	[63] = {78, "AM62X_DEV_GPIO1"},
+	[64] = {79, "AM62X_DEV_MCU_GPIO0"},
+	[65] = {80, "AM62X_DEV_GPMC0"},
+	[66] = {81, "AM62X_DEV_ICSSM0"},
+	[67] = {83, "AM62X_DEV_LED0"},
+	[68] = {85, "AM62X_DEV_DDPA0"},
+	[69] = {86, "AM62X_DEV_EPWM0"},
+	[70] = {87, "AM62X_DEV_EPWM1"},
+	[71] = {88, "AM62X_DEV_EPWM2"},
+	[72] = {95, "AM62X_DEV_WKUP_VTM0"},
+	[73] = {96, "AM62X_DEV_MAILBOX0"},
+	[74] = {97, "AM62X_DEV_MAIN2MCU_VD"},
+	[75] = {98, "AM62X_DEV_MCAN0"},
+	[76] = {100, "AM62X_DEV_MCU_MCRC64_0"},
+	[77] = {101, "AM62X_DEV_MCU2MAIN_VD"},
+	[78] = {102, "AM62X_DEV_I2C0"},
+	[79] = {103, "AM62X_DEV_I2C1"},
+	[80] = {104, "AM62X_DEV_I2C2"},
+	[81] = {105, "AM62X_DEV_I2C3"},
+	[82] = {106, "AM62X_DEV_MCU_I2C0"},
+	[83] = {107, "AM62X_DEV_WKUP_I2C0"},
+	[84] = {110, "AM62X_DEV_WKUP_TIMER0"},
+	[85] = {111, "AM62X_DEV_WKUP_TIMER1"},
+	[86] = {114, "AM62X_DEV_WKUP_UART0"},
+	[87] = {116, "AM62X_DEV_MCRC64_0"},
+	[88] = {117, "AM62X_DEV_WKUP_RTCSS0"},
+	[89] = {118, "AM62X_DEV_R5FSS0_SS0"},
+	[90] = {119, "AM62X_DEV_R5FSS0"},
+	[91] = {121, "AM62X_DEV_R5FSS0_CORE0"},
+	[92] = {125, "AM62X_DEV_RTI0"},
+	[93] = {126, "AM62X_DEV_RTI1"},
+	[94] = {127, "AM62X_DEV_RTI2"},
+	[95] = {128, "AM62X_DEV_RTI3"},
+	[96] = {130, "AM62X_DEV_RTI15"},
+	[97] = {131, "AM62X_DEV_MCU_RTI0"},
+	[98] = {132, "AM62X_DEV_WKUP_RTI0"},
+	[99] = {134, "AM62X_DEV_COMPUTE_CLUSTER0"},
+	[100] = {135, "AM62X_DEV_A53SS0_CORE_0"},
+	[101] = {136, "AM62X_DEV_A53SS0_CORE_1"},
+	[102] = {137, "AM62X_DEV_A53SS0_CORE_2"},
+	[103] = {138, "AM62X_DEV_A53SS0_CORE_3"},
+	[104] = {139, "AM62X_DEV_PSC0"},
+	[105] = {140, "AM62X_DEV_WKUP_PSC0"},
+	[106] = {141, "AM62X_DEV_MCSPI0"},
+	[107] = {142, "AM62X_DEV_MCSPI1"},
+	[108] = {143, "AM62X_DEV_MCSPI2"},
+	[109] = {146, "AM62X_DEV_UART0"},
+	[110] = {147, "AM62X_DEV_MCU_MCSPI0"},
+	[111] = {148, "AM62X_DEV_MCU_MCSPI1"},
+	[112] = {149, "AM62X_DEV_MCU_UART0"},
+	[113] = {150, "AM62X_DEV_SPINLOCK0"},
+	[114] = {152, "AM62X_DEV_UART1"},
+	[115] = {153, "AM62X_DEV_UART2"},
+	[116] = {154, "AM62X_DEV_UART3"},
+	[117] = {155, "AM62X_DEV_UART4"},
+	[118] = {156, "AM62X_DEV_UART5"},
+	[119] = {157, "AM62X_DEV_BOARD0"},
+	[120] = {158, "AM62X_DEV_UART6"},
+	[121] = {161, "AM62X_DEV_USB0"},
+	[122] = {162, "AM62X_DEV_USB1"},
+	[123] = {163, "AM62X_DEV_PBIST0"},
+	[124] = {164, "AM62X_DEV_PBIST1"},
+	[125] = {165, "AM62X_DEV_WKUP_PBIST0"},
+	[126] = {166, "AM62X_DEV_A53SS0"},
+	[127] = {167, "AM62X_DEV_COMPUTE_CLUSTER0_PBIST_0"},
+	[128] = {168, "AM62X_DEV_PSC0_FW_0"},
+	[129] = {169, "AM62X_DEV_PSC0_PSC_0"},
+	[130] = {170, "AM62X_DEV_DDR16SS0"},
+	[131] = {171, "AM62X_DEV_DEBUGSS0"},
+	[132] = {172, "AM62X_DEV_A53_RS_BW_LIMITER0"},
+	[133] = {173, "AM62X_DEV_A53_WS_BW_LIMITER1"},
+	[134] = {174, "AM62X_DEV_GPU_RS_BW_LIMITER2"},
+	[135] = {175, "AM62X_DEV_GPU_WS_BW_LIMITER3"},
+	[136] = {176, "AM62X_DEV_WKUP_DEEPSLEEP_SOURCES0"},
+	[137] = {177, "AM62X_DEV_EMIF_CFG_ISO_VD"},
+	[138] = {178, "AM62X_DEV_MAIN_USB0_ISO_VD"},
+	[139] = {179, "AM62X_DEV_MAIN_USB1_ISO_VD"},
+	[140] = {180, "AM62X_DEV_MCU_MCU_16FF0"},
+	[141] = {181, "AM62X_DEV_CPT2_AGGR1"},
+	[142] = {182, "AM62X_DEV_CSI_RX_IF0"},
+	[143] = {183, "AM62X_DEV_DCC6"},
+	[144] = {184, "AM62X_DEV_MMCSD2"},
+	[145] = {185, "AM62X_DEV_DPHY_RX0"},
+	[146] = {186, "AM62X_DEV_DSS0"},
+	[147] = {187, "AM62X_DEV_GPU0"},
+	[148] = {188, "AM62X_DEV_MCU_MCAN0"},
+	[149] = {189, "AM62X_DEV_MCU_MCAN1"},
+	[150] = {190, "AM62X_DEV_MCASP0"},
+	[151] = {191, "AM62X_DEV_MCASP1"},
+	[152] = {192, "AM62X_DEV_MCASP2"},
+	[153] = {193, "AM62X_DEV_CLK_32K_RC_SEL_DEV_VD"},
+};
