@@ -71,6 +71,7 @@
 #include <soc/am62x/am62x_clocks_info.h>
 #include <soc/am62x/am62x_host_info.h>
 #include <soc/am62x/am62x_processors_info.h>
+#include <soc/am62x/am62x_rm_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -218,6 +219,8 @@ static void am62x_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
 
+	sci_info->rm_info = am62x_rm_info;
+	sci_info->num_res = AM62X_MAX_RES;
 	sci_info->processors_info = am62x_processors_info;
 	sci_info->num_processors = AM62X_MAX_PROCESSORS_IDS;
 	sci_info->host_info = am62x_host_info;

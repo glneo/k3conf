@@ -114,7 +114,8 @@ AM62XSOURCES =\
 	      soc/am62x/am62x_devices_info.c \
 	      soc/am62x/am62x_clocks_info.c \
 	      soc/am62x/am62x_host_info.c \
-	      soc/am62x/am62x_processors_info.c
+	      soc/am62x/am62x_processors_info.c \
+	      soc/am62x/am62x_rm_info.c
 
 COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
 AM65XOBJECTS=	$(AM65XSOURCES:.c=.o)
