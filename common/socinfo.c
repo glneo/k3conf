@@ -210,6 +210,12 @@ static void am64x_init(void)
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 }
 
+static void am62x_init(void)
+{
+	soc_info.host_id = 13;
+	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
+}
+
 int soc_init(uint32_t host_id)
 {
 	char *name;
@@ -233,6 +239,9 @@ int soc_init(uint32_t host_id)
 		break;
 	case AM64X:
 		name = "AM64x";
+		break;
+	case AM62X:
+		name = "AM62X";
 		break;
 	default:
 		fprintf(stderr, "Unknown Silicon %d\n", soc_info.soc);
@@ -260,6 +269,8 @@ int soc_init(uint32_t host_id)
 		j7200_init();
 	else if (soc_info.soc == AM64X)
 		am64x_init();
+	else if (soc_info.soc == AM62X)
+		am62x_init();
 
 	if (host_id != INVALID_HOST_ID)
 		soc_info.host_id = host_id;
