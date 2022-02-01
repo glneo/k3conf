@@ -150,6 +150,14 @@ static void am654_sr2_init(void)
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 }
 
+static void j721s2_init(void)
+{
+	struct ti_sci_info *sci_info = &soc_info.sci_info;
+
+	soc_info.host_id = DEFAULT_HOST_ID;
+	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
+}
+
 static void j721e_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
@@ -253,6 +261,9 @@ int soc_init(uint32_t host_id)
 	case AM65X:
 		name = "AM65x";
 		break;
+	case J721S2:
+		name = "J721S2";
+		break;
 	case J721E:
 		name = "J721E";
 		break;
@@ -285,6 +296,8 @@ int soc_init(uint32_t host_id)
 		am654_init();
 	else if (soc_info.soc == AM65X && soc_info.rev == REV_SR2_0)
 		am654_sr2_init();
+	else if (soc_info.soc == J721S2)
+		j721s2_init();
 	else if (soc_info.soc == J721E)
 		j721e_init();
 	else if (soc_info.soc == J7200)
