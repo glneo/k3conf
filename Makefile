@@ -123,7 +123,8 @@ J721S2SOURCES =\
 	      soc/j721s2/j721s2_clocks_info.c \
 	      soc/j721s2/j721s2_host_info.c \
 	      soc/j721s2/j721s2_processors_info.c \
-	      soc/j721s2/j721s2_rm_info.c
+	      soc/j721s2/j721s2_rm_info.c \
+	      soc/j721s2/j721s2_sec_proxy_info.c
 
 COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
 AM65XOBJECTS=	$(AM65XSOURCES:.c=.o)
