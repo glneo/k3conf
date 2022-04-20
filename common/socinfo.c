@@ -74,6 +74,7 @@
 #include <soc/am62x/am62x_rm_info.h>
 #include <soc/am62x/am62x_sec_proxy_info.h>
 #include <soc/j721s2/j721s2_devices_info.h>
+#include <soc/j721s2/j721s2_clocks_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -155,6 +156,8 @@ static void j721s2_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
 
+	sci_info->clocks_info = j721s2_clocks_info;
+	sci_info->num_clocks = J721S2_MAX_CLOCKS;
 	sci_info->devices_info = j721s2_devices_info;
 	sci_info->num_devices = J721S2_MAX_DEVICES;
 	soc_info.host_id = DEFAULT_HOST_ID;
