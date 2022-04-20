@@ -76,6 +76,7 @@
 #include <soc/j721s2/j721s2_devices_info.h>
 #include <soc/j721s2/j721s2_clocks_info.h>
 #include <soc/j721s2/j721s2_host_info.h>
+#include <soc/j721s2/j721s2_processors_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
