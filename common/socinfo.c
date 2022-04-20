@@ -77,6 +77,7 @@
 #include <soc/j721s2/j721s2_clocks_info.h>
 #include <soc/j721s2/j721s2_host_info.h>
 #include <soc/j721s2/j721s2_processors_info.h>
+#include <soc/j721s2/j721s2_rm_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -158,6 +159,8 @@ static void j721s2_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
 
+	sci_info->rm_info = j721s2_rm_info;
+	sci_info->num_res = J721S2_MAX_RES;
 	sci_info->host_info = j721s2_host_info;
 	sci_info->num_hosts = J721S2_MAX_HOST_IDS;
 	sci_info->clocks_info = j721s2_clocks_info;
