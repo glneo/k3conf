@@ -172,6 +172,8 @@ static void j721s2_init(void)
 	sci_info->num_clocks = J721S2_MAX_CLOCKS;
 	sci_info->devices_info = j721s2_devices_info;
 	sci_info->num_devices = J721S2_MAX_DEVICES;
+	sci_info->processors_info = j721s2_processors_info;
+	sci_info->num_processors = J721S2_MAX_PROCESSORS_IDS;
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 }
