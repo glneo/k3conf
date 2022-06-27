@@ -1,7 +1,7 @@
 /*
  * J721E Sec Proxy Info
  *
- * Copyright (C) 2020 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -171,8 +171,8 @@ struct ti_sci_sec_proxy_info j721e_main_sp_info[] = {
 };
 
 struct ti_sci_sec_proxy_info j721e_mcu_sp_info[] = {
-	{80, "read", 13, "DM", "nonsec_high_priority_rx"},
-	{79, "read", 13, "DM", "nonsec_low_priority_rx"},
+	{80, "read", 15, "DM", "nonsec_high_priority_rx"},
+	{79, "read", 15, "DM", "nonsec_low_priority_rx"},
 	{78, "read", 5, "DM", "nonsec_notify_resp_rx"},
 	{77, "write", 2, "DM", "nonsec_MCU_0_R5_0_notify_tx"},
 	{76, "write", 20, "DM", "nonsec_MCU_0_R5_0_response_tx"},
@@ -207,7 +207,7 @@ struct ti_sci_sec_proxy_info j721e_mcu_sp_info[] = {
 	{24, "write", 2, "DM2DMSC", "notify_resp"},
 	{25, "read", 2, "DMSC2DM", "notify"},
 	{26, "read", 4, "DMSC2DM", "response"},
-	{27, "write", 2, "DMSC2DM", "high_priority"},
-	{28, "write", 2, "DMSC2DM", "low_priority"},
+	{27, "write", 4, "DMSC2DM", "high_priority"},
+	{28, "write", 4, "DMSC2DM", "low_priority"},
 	{29, "write", 2, "DMSC2DM", "notify_resp"},
 };

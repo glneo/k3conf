@@ -1,7 +1,7 @@
 /*
  * J721E Clocks Info
  *
- * Copyright (C) 2020 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -35,7 +35,7 @@
 #ifndef __J721E_CLOCKS_INFO_H
 #define __J721E_CLOCKS_INFO_H
 
-#define J721E_MAX_CLOCKS	2997
+#define J721E_MAX_CLOCKS	3267
 
 extern struct ti_sci_clocks_info j721e_clocks_info[];
 
