@@ -36,10 +36,10 @@
 #include <socinfo.h>
 
 struct ti_sci_processors_info am62x_processors_info[] = {
-	[0] = {135, 0, 0x20, "A53SS0_CORE_0"},
-	[1] = {136, 0, 0x21, "A53SS0_CORE_1"},
-	[2] = {137, 0, 0x22, "A53SS0_CORE_2"},
-	[3] = {138, 0, 0x23, "A53SS0_CORE_3"},
-	[4] = {9  , 1, 0x18, "MCU_M4FSS0_CORE0"},
-	[5] = {121, 1, 0x01, "R5FSS0_CORE0"},
+	{135, 0, 0x20, "A53SS0_CORE_0"},
+	{136, 0, 0x21, "A53SS0_CORE_1"},
+	{137, 0, 0x22, "A53SS0_CORE_2"},
+	{138, 0, 0x23, "A53SS0_CORE_3"},
+	{9  , 1, 0x18, "MCU_M4FSS0_CORE0"},
+	{121, 1, 0x01, "R5FSS0_CORE0"},
 };
