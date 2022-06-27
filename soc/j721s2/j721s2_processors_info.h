@@ -35,7 +35,7 @@
 #ifndef __J721S2_PROCESSOR_INFO_H
 #define __J721S2_PROCESSOR_INFO_H
 
-#define J721S2_MAX_PROCESSORS_IDS	10
+#define J721S2_MAX_PROCESSORS_IDS	11
 extern struct ti_sci_processors_info j721s2_processors_info[];
 
 #endif /* __J721S2_PROCESSOR_INFO_H */

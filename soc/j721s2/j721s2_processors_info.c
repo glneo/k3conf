@@ -46,4 +46,5 @@ struct ti_sci_processors_info j721s2_processors_info[] = {
 	{280, 0, 0x07, "R5FSS0_CORE1"},
 	{281, 0, 0x08, "R5FSS1_CORE0"},
 	{282, 0, 0x09, "R5FSS1_CORE1"},
+	{304, 0, 0x80, "WKUP_HSM0"},
 };

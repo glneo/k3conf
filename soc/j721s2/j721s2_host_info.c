@@ -37,7 +37,6 @@
 
 struct ti_sci_host_info j721s2_host_info[] = {
 	{0, "TIFS", "Secure", "Security Controller"},
-	{254, "DM", "Non Secure", "Device Management"},
 	{3, "MCU_0_R5_0", "Non Secure", "Cortex R5 context 0 on MCU island"},
 	{4, "MCU_0_R5_1", "Secure", "Cortex R5 context 1 on MCU island(Boot)"},
 	{5, "MCU_0_R5_2", "Non Secure", "Cortex R5 context 2 on MCU island"},
@@ -55,12 +54,13 @@ struct ti_sci_host_info j721s2_host_info[] = {
 	{35, "MAIN_0_R5_0", "Non Secure", "Cortex R5_0 context 0 on Main island"},
 	{36, "MAIN_0_R5_1", "Secure", "Cortex R5_0 context 1 on Main island"},
 	{37, "MAIN_0_R5_2", "Non Secure", "Cortex R5_0 context 2 on Main island"},
-	{38, "MAIN_0_R5_3", "Secure", "Cortex R5_0 context 3 on MCU island"},
+	{38, "MAIN_0_R5_3", "Secure", "Cortex R5_0 context 3 on Main island"},
 	{40, "MAIN_1_R5_0", "Non Secure", "Cortex R5_1 context 0 on Main island"},
 	{41, "MAIN_1_R5_1", "Secure", "Cortex R5_1 context 1 on Main island"},
 	{42, "MAIN_1_R5_2", "Non Secure", "Cortex R5_1 context 2 on Main island"},
-	{43, "MAIN_1_R5_3", "Secure", "Cortex R5_1 context 3 on MCU island"},
+	{43, "MAIN_1_R5_3", "Secure", "Cortex R5_1 context 3 on Main island"},
 	{250, "DM2TIFS", "Secure", "DM to TIFS communication"},
 	{251, "TIFS2DM", "Non Secure", "TIFS to DM communication"},
 	{253, "HSM", "Secure", "HSM Controller"},
+	{254, "DM", "Non Secure", "Device Management"},
 };

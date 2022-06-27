@@ -35,7 +35,7 @@
 #ifndef __J721S2_DEVICES_INFO_H
 #define __J721S2_DEVICES_INFO_H
 
-#define J721S2_MAX_DEVICES	332
+#define J721S2_MAX_DEVICES	327
 
 extern struct ti_sci_devices_info j721s2_devices_info[];
 

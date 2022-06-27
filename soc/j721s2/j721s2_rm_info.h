@@ -35,7 +35,7 @@
 #ifndef __J721S2_RM_INFO_H
 #define __J721S2_RM_INFO_H
 
-#define J721S2_MAX_RES	96
+#define J721S2_MAX_RES	68
 
 extern struct ti_sci_rm_info j721s2_rm_info[];
 
