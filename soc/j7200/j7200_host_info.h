@@ -1,7 +1,7 @@
 /*
  * J7200 Host Info
  *
- * Copyright (C) 2020 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -36,7 +36,6 @@
 #define __J7200_HOST_INFO_H
 
 #define J7200_HOST_ID_DMSC	0
-#define J7200_HOST_ID_DM	254
 #define J7200_HOST_ID_MCU_0_R5_0	3
 #define J7200_HOST_ID_MCU_0_R5_1	4
 #define J7200_HOST_ID_MCU_0_R5_2	5
@@ -52,6 +51,7 @@
 #define J7200_HOST_ID_MAIN_0_R5_3	38
 #define J7200_HOST_ID_DM2DMSC	250
 #define J7200_HOST_ID_DMSC2DM	251
+#define J7200_HOST_ID_DM	254
 
 #define J7200_MAX_HOST_IDS	17
 

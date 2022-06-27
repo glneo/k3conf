@@ -1,7 +1,7 @@
 /*
  * J7200 Devices Info
  *
- * Copyright (C) 2020 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -277,4 +277,19 @@ struct ti_sci_devices_info j7200_devices_info[] = {
 	{305, "J7200_DEV_FFI_MAIN_INFRA_CBASS_VD"},
 	{306, "J7200_DEV_FFI_MAIN_IP_CBASS_VD"},
 	{307, "J7200_DEV_FFI_MAIN_RC_CBASS_VD"},
+	{308, "J7200_DEV_MCU_TIMER1_CLKSEL_VD"},
+	{309, "J7200_DEV_MCU_TIMER3_CLKSEL_VD"},
+	{310, "J7200_DEV_MCU_TIMER5_CLKSEL_VD"},
+	{311, "J7200_DEV_MCU_TIMER7_CLKSEL_VD"},
+	{312, "J7200_DEV_MCU_TIMER9_CLKSEL_VD"},
+	{313, "J7200_DEV_TIMER1_CLKSEL_VD"},
+	{314, "J7200_DEV_TIMER3_CLKSEL_VD"},
+	{315, "J7200_DEV_TIMER5_CLKSEL_VD"},
+	{316, "J7200_DEV_TIMER7_CLKSEL_VD"},
+	{317, "J7200_DEV_TIMER9_CLKSEL_VD"},
+	{318, "J7200_DEV_TIMER11_CLKSEL_VD"},
+	{319, "J7200_DEV_TIMER13_CLKSEL_VD"},
+	{320, "J7200_DEV_TIMER15_CLKSEL_VD"},
+	{321, "J7200_DEV_TIMER17_CLKSEL_VD"},
+	{322, "J7200_DEV_TIMER19_CLKSEL_VD"},
 };

@@ -1,7 +1,7 @@
 /*
  * J7200 Clocks Info
  *
- * Copyright (C) 2020 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -35,7 +35,7 @@
 #ifndef __J7200_CLOCKS_INFO_H
 #define __J7200_CLOCKS_INFO_H
 
-#define J7200_MAX_CLOCKS	1426
+#define J7200_MAX_CLOCKS	1641
 
 extern struct ti_sci_clocks_info j7200_clocks_info[];
 

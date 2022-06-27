@@ -1,7 +1,7 @@
 /*
  * J7200 Hosts Info
  *
- * Copyright (C) 2020 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -37,7 +37,6 @@
 
 struct ti_sci_host_info j7200_host_info[] = {
 	{0, "DMSC", "Secure", "Security Controller"},
-	{254, "DM", "Non Secure", "Device Management"},
 	{3, "MCU_0_R5_0", "Non Secure", "Cortex R5 context 0 on MCU island"},
 	{4, "MCU_0_R5_1", "Secure", "Cortex R5 context 1 on MCU island(Boot)"},
 	{5, "MCU_0_R5_2", "Non Secure", "Cortex R5 context 2 on MCU island"},
@@ -50,7 +49,8 @@ struct ti_sci_host_info j7200_host_info[] = {
 	{35, "MAIN_0_R5_0", "Non Secure", "Cortex R5_0 context 0 on Main island"},
 	{36, "MAIN_0_R5_1", "Secure", "Cortex R5_0 context 1 on Main island"},
 	{37, "MAIN_0_R5_2", "Non Secure", "Cortex R5_0 context 2 on Main island"},
-	{38, "MAIN_0_R5_3", "Secure", "Cortex R5_0 context 3 on MCU island"},
+	{38, "MAIN_0_R5_3", "Secure", "Cortex R5_0 context 3 on Main island"},
 	{250, "DM2DMSC", "Secure", "DM to DMSC communication"},
 	{251, "DMSC2DM", "Non Secure", "DMSC to DM communication"},
+	{254, "DM", "Non Secure", "Device Management"},
 };
