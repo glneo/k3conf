@@ -83,6 +83,7 @@
 #include <soc/j784s4/j784s4_devices_info.h>
 #include <soc/j784s4/j784s4_host_info.h>
 #include <soc/j784s4/j784s4_processors_info.h>
+#include <soc/j784s4/j784s4_rm_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -282,6 +283,8 @@ static void j784s4_init(void)
 	sci_info->num_hosts = J784S4_MAX_HOST_IDS;
 	sci_info->processors_info = j784s4_processors_info;
 	sci_info->num_processors = J784S4_MAX_PROCESSORS_IDS;
+	sci_info->rm_info = j784s4_rm_info;
+	sci_info->num_res = J784S4_MAX_RES;
 
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
