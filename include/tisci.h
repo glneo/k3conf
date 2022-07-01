@@ -67,7 +67,7 @@ struct ti_sci_processors_info {
 	uint32_t dev_id;
 	uint32_t clk_id;
 	uint32_t processor_id;
-	char name[25];
+	char name[30];
 };
 
 struct ti_sci_devices_info {
