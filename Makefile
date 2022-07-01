@@ -131,7 +131,8 @@ J784S4SOURCES =\
 	      soc/j784s4/j784s4_devices_info.c \
 	      soc/j784s4/j784s4_host_info.c \
 	      soc/j784s4/j784s4_processors_info.c \
-	      soc/j784s4/j784s4_rm_info.c
+	      soc/j784s4/j784s4_rm_info.c \
+	      soc/j784s4/j784s4_sec_proxy_info.c
 
 
 COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
