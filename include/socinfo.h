@@ -45,6 +45,7 @@
 #define SOC_FULL_NAME_MAX_LENGTH		20
 
 #define AM62X	0xbb7e
+#define AM62AX	0xbb8d
 #define AM65X	0xbb5a
 #define J721E	0xbb64
 #define J7200	0xbb6d

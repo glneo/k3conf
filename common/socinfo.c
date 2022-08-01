@@ -295,6 +295,14 @@ static void j784s4_init(void)
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 }
 
+static void am62ax_init(void)
+{
+	struct ti_sci_info *sci_info = &soc_info.sci_info;
+
+	soc_info.host_id = 13;
+	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
+}
+
 int soc_init(uint32_t host_id)
 {
 	char *name;
@@ -325,6 +333,9 @@ int soc_init(uint32_t host_id)
 		break;
 	case AM62X:
 		name = "AM62X";
+		break;
+	case AM62AX:
+		name = "AM62Ax";
 		break;
 	case J784S4:
 		name = "J784S4";
@@ -359,6 +370,8 @@ int soc_init(uint32_t host_id)
 		am64x_init();
 	else if (soc_info.soc == AM62X)
 		am62x_init();
+	else if (soc_info.soc == AM62AX)
+		am62ax_init();
 	else if (soc_info.soc == J784S4)
 		j784s4_init();
 
