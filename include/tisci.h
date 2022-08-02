@@ -126,4 +126,8 @@ int ti_sci_cmd_set_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t freq);
 int ti_sci_cmd_get_clk_freq(uint32_t dev_id, uint32_t clk_id, uint64_t *freq);
 int ti_sci_cmd_get_range(uint16_t type, uint16_t subtype, uint16_t host_id,
 				struct ti_sci_rm_desc *desc);
+int ti_sci_cmd_get_clk_parent(uint32_t dev_id, uint32_t clk_id,
+			      uint32_t *parent_clk_id);
+int ti_sci_cmd_set_clk_parent(uint32_t dev_id, uint32_t clk_id,
+			      uint32_t parent_clk_id);
 #endif
