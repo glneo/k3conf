@@ -135,6 +135,11 @@ void help(help_category cat)
 		printf("\t	Prints the available clock status for corresponding device id\n");
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_DUMP) ||
+	    (cat == HELP_DUMP_CLOCK_PARENT)) {
+		printf("\n\tk3conf dump parent_clock <dev_id> <clk_id>\n");
+		printf("\t	Prints the clock parent of provided clock\n");
+	}
+	if ((cat == HELP_ALL) || (cat == HELP_DUMP) ||
 	    (cat == HELP_DUMP_PROCESSOR)) {
 		printf("\n\tk3conf dump processor\n");
 		printf("\t	Prints status of all the available TISCI processors\n");

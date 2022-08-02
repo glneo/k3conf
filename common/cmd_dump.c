@@ -131,6 +131,108 @@ print_single_device:
 	return autoadjust_table_print(table, found + 1, 5);
 }
 
+int dump_clock_parent_info(int argc, char *argv[])
+{
+	struct ti_sci_clocks_info *c = soc_info.sci_info.clocks_info;
+	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
+	char clk_name[TABLE_MAX_ELT_LEN];
+	char clk_name_len = 0;
+	uint32_t row = 0, dev_id, clk_id, parent_clk_id = 0xffffffff;
+	int found = 0, ret;
+	uint64_t freq;
+
+	if (argc != 2)
+		return -1;
+
+	ret = sscanf(argv[0], "%u", &dev_id);
+	if (ret != 1)
+		return -1;
+
+	ret = sscanf(argv[1], "%u", &clk_id);
+	if (ret != 1)
+		return -1;
+
+	autoadjust_table_init(table);
+	strncpy(table[row][0], "Clock information", TABLE_MAX_ELT_LEN);
+	row++;
+	strncpy(table[row][0], "Device ID", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Clock ID", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][2], "Clock Name", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][3], "Status", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][4], "Clock Frequency", TABLE_MAX_ELT_LEN);
+
+	for (found = 1, row = 0; row < soc_info.sci_info.num_clocks; row++) {
+		if (dev_id != c[row].dev_id)
+			continue;
+		if (c[row].clk_id != clk_id)
+			continue;
+		snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5d", c[row].dev_id);
+		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", c[row].clk_id);
+		strncpy(table[found + 1][2], c[row].clk_name, TABLE_MAX_ELT_LEN);
+		strncpy(table[found + 1][3],
+			ti_sci_cmd_get_clk_state(dev_id, c[row].clk_id),
+			TABLE_MAX_ELT_LEN);
+		ti_sci_cmd_get_clk_freq(c[row].dev_id, c[row].clk_id, &freq);
+		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%lu", freq);
+
+		ti_sci_cmd_get_clk_parent(dev_id, clk_id, &parent_clk_id);
+		strncpy(clk_name, c[row].clk_name, TABLE_MAX_ELT_LEN);
+		clk_name_len = strnlen(clk_name, TABLE_MAX_ELT_LEN);
+		found++;
+
+		break;
+	}
+
+	if (found == 1)
+		return -1;
+
+	ret = autoadjust_table_generic_fprint(stdout, table, found + 1, 5,
+					      TABLE_HAS_TITLE | TABLE_HAS_SUBTITLE);
+	if (ret != 0)
+		return ret;
+
+	/* List out the parents and Mark the one that is selected */
+	row = 0;
+	autoadjust_table_init(table);
+	strncpy(table[row][0], "Clock Parent information", TABLE_MAX_ELT_LEN);
+	row++;
+	strncpy(table[row][0], "Selected", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Clock ID", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][2], "Clock Name", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][3], "Status", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][4], "Clock Frequency", TABLE_MAX_ELT_LEN);
+
+	for (found = 1, row = 0; row < soc_info.sci_info.num_clocks; row++) {
+		int found_parent = 0;
+
+		if (dev_id != c[row].dev_id)
+			continue;
+		if (c[row].clk_id == clk_id)
+			continue;
+
+		if (c[row].clk_id == parent_clk_id)
+			found_parent = 1;
+		else if (strncmp(c[row].clk_name, clk_name, clk_name_len))
+			continue;
+
+		snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5s",
+			 found_parent ? "==>" : "");
+		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", c[row].clk_id);
+		strncpy(table[found + 1][2], c[row].clk_name, TABLE_MAX_ELT_LEN);
+		strncpy(table[found + 1][3],
+			ti_sci_cmd_get_clk_state(dev_id, c[row].clk_id),
+			TABLE_MAX_ELT_LEN);
+		ti_sci_cmd_get_clk_freq(c[row].dev_id, c[row].clk_id, &freq);
+		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%lu", freq);
+		found++;
+	}
+
+	if (!found)
+		return -1;
+	return autoadjust_table_generic_fprint(stdout, table, found + 1, 5,
+					       TABLE_HAS_TITLE | TABLE_HAS_SUBTITLE);
+}
+
 int dump_devices_info(int argc, char *argv[])
 {
 	struct ti_sci_devices_info *p = soc_info.sci_info.devices_info;
@@ -397,6 +499,14 @@ int process_dump_command(int argc, char *argv[])
 		if (ret) {
 			fprintf(stderr, "Invalid clock arguments\n");
 			help(HELP_DUMP_CLOCK);
+		}
+	} else if (!strncmp(argv[0], "parent_clock", 12)) {
+		argc--;
+		argv++;
+		ret = dump_clock_parent_info(argc, argv);
+		if (ret) {
+			fprintf(stderr, "Invalid clock_parent arguments\n");
+			help(HELP_DUMP_CLOCK_PARENT);
 		}
 	} else if(!strncmp(argv[0], "processor", 9)) {
 		argc--;
