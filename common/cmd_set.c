@@ -41,6 +41,9 @@
 #include <help.h>
 #include <k3conf.h>
 
+#define HELP_SET_PARENT_URL1 "http://downloads.ti.com/tisci/esd/latest/2_tisci_msgs/pm/clocks.html#power-management-clock-frequency-configuration-example-with-mux-programming"
+#define HELP_SET_PARENT_URL2 "http://downloads.ti.com/tisci/esd/latest/2_tisci_msgs/pm/clocks.html#tisci-msg-set-clock-parent"
+
 static int set_clock(int argc, char *argv[])
 {
 	uint32_t dev_id, clk_id, ret;
@@ -68,6 +71,44 @@ static int set_clock(int argc, char *argv[])
 	return dump_clocks_info(argc, argv);
 }
 
+static int set_clock_parent(int argc, char *argv[])
+{
+	uint32_t dev_id, clk_id, parent_clk_id;
+	int ret;
+
+	if (argc < 3)
+		return -1;
+
+	ret = sscanf(argv[0], "%u", &dev_id);
+	if (ret != 1)
+		return -1;
+
+	ret = sscanf(argv[1], "%u", &clk_id);
+	if (ret != 1)
+		return -1;
+
+	ret = sscanf(argv[2], "%u", &parent_clk_id);
+	if (ret != 1)
+		return -1;
+
+	ret = ti_sci_cmd_set_clk_parent(dev_id, clk_id, parent_clk_id);
+	if (ret) {
+		fprintf(stderr, "Request to set parent failed: %d\n",ret);
+		fprintf(stderr, "Clock state is probably wrong!\n");
+		fprintf(stderr, "Clock state of clk_id %d: %s\n",
+			clk_id, ti_sci_cmd_get_clk_state(dev_id, clk_id));
+		fprintf(stderr, "Clock state of parent_clk_id %d: %s\n",
+			parent_clk_id,
+			ti_sci_cmd_get_clk_state(dev_id, parent_clk_id));
+		fprintf(stderr, "\nRefer to:\n\t%s\n\t%s\n",
+			HELP_SET_PARENT_URL1, HELP_SET_PARENT_URL2);
+
+		return ret;
+	}
+
+	return dump_clock_parent_info(argc - 1, argv);
+}
+
 int process_set_command(int argc, char *argv[])
 {
 	int ret;
@@ -84,6 +125,16 @@ int process_set_command(int argc, char *argv[])
 		if (ret) {
 			fprintf(stderr, "Invalid clock arguments\n");
 			help(HELP_SET_CLOCK);
+		}
+	} else if (!strncmp(argv[0], "parent_clock", 5)) {
+		argc--;
+		argv++;
+		ret = set_clock_parent(argc, argv);
+		if (ret) {
+			if (ret == -1) {
+				fprintf(stderr, "Invalid parent_clock arguments\n");
+				help(HELP_SET_CLOCK_PARENT);
+			}
 		}
 	} else if (!strcmp(argv[0], "--help")) {
 		help(HELP_SET);

@@ -36,6 +36,9 @@
 #include <help.h>
 #include <stdio.h>
 
+#define HELP_CLK_SET_PARENT_URL1 "http://downloads.ti.com/tisci/esd/latest/2_tisci_msgs/pm/clocks.html#power-management-clock-frequency-configuration-example-with-mux-programming"
+#define HELP_CLK_SET_PARENT_URL2 "http://downloads.ti.com/tisci/esd/latest/2_tisci_msgs/pm/clocks.html#tisci-msg-set-clock-parent"
+
 void help(help_category cat)
 {
 	if (cat >= HELP_CATEGORY_MAX) {
@@ -183,6 +186,14 @@ void help(help_category cat)
 	    (cat == HELP_SET_CLOCK)) {
 		printf("\n\tk3conf set clock <dev_id> <clk_id> <freq>\n");
 		printf("\t	Sets the clock frequency and prints the status\n");
+	}
+	if ((cat == HELP_ALL) || (cat == HELP_SET) ||
+	    (cat == HELP_SET_CLOCK_PARENT)) {
+		printf("\n\tk3conf set parent_clock <dev_id> <clk_id> <parent_clk_id>\n");
+		printf("\t	Sets the parent clock for a clock mux and prints the mux status\n");
+		printf("\t	Refer to the following documentation for preconditions:\n");
+		printf("\t	%s\n", HELP_CLK_SET_PARENT_URL1);
+		printf("\t	%s\n", HELP_CLK_SET_PARENT_URL2);
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_READ)) {
 		printf("\n\tk3conf read <addr>\n");
