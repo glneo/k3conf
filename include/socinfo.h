@@ -50,6 +50,7 @@
 #define J7200	0xbb6d
 #define AM64X	0xbb38
 #define J721S2	0xbb75
+#define J784S4	0xbb80
 
 typedef enum {
 	REV_SR1_0,

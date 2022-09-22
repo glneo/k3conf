@@ -266,6 +266,12 @@ static void am62x_init(void)
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 }
 
+static void j784s4_init(void)
+{
+	soc_info.host_id = DEFAULT_HOST_ID;
+	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
+}
+
 int soc_init(uint32_t host_id)
 {
 	char *name;
@@ -276,6 +282,7 @@ int soc_init(uint32_t host_id)
 			JTAG_ID_PARTNO_MASK) >> JTAG_ID_PARTNO_SHIFT;
 	soc_info.rev = (mmio_read_32(CTRLMMR_WKUP_JTAG_ID) &
 			JTAG_ID_VARIANT_MASK) >> JTAG_ID_VARIANT_SHIFT;
+
 
 	switch (soc_info.soc) {
 	case AM65X:
@@ -295,6 +302,9 @@ int soc_init(uint32_t host_id)
 		break;
 	case AM62X:
 		name = "AM62X";
+		break;
+	case J784S4:
+		name = "J784S4";
 		break;
 	default:
 		fprintf(stderr, "Unknown Silicon %d\n", soc_info.soc);
@@ -326,6 +336,8 @@ int soc_init(uint32_t host_id)
 		am64x_init();
 	else if (soc_info.soc == AM62X)
 		am62x_init();
+	else if (soc_info.soc == J784S4)
+		j784s4_init();
 
 	if (host_id != INVALID_HOST_ID)
 		soc_info.host_id = host_id;
