@@ -87,6 +87,7 @@
 #include <soc/j784s4/j784s4_sec_proxy_info.h>
 #include <soc/am62ax/am62ax_clocks_info.h>
 #include <soc/am62ax/am62ax_devices_info.h>
+#include <soc/am62ax/am62ax_host_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -305,6 +306,8 @@ static void am62ax_init(void)
 	sci_info->num_clocks = AM62AX_MAX_CLOCKS;
 	sci_info->devices_info = am62ax_devices_info;
 	sci_info->num_devices = AM62AX_MAX_DEVICES;
+	sci_info->host_info = am62ax_host_info;
+	sci_info->num_hosts = AM62AX_MAX_HOST_IDS;
 
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;

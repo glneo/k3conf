@@ -136,7 +136,8 @@ J784S4SOURCES =\
 
 AM62AXSOURCES =\
 	      soc/am62ax/am62ax_clocks_info.c \
-	      soc/am62ax/am62ax_devices_info.c
+	      soc/am62ax/am62ax_devices_info.c \
+	      soc/am62ax/am62ax_host_info.c
 
 COMMONOBJECTS=	$(COMMONSOURCES:.c=.o)
 AM65XOBJECTS=	$(AM65XSOURCES:.c=.o)
