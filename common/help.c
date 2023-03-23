@@ -196,11 +196,15 @@ void help(help_category cat)
 		printf("\t	%s\n", HELP_CLK_SET_PARENT_URL2);
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_READ)) {
-		printf("\n\tk3conf read <addr>\n");
+		printf("\n\tk3conf read <addr> [<size>]\n");
+		printf("\t	No.of bits to be read is given in the size argument\n");
+		printf("\t	Expected input size is 8,16,32,64\n");
 		printf("\t	Prints the value at the specified io memory\n");
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_WRITE)) {
-		printf("\n\tk3conf write <addr> <val>\n");
+		printf("\n\tk3conf write <addr> <val> [<size>]\n");
+		printf("\t	No.of bits to be written is given in the size argument\n");
+		printf("\t	Expected input size is 8,16,32,64\n");
 		printf("\t	Writes the value at the specified io memory\n");
 	}
 }
