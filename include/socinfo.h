@@ -41,7 +41,7 @@
 #include "sec_proxy.h"
 
 #define SOC_NAME_MAX_LENGTH			10
-#define SOC_REVISION_MAX_LENGTH			5
+#define SOC_REVISION_MAX_LENGTH			10
 #define SOC_FULL_NAME_MAX_LENGTH		20
 
 #define AM62X	0xbb7e
@@ -54,8 +54,8 @@
 #define J784S4	0xbb80
 
 typedef enum {
-	REV_SR1_0,
-	REV_SR2_0,
+	REV_1,
+	REV_2,
 	REV_PG_MAX
 } k3_soc_rev;
 
@@ -67,6 +67,18 @@ struct k3conf_soc_info {
 	uint8_t ti_sci_enabled;
 	struct ti_sci_info sci_info;
 	struct k3_sec_proxy_base *sec_proxy;
+};
+
+static const char soc_revision_j721e[REV_PG_MAX + 1][SOC_REVISION_MAX_LENGTH] = {
+	[REV_1] = " SR1.0",
+	[REV_2] = " SR1.1",
+	[REV_PG_MAX] = " SRNULL"
+};
+
+static const char soc_revision_generic[REV_PG_MAX + 1][SOC_REVISION_MAX_LENGTH] = {
+	[REV_1] = " SR1.0",
+	[REV_2] = " SR2.0",
+	[REV_PG_MAX] = " SRNULL"
 };
 
 extern struct k3conf_soc_info soc_info;

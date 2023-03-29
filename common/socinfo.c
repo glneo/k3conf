@@ -118,12 +118,6 @@
 
 struct k3conf_soc_info soc_info;
 
-static const char soc_revision[REV_PG_MAX + 1][SOC_REVISION_MAX_LENGTH] = {
-	[REV_SR1_0] = "1.0",
-	[REV_SR2_0] = "2.0",
-	[REV_PG_MAX] = "NULL"
-};
-
 static void am654_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
@@ -372,14 +366,18 @@ int soc_init(uint32_t host_id)
 		return -1;
 	}
 
-	strncpy(soc_info.soc_full_name, "", sizeof(soc_info.soc_full_name));
-	strcat(soc_info.soc_full_name, name);
-	strcat(soc_info.soc_full_name, " SR");
-	strcat(soc_info.soc_full_name, soc_revision[soc_info.rev]);
+	strncat(soc_info.soc_full_name, name, SOC_FULL_NAME_MAX_LENGTH);
+	switch (soc_info.soc) {
+	case J721E:
+		strncat(soc_info.soc_full_name, soc_revision_j721e[soc_info.rev], SOC_FULL_NAME_MAX_LENGTH);
+		break;
+	default:
+		strncat(soc_info.soc_full_name, soc_revision_generic[soc_info.rev], SOC_FULL_NAME_MAX_LENGTH);
+	};
 
-	if (soc_info.soc == AM65X && soc_info.rev == REV_SR1_0)
+	if (soc_info.soc == AM65X && soc_info.rev == REV_1)
 		am654_init();
-	else if (soc_info.soc == AM65X && soc_info.rev == REV_SR2_0)
+	else if (soc_info.soc == AM65X && soc_info.rev == REV_2)
 		am654_sr2_init();
 	else if (soc_info.soc == J721S2)
 		j721s2_init();
