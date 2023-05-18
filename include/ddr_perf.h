@@ -1,8 +1,8 @@
 /*
- * Help Library Header File for K3CONF
+ * DDR performance counter information
  *
- * Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com/
- *	Lokesh Vutla <lokeshvutla@ti.com>
+ * Copyright (C) 2023 Texas Instruments Incorporated - https://www.ti.com/
+ *	Aarya Chaumal <a-chaumal@ti.com>
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -33,39 +33,15 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __K3CONF_HELP
-#define __K3CONF_HELP
+#ifndef __DDRPERF_H
+#define __DDRPERF_H
 
-typedef enum {
-	HELP_USAGE,
-	HELP_SHOW,
-	HELP_SHOW_HOST,
-	HELP_SHOW_SEC_PROXY,
-	HELP_SHOW_DEVICE,
-	HELP_SHOW_CLOCK,
-	HELP_SHOW_PROCESSOR,
-	HELP_SHOW_RM,
-	HELP_DUMP,
-	HELP_DUMP_DEVICE,
-	HELP_DUMP_CLOCK,
-	HELP_DUMP_CLOCK_PARENT,
-	HELP_DUMP_PROCESSOR,
-	HELP_DUMP_RM,
-	HELP_ENABLE,
-	HELP_ENABLE_DEVICE,
-	HELP_ENABLE_CLOCK,
-	HELP_DISABLE,
-	HELP_DISABLE_DEVICE,
-	HELP_DISABLE_CLOCK,
-	HELP_SET,
-	HELP_SET_CLOCK,
-	HELP_SET_CLOCK_PARENT,
-	HELP_READ,
-	HELP_WRITE,
-	HELP_DUMP_DDRBW,
-	HELP_ALL,
-	HELP_CATEGORY_MAX,
-} help_category;
+#include <stdint.h>
 
-void help(help_category cat);
+struct ddr_perf_soc_info {
+	uint8_t num_perf_insts;
+	uint8_t burst_size;
+	uintptr_t *perf_inst_base;
+};
+
 #endif

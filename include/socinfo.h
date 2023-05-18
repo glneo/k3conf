@@ -39,6 +39,7 @@
 #include <stdint.h>
 #include <tisci.h>
 #include "sec_proxy.h"
+#include "ddr_perf.h"
 
 #define AM62X	0xbb7e
 #define AM62AX	0xbb8d
@@ -55,6 +56,7 @@ struct k3conf_soc_info {
 	uint8_t host_id;
 	uint8_t ti_sci_enabled;
 	struct ti_sci_info sci_info;
+	struct ddr_perf_soc_info *ddr_perf_info;
 	struct k3_sec_proxy_base *sec_proxy;
 };
 

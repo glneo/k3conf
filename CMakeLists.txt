@@ -21,6 +21,7 @@ set(K3CONF_SOURCES
 	common/cmd_disable.c
 	common/cmd_set.c
 	common/cmd_rw.c
+	common/cmd_ddr_perf.c
 # AM65x
 	soc/am65x/am65x_host_info.c
 	soc/am65x/am65x_sec_proxy_info.c

@@ -207,4 +207,10 @@ void help(help_category cat)
 		printf("\t	Expected input size is 8,16,32,64\n");
 		printf("\t	Writes the value at the specified io memory\n");
 	}
+	if ((cat == HELP_ALL) || (cat == HELP_DUMP_DDRBW)) {
+		printf("\n\tk3conf ddrbw <sample_duration> <count>\n");
+		printf("\t	Prints DDR bandwidth utilization on all DDR instances\n");
+		printf("\t	sample_duration is delay between samples in seconds (default: 1 second)\n");
+		printf("\t	count is number of samples to capture before stopping (default: -1 infinite)\n");
+	}
 }

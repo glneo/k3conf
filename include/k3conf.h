@@ -54,4 +54,5 @@ int process_disable_command(int argc, char *argv[]);
 int process_set_command(int argc, char *argv[]);
 int process_read_command(int argc, char *argv[]);
 int process_write_command(int argc, char *argv[]);
+int ddrbw_info(int argc, char *argv[]);
 #endif

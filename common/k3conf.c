@@ -201,6 +201,13 @@ int main(int argc, char *argv[])
 		return process_set_command(argc, argv);
 	}
 
+	if (!strcmp(argv[0], "ddrbw")) {
+		argc--;
+		argv++;
+		k3conf_print_version(stdout);
+		return ddrbw_info(argc, argv);
+	}
+
 	fprintf(stderr, "Invalid argument %s", argv[0]);
 	help(HELP_USAGE);
 	ret = -1;

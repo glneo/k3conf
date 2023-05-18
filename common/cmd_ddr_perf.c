@@ -1,0 +1,195 @@
+/*
+ * K3CONF DDR b/w capture
+ *
+ * Copyright (C) 2023 Texas Instruments Incorporated - https://www.ti.com/
+ *	Aarya Chaumal <a-chaumal@ti.com>
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *    Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <socinfo.h>
+#include <help.h>
+#include <k3conf.h>
+#include <mmio.h>
+#include <ddr_perf.h>
+#include <autoadjust_table.h>
+
+#define TO_USEC(ts)			((ts).tv_sec * 1000000 + (ts).tv_nsec / 1000)
+#define MAX_PERF_NUM_DDR_INSTANCES	(4u)
+/* A value of 0x00 configures counter 0 to return number of write transactions */
+#define PERF_DDR_STATS_CTR0		(0x00)
+/* A value of 0x01 configures counter 1 to return number of read transactions */
+#define PERF_DDR_STATS_CTR1		(0x01)
+#define PERF_CNT_SEL_REG_OFFSET	(0)
+#define PERF_CTR0_REG_OFFSET		(4)
+#define PERF_CTR1_REG_OFFSET		(8)
+
+struct data_capture_per_inst {
+	uint32_t initial_read;
+	uint32_t initial_write;
+	uint32_t final_read;
+	uint32_t final_write;
+	struct timespec first_time;
+	struct timespec last_time;
+};
+
+static inline uintptr_t ctrl_reg_addr(struct ddr_perf_soc_info *pinfo, uint8_t inst)
+{
+	return pinfo->perf_inst_base[inst] + PERF_CNT_SEL_REG_OFFSET;
+}
+
+static inline uintptr_t read_counter_addr(struct ddr_perf_soc_info *pinfo, uint8_t inst)
+{
+	return pinfo->perf_inst_base[inst] + PERF_CTR0_REG_OFFSET;
+}
+
+static inline uintptr_t write_counter_addr(struct ddr_perf_soc_info *pinfo, uint8_t inst)
+{
+	return pinfo->perf_inst_base[inst] + PERF_CTR1_REG_OFFSET;
+}
+
+int ddrbw_info(int argc, char *argv[])
+{
+	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
+	uint32_t row = 0;
+	int ret = 0;
+	uint32_t duration = 1;
+	int auto_refresh = -1;
+	struct ddr_perf_soc_info *pinfo = soc_info.ddr_perf_info;
+	struct data_capture_per_inst *dcap;
+
+	if (!pinfo) {
+		fprintf(stderr,
+			"DDR performance monitoring is not supported on this SoC\n");
+		return -1;
+	}
+
+	if (argc >= 1) {
+		ret = sscanf(argv[0], "%u", &duration);
+		if (ret != 1) {
+			fprintf(stderr, "Invalid argument for duration.\n");
+			help(HELP_DUMP_DDRBW);
+			return -1;
+		}
+	}
+
+	if (argc == 2) {
+		ret = sscanf(argv[1], "%d", &auto_refresh);
+		if (ret != 1) {
+			fprintf(stderr, "Invalid argument for auto_refresh.\n");
+			help(HELP_DUMP_DDRBW);
+			return -1;
+		}
+	}
+
+	dcap = calloc(sizeof(struct data_capture_per_inst), pinfo->num_perf_insts);
+	if (dcap == NULL) {
+		fprintf(stderr, "Unable to allocate capture memory\n");
+		return -2;
+	}
+
+	/* Set counter 0 and 1 to read and write resp. */
+	for (int i = 0; i < pinfo->num_perf_insts; i++) {
+		mmio_write_32(ctrl_reg_addr(pinfo, i), PERF_DDR_STATS_CTR1 << 8 |
+			      PERF_DDR_STATS_CTR0 << 0);
+	}
+
+	autoadjust_table_init(table);
+	strncpy(table[row][0], "DDR instance", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], "Read data (MB)", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][2], "Avg Read B/W (MB/s)", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][3], "Write data (MB)", TABLE_MAX_ELT_LEN);
+	strncpy(table[row][4], "Avg Write B/W (MB/s)", TABLE_MAX_ELT_LEN);
+
+	while (auto_refresh--) {
+		struct timespec timer;
+
+		for (int i = 0; i < pinfo->num_perf_insts; i++) {
+			clock_gettime(CLOCK_MONOTONIC, &dcap[i].first_time);
+			dcap[i].initial_read = mmio_read_32(read_counter_addr(pinfo, i));
+			dcap[i].initial_write =
+			    mmio_read_32(write_counter_addr(pinfo, i));
+		}
+
+		timer = dcap[pinfo->num_perf_insts - 1].first_time;
+		timer.tv_sec += duration;
+		clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &timer, NULL);
+
+		for (int i = 0; i < pinfo->num_perf_insts; i++) {
+			clock_gettime(CLOCK_MONOTONIC, &dcap[i].last_time);
+			dcap[i].final_read = mmio_read_32(read_counter_addr(pinfo, i));
+			dcap[i].final_write = mmio_read_32(write_counter_addr(pinfo, i));
+		}
+
+		for (int i = 0; i < pinfo->num_perf_insts; i++) {
+			uint32_t read_count = 0, write_count = 0;
+			uint32_t read_bytes = 0, write_bytes = 0;
+			uint64_t time = 0;
+			float read_bw = 0, write_bw = 0;
+
+			if (dcap[i].final_read < dcap[i].initial_read) {
+				/* wrap around case */
+				read_count = (0xFFFFFFFFu - dcap[i].final_read);
+				read_count += dcap[i].initial_read;
+			} else {
+				read_count = dcap[i].final_read - dcap[i].initial_read;
+			}
+			if (dcap[i].final_write < dcap[i].initial_write) {
+				/* wrap around case */
+				write_count = (0xFFFFFFFFu - dcap[i].final_write);
+				write_count += dcap[i].initial_write;
+			} else {
+				write_count = dcap[i].final_write - dcap[i].initial_write;
+			}
+
+			read_bytes = read_count * pinfo->burst_size;
+			write_bytes = write_count * pinfo->burst_size;
+			time = TO_USEC(dcap[i].last_time) - TO_USEC(dcap[i].first_time);
+			read_bw = read_bytes / time;
+			write_bw = write_bytes / time;
+
+			snprintf(table[i + 1][0], TABLE_MAX_ELT_LEN, "DDR%d", i);
+			snprintf(table[i + 1][1], TABLE_MAX_ELT_LEN, "%u",
+				 read_bytes / 1000000u);
+			snprintf(table[i + 1][2], TABLE_MAX_ELT_LEN, "%.3f", read_bw);
+			snprintf(table[i + 1][3], TABLE_MAX_ELT_LEN, "%u",
+				 write_bytes / 1000000u);
+			snprintf(table[i + 1][4], TABLE_MAX_ELT_LEN, "%.3f", write_bw);
+		}
+		ret = autoadjust_table_print(table, 1 + pinfo->num_perf_insts, 5);
+	}
+	free(dcap);
+
+	return ret;
+}
