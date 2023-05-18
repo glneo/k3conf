@@ -63,6 +63,7 @@ set(K3CONF_SOURCES
 	soc/am62x/am62x_processors_info.c
 	soc/am62x/am62x_rm_info.c
 	soc/am62x/am62x_sec_proxy_info.c
+	soc/am62x/am62x_ddr_info.c
 
 # J721s2
 	soc/j721s2/j721s2_devices_info.c

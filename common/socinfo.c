@@ -73,6 +73,7 @@
 #include <soc/am62x/am62x_processors_info.h>
 #include <soc/am62x/am62x_rm_info.h>
 #include <soc/am62x/am62x_sec_proxy_info.h>
+#include <soc/am62x/am62x_ddr_info.h>
 #include <soc/j721s2/j721s2_devices_info.h>
 #include <soc/j721s2/j721s2_clocks_info.h>
 #include <soc/j721s2/j721s2_host_info.h>
@@ -287,6 +288,7 @@ static void am62x_init(void)
 	sci_info->num_clocks = AM62X_MAX_CLOCKS;
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
+	soc_info.ddr_perf_info = &am62x_ddr_perf_info;
 }
 
 static void j784s4_init(void)
