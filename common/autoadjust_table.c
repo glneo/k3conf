@@ -223,6 +223,7 @@ int autoadjust_table_generic_fprint(FILE *stream,
 	dprintf("total_dash_nbr = %d\n", total_dash_nbr);
 	if (dash_line == NULL) {
 		printf("autoadjust_table_fprint(): dash_line malloc error!\n");
+		free(line);
 		return -2;
 	}
 	dash_line[0] = '\0';
