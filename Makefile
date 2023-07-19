@@ -170,8 +170,7 @@ QUIET_LINK    = $(Q:@=@echo    '     LINK     '$@;)
 
 EXECUTABLE=	k3conf
 
-.PHONY:	tags cscope
-
+.PHONY: all
 all: 		$(EXECUTABLE)
 
 $(EXECUTABLE):	$(ALLOBJECTS) builddate.o version.o
@@ -187,13 +186,16 @@ builddate.c:	$(ALLOBJECTS)
 version.c:	$(ALLOBJECTS)
 		@echo 'char *k3conf_version="'`git describe --dirty --tags 2>/dev/null||echo "$(VERSION_MAJOR).$(VERSION_MINOR)-nogit"`'";' > version.c
 
+.PHONY: tags
 tags: $(ALLSOURCES)
 	ctags $(shell $(CC) $(MYCFLAGS) -MM -MG $(ALLSOURCES) |\
 			sed -e "s/^.*\.o://g"|tr -d '\\')
 
+.PHONY: cscope
 cscope: $(ALLSOURCES)
 	cscope -R -b
 
+.PHONY: clean
 clean:
 		@echo "Cleaning up..."
 		-$(shell rm -f $(EXECUTABLE) *.o builddate.c version.c)
