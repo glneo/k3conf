@@ -55,6 +55,8 @@ else
 MYCFLAGS+=-Os
 endif
 
+prefix ?= /usr/bin
+
 COMMONSOURCES=\
 		common/k3conf.c \
 		common/help.c \
@@ -183,6 +185,14 @@ builddate.c:	$(ALLOBJECTS)
 
 version.c:	$(ALLOBJECTS)
 		@echo 'char *k3conf_version="'`git describe --dirty --tags 2>/dev/null||echo "$(VERSION_MAJOR).$(VERSION_MINOR)-nogit"`'";' > version.c
+
+.PHONY: install
+install: $(EXECUTABLE)
+	install -D -m 0755 $(EXECUTABLE) $(DESTDIR)$(prefix)/$(EXECUTABLE)
+
+.PHONY: uninstall
+uninstall:
+	-rm -f $(DESTDIR)$(prefix)/$(EXECUTABLE)
 
 .PHONY: tags
 tags: $(ALLSOURCES)
