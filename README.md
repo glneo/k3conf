@@ -31,9 +31,21 @@ AM62Ax Devices. Legacy OMAP and DRA7 platforms are not supported.
 Build Instructions:
 -------------------
 
-To build the output binary file run the following command:
+Install build dependencies (Debian based example):
 
-	# make CROSS_COMPILE=aarch64-linux-gnu-
+	# sudo apt install build-essential cmake
+
+If cross-compiling, install and set your cross-compiler:
+
+	# sudo apt install gcc-aarch64-linux-gnu
+	# export CC=aarch64-linux-gnu-gcc
+
+To build the output binary file run the following commands:
+
+	# mkdir build
+	# cd build
+	# cmake ..
+	# make
 
 Copy the output binary "k3conf" to your Filesystem.
 
