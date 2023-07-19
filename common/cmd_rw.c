@@ -58,8 +58,13 @@ int process_read_command(int argc, char *argv[])
 		return -1;
 	}
 
-	if (argc == 2)
+	if (argc == 2) {
 		ret = sscanf(argv[1], "%d", &num_read_bits);
+		if (ret != 1) {
+			help(HELP_READ);
+			return -1;
+		}
+	}
 
 	switch (num_read_bits) {
 	case 8:
@@ -108,8 +113,13 @@ int process_write_command(int argc, char *argv[])
 		return -1;
 	}
 
-	if (argc == 3)
+	if (argc == 3) {
 		ret = sscanf(argv[2], "%d", &num_write_bits);
+		if (ret != 1) {
+			help(HELP_READ);
+			return -1;
+		}
+	}
 
 	switch (num_write_bits) {
 	case 8:
