@@ -43,10 +43,12 @@ DEF_INC := $(shell $(CROSS_COMPILE)gcc  -print-file-name=include)
 
 DEF_INC_PATH = -I. -Iinclude
 
-STATIC_BUILD ?= -static
-
 MYCFLAGS+=$(CFLAGS) -c -Wall -Wextra -Wno-missing-field-initializers \
-		-I$(DEF_INC) $(DEF_INC_PATH) $(STATIC_BUILD)
+		-I$(DEF_INC) $(DEF_INC_PATH)
+
+ifdef STATIC_BUILD
+	LDFLAGS += -static
+endif
 
 ifdef DEBUG
 MYCFLAGS+=-g3 -fno-inline -O0 -DDEBUG
@@ -172,7 +174,7 @@ EXECUTABLE=	k3conf
 all: 		$(EXECUTABLE)
 
 $(EXECUTABLE):	$(ALLOBJECTS) builddate.o version.o
-		$(QUIET_CC) $(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) builddate.o version.o -o $@
+		$(QUIET_CC) $(CC) $(LDFLAGS) $(ALLOBJECTS) builddate.o version.o -o $@
 
 .c.o:
 		$(QUIET_CC) $(CC) $(MYCFLAGS) -c $< -o $@
