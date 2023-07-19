@@ -172,8 +172,7 @@ EXECUTABLE=	k3conf
 all: 		$(EXECUTABLE)
 
 $(EXECUTABLE):	$(ALLOBJECTS) builddate.o version.o
-		$(QUIET_CC) $(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) builddate.o version.o\
-		-lrt -o $@
+		$(QUIET_CC) $(CC) $(STATIC_BUILD) $(LDFLAGS) $(ALLOBJECTS) builddate.o version.o -o $@
 
 .c.o:
 		$(QUIET_CC) $(CC) $(MYCFLAGS) $(LDFLAGS) -c $< -o $@
