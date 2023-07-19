@@ -36,10 +36,9 @@
 VERSION_MAJOR=0
 VERSION_MINOR=2
 
-CROSS_COMPILE ?=aarch64-linux-gnu-
 CC = $(CROSS_COMPILE)gcc
 
-DEF_INC := $(shell $(CROSS_COMPILE)gcc  -print-file-name=include)
+DEF_INC := $(shell $(CC) -print-file-name=include)
 
 DEF_INC_PATH = -I. -Iinclude
 
