@@ -54,8 +54,6 @@ else
 MYCFLAGS+=-Os
 endif
 
-DESTDIR ?= target
-
 COMMONSOURCES=\
 		common/k3conf.c \
 		common/help.c \
