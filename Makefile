@@ -185,7 +185,7 @@ builddate.c:	$(ALLOBJECTS)
 		@echo 'char *builddate="'`date`'";' > builddate.c
 
 version.c:	$(ALLOBJECTS)
-		@echo 'char *k3conf_version="'`git describe --dirty 2>/dev/null||echo "$(VERSION_MAJOR).$(VERSION_MINOR)-nogit"`'";' > version.c
+		@echo 'char *k3conf_version="'`git describe --dirty --tags 2>/dev/null||echo "$(VERSION_MAJOR).$(VERSION_MINOR)-nogit"`'";' > version.c
 
 tags: $(ALLSOURCES)
 	ctags $(shell $(CC) $(MYCFLAGS) -MM -MG $(ALLSOURCES) |\
