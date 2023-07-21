@@ -118,6 +118,22 @@
 
 struct k3conf_soc_info soc_info;
 
+typedef enum {
+	REV_1,
+	REV_2,
+	REV_PG_MAX
+} k3_soc_rev;
+
+static const char *soc_revision_j721e[] = {
+	[REV_1] = " SR1.0",
+	[REV_2] = " SR1.1",
+};
+
+static const char *soc_revision_generic[] = {
+	[REV_1] = " SR1.0",
+	[REV_2] = " SR2.0",
+};
+
 static void am654_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
@@ -322,13 +338,12 @@ int soc_init(uint32_t host_id)
 {
 	memset(&soc_info, 0, sizeof(soc_info));
 
-	soc_info.soc = (mmio_read_32(CTRLMMR_WKUP_JTAG_ID) &
+	uint32_t soc = (mmio_read_32(CTRLMMR_WKUP_JTAG_ID) &
 			JTAG_ID_PARTNO_MASK) >> JTAG_ID_PARTNO_SHIFT;
-	soc_info.rev = (mmio_read_32(CTRLMMR_WKUP_JTAG_ID) &
+	k3_soc_rev rev = (mmio_read_32(CTRLMMR_WKUP_JTAG_ID) &
 			JTAG_ID_VARIANT_MASK) >> JTAG_ID_VARIANT_SHIFT;
 
-
-	switch (soc_info.soc) {
+	switch (soc) {
 	case AM65X:
 		soc_info.soc_name = "AM65x";
 		break;
@@ -354,41 +369,41 @@ int soc_init(uint32_t host_id)
 		soc_info.soc_name = "J784S4";
 		break;
 	default:
-		fprintf(stderr, "Unknown Silicon %d\n", soc_info.soc);
+		fprintf(stderr, "Unknown Silicon %d\n", soc);
 		return -1;
 	};
 
-	if (soc_info.rev >= REV_PG_MAX) {
+	if (rev >= REV_PG_MAX) {
 		fprintf(stderr, "Unknown Silicon revision %d for SoC %s\n",
-			soc_info.rev, soc_info.soc_name);
+			rev, soc_info.soc_name);
 		return -1;
 	}
 
-	switch (soc_info.soc) {
+	switch (soc) {
 	case J721E:
-		soc_info.rev_name = soc_revision_j721e[soc_info.rev];
+		soc_info.rev_name = soc_revision_j721e[rev];
 		break;
 	default:
-		soc_info.rev_name = soc_revision_generic[soc_info.rev];
+		soc_info.rev_name = soc_revision_generic[rev];
 	};
 
-	if (soc_info.soc == AM65X && soc_info.rev == REV_1)
+	if (soc == AM65X && rev == REV_1)
 		am654_init();
-	else if (soc_info.soc == AM65X && soc_info.rev == REV_2)
+	else if (soc == AM65X && rev == REV_2)
 		am654_sr2_init();
-	else if (soc_info.soc == J721S2)
+	else if (soc == J721S2)
 		j721s2_init();
-	else if (soc_info.soc == J721E)
+	else if (soc == J721E)
 		j721e_init();
-	else if (soc_info.soc == J7200)
+	else if (soc == J7200)
 		j7200_init();
-	else if (soc_info.soc == AM64X)
+	else if (soc == AM64X)
 		am64x_init();
-	else if (soc_info.soc == AM62X)
+	else if (soc == AM62X)
 		am62x_init();
-	else if (soc_info.soc == AM62AX)
+	else if (soc == AM62AX)
 		am62ax_init();
-	else if (soc_info.soc == J784S4)
+	else if (soc == J784S4)
 		j784s4_init();
 
 	if (host_id != INVALID_HOST_ID)
@@ -400,14 +415,4 @@ int soc_init(uint32_t host_id)
 			soc_info.ti_sci_enabled = 1;
 
 	return 0;
-}
-
-int soc_is_j721e(void)
-{
-	return soc_info.soc == J721E;
-}
-
-int soc_is_am654(void)
-{
-	return soc_info.soc == AM65X;
 }

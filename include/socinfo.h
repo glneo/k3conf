@@ -49,15 +49,7 @@
 #define J721S2	0xbb75
 #define J784S4	0xbb80
 
-typedef enum {
-	REV_1,
-	REV_2,
-	REV_PG_MAX
-} k3_soc_rev;
-
 struct k3conf_soc_info {
-	uint16_t soc;
-	k3_soc_rev rev;
 	const char *soc_name;
 	const char *rev_name;
 	uint8_t host_id;
@@ -66,19 +58,8 @@ struct k3conf_soc_info {
 	struct k3_sec_proxy_base *sec_proxy;
 };
 
-static const char *soc_revision_j721e[] = {
-	[REV_1] = " SR1.0",
-	[REV_2] = " SR1.1",
-};
-
-static const char *soc_revision_generic[] = {
-	[REV_1] = " SR1.0",
-	[REV_2] = " SR2.0",
-};
-
 extern struct k3conf_soc_info soc_info;
+
 int soc_init(uint32_t host_id);
-int soc_is_j721e(void);
-int soc_is_am654(void);
 
 #endif
