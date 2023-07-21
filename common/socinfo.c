@@ -360,7 +360,7 @@ int soc_init(uint32_t host_id)
 		return -1;
 	};
 
-	if (soc_info.rev > REV_PG_MAX) {
+	if (soc_info.rev >= REV_PG_MAX) {
 		fprintf(stderr, "Unknown Silicon revision %d for SoC %s\n",
 			soc_info.rev, name);
 		return -1;

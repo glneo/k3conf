@@ -40,8 +40,6 @@
 #include <tisci.h>
 #include "sec_proxy.h"
 
-#define SOC_NAME_MAX_LENGTH			10
-#define SOC_REVISION_MAX_LENGTH			10
 #define SOC_FULL_NAME_MAX_LENGTH		20
 
 #define AM62X	0xbb7e
@@ -69,16 +67,14 @@ struct k3conf_soc_info {
 	struct k3_sec_proxy_base *sec_proxy;
 };
 
-static const char soc_revision_j721e[REV_PG_MAX + 1][SOC_REVISION_MAX_LENGTH] = {
+static const char *soc_revision_j721e[] = {
 	[REV_1] = " SR1.0",
 	[REV_2] = " SR1.1",
-	[REV_PG_MAX] = " SRNULL"
 };
 
-static const char soc_revision_generic[REV_PG_MAX + 1][SOC_REVISION_MAX_LENGTH] = {
+static const char *soc_revision_generic[] = {
 	[REV_1] = " SR1.0",
 	[REV_2] = " SR2.0",
-	[REV_PG_MAX] = " SRNULL"
 };
 
 extern struct k3conf_soc_info soc_info;
