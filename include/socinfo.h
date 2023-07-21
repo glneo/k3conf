@@ -40,8 +40,6 @@
 #include <tisci.h>
 #include "sec_proxy.h"
 
-#define SOC_FULL_NAME_MAX_LENGTH		20
-
 #define AM62X	0xbb7e
 #define AM62AX	0xbb8d
 #define AM65X	0xbb5a
@@ -60,7 +58,8 @@ typedef enum {
 struct k3conf_soc_info {
 	uint16_t soc;
 	k3_soc_rev rev;
-	char soc_full_name[SOC_FULL_NAME_MAX_LENGTH];
+	const char *soc_name;
+	const char *rev_name;
 	uint8_t host_id;
 	uint8_t ti_sci_enabled;
 	struct ti_sci_info sci_info;

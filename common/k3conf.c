@@ -70,7 +70,8 @@ void k3conf_print_version(FILE *stream)
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "(version %s built %s)", k3conf_version, builddate);
 	row++;
 	strncpy(table[row][0], "SoC", TABLE_MAX_ELT_LEN);
-	strncpy(table[row][1], soc_info.soc_full_name, TABLE_MAX_ELT_LEN);
+	strncpy(table[row][1], soc_info.soc_name, TABLE_MAX_ELT_LEN);
+	strncat(table[row][1], soc_info.rev_name, TABLE_MAX_ELT_LEN);
 	row++;
 
 	if (soc_info.ti_sci_enabled) {

@@ -320,8 +320,6 @@ static void am62ax_init(void)
 
 int soc_init(uint32_t host_id)
 {
-	char *name;
-
 	memset(&soc_info, 0, sizeof(soc_info));
 
 	soc_info.soc = (mmio_read_32(CTRLMMR_WKUP_JTAG_ID) &
@@ -332,28 +330,28 @@ int soc_init(uint32_t host_id)
 
 	switch (soc_info.soc) {
 	case AM65X:
-		name = "AM65x";
+		soc_info.soc_name = "AM65x";
 		break;
 	case J721S2:
-		name = "J721S2";
+		soc_info.soc_name = "J721S2";
 		break;
 	case J721E:
-		name = "J721E";
+		soc_info.soc_name = "J721E";
 		break;
 	case J7200:
-		name = "J7200";
+		soc_info.soc_name = "J7200";
 		break;
 	case AM64X:
-		name = "AM64x";
+		soc_info.soc_name = "AM64x";
 		break;
 	case AM62X:
-		name = "AM62X";
+		soc_info.soc_name = "AM62X";
 		break;
 	case AM62AX:
-		name = "AM62Ax";
+		soc_info.soc_name = "AM62Ax";
 		break;
 	case J784S4:
-		name = "J784S4";
+		soc_info.soc_name = "J784S4";
 		break;
 	default:
 		fprintf(stderr, "Unknown Silicon %d\n", soc_info.soc);
@@ -362,17 +360,16 @@ int soc_init(uint32_t host_id)
 
 	if (soc_info.rev >= REV_PG_MAX) {
 		fprintf(stderr, "Unknown Silicon revision %d for SoC %s\n",
-			soc_info.rev, name);
+			soc_info.rev, soc_info.soc_name);
 		return -1;
 	}
 
-	strncat(soc_info.soc_full_name, name, SOC_FULL_NAME_MAX_LENGTH);
 	switch (soc_info.soc) {
 	case J721E:
-		strncat(soc_info.soc_full_name, soc_revision_j721e[soc_info.rev], SOC_FULL_NAME_MAX_LENGTH);
+		soc_info.rev_name = soc_revision_j721e[soc_info.rev];
 		break;
 	default:
-		strncat(soc_info.soc_full_name, soc_revision_generic[soc_info.rev], SOC_FULL_NAME_MAX_LENGTH);
+		soc_info.rev_name = soc_revision_generic[soc_info.rev];
 	};
 
 	if (soc_info.soc == AM65X && soc_info.rev == REV_1)
