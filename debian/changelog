@@ -1,0 +1,11 @@
+k3conf (0.2.53-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Andrew Davis <afd@ti.com>  Wed, 19 Jul 2023 09:13:12 +0000
+
+k3conf (0.1-90) UNRELEASED; urgency=low
+
+  * Initial release. Closes: #1037141
+
+ -- Suhaas Joshi <s-joshi@ti.com>  Wed, 14 Jun 2023 08:12:53 +0000
