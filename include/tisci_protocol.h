@@ -211,6 +211,7 @@ struct ti_sci_msg_get_clock_parent_resp {
 } __attribute__((__packed__));
 
 struct ti_sci_msg_set_clock_parent_req {
+	struct ti_sci_msg_hdr hdr;
 	uint32_t dev_id;
 	uint8_t clk_id;
 	uint8_t parent_clk_id;
