@@ -60,7 +60,7 @@ struct k3_sec_proxy_base {
 
 int k3_sec_proxy_send(struct k3_sec_proxy_msg *msg);
 int k3_sec_proxy_recv(struct k3_sec_proxy_msg *msg);
-int k3_sec_proxy_init();
+int k3_sec_proxy_init(void);
 
 extern struct k3_sec_proxy_base k3_generic_sec_proxy_base;
 extern struct k3_sec_proxy_base k3_lite_sec_proxy_base;
