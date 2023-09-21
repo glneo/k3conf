@@ -48,6 +48,8 @@ unsigned page_size, mapped_size, offset_in_page;
 void *map_base, *virt_addr;
 int fd;
 
+static int warn_user_once = 0;
+
 static int map_address(off_t target)
 {
 	unsigned int width = 8 * sizeof(uint64_t);
@@ -56,7 +58,9 @@ static int map_address(off_t target)
 
 	/* Ensure that user privilege is proper */
 	if (uid || uid != euid) {
-		fprintf(stderr, "Missing sudo to access %s?\n", MEMORY);
+		if (!warn_user_once)
+			fprintf(stderr, "Missing sudo to access %s?\n", MEMORY);
+		warn_user_once = 1;
 		return NON_ROOT_USER;
 	}
 
