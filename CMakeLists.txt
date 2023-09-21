@@ -112,6 +112,6 @@ target_include_directories(k3conf PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_compile_options(k3conf PRIVATE -Wall;-Wextra;-Wno-missing-field-initializers)
+target_compile_options(k3conf PRIVATE -Wall;-Wextra;-Wpedantic;-Wno-missing-field-initializers)
 
 install(TARGETS k3conf RUNTIME DESTINATION bin)
