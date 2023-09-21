@@ -90,7 +90,7 @@ set(K3CONF_SOURCES
 
 # Set build timestamp
 string(TIMESTAMP TIMEDATE "%a %b %d %H:%M:%S UTC %Y" UTC)
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/builddate.c "char *builddate=\"${TIMEDATE}\";")
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/builddate.c "char *builddate=\"${TIMEDATE}\";\n")
 list(APPEND K3CONF_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/builddate.c)
 
 # Set version from Git
@@ -102,7 +102,7 @@ if ("${GIT_VERSION}" STREQUAL "")
 else()
 	string(STRIP "${GIT_VERSION}" GIT_VERSION)
 endif()
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/version.c "char *k3conf_version=\"${GIT_VERSION}\";")
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/version.c "char *k3conf_version=\"${GIT_VERSION}\";\n")
 list(APPEND K3CONF_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/version.c)
 
 add_executable(k3conf ${K3CONF_SOURCES})
