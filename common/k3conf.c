@@ -69,6 +69,11 @@ void k3conf_print_version(FILE *stream)
 	strncpy(table[row][0], "K3CONF", TABLE_MAX_ELT_LEN);
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "(version %s built %s)", k3conf_version, builddate);
 	row++;
+
+	/* Following information is only available if soc_info is valid */
+	if (!soc_info_valid)
+		goto no_chip_info;
+
 	strncpy(table[row][0], "SoC", TABLE_MAX_ELT_LEN);
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%s%s", soc_info.soc_name, soc_info.rev_name);
 	row++;
@@ -83,6 +88,7 @@ void k3conf_print_version(FILE *stream)
 		row++;
 	}
 
+no_chip_info:
 	autoadjust_table_generic_fprint(stream, table, row, 2, TABLE_HAS_TITLE);
 
 	return;

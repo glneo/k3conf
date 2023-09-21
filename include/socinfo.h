@@ -62,4 +62,6 @@ extern struct k3conf_soc_info soc_info;
 
 int soc_init(uint32_t host_id);
 
+extern int soc_info_valid;
+
 #endif

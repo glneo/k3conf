@@ -117,6 +117,7 @@
 #define CTRLMMR_WKUP_BOOTCFG	0x43000034
 
 struct k3conf_soc_info soc_info;
+int soc_info_valid = 0;
 
 typedef enum {
 	REV_1,
@@ -414,5 +415,6 @@ int soc_init(uint32_t host_id)
 		if (!ti_sci_init())
 			soc_info.ti_sci_enabled = 1;
 
+	soc_info_valid = 1;
 	return 0;
 }
