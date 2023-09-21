@@ -129,54 +129,72 @@ int main(int argc, char *argv[])
 		k3conf_print_version(stdout);
 		help(HELP_ALL);
 		goto main_exit;
-	} else if (!strcmp(argv[0], "--version")) {
+	}
+
+	if (!strcmp(argv[0], "--version")) {
 		k3conf_print_version(stdout);
 		goto main_exit;
-	} else if (!strcmp(argv[0], "--cpuinfo")) {
+	}
+
+	if (!strcmp(argv[0], "--cpuinfo")) {
 		k3conf_print_version(stdout);
 		dump_cpu_info();
 		goto main_exit;
-	} else if (!strcmp(argv[0], "show")) {
+	}
+
+	if (!strcmp(argv[0], "show")) {
 		argc--;
 		argv++;
 		k3conf_print_version(stdout);
 		return process_show_command(argc, argv);
-	} else if (!strcmp(argv[0], "dump")) {
+	}
+
+	if (!strcmp(argv[0], "dump")) {
 		argc--;
 		argv++;
 		k3conf_print_version(stdout);
 		return process_dump_command(argc, argv);
-	} else if (!strcmp(argv[0], "enable")) {
+	}
+
+	if (!strcmp(argv[0], "enable")) {
 		argc--;
 		argv++;
 		k3conf_print_version(stdout);
 		return process_enable_command(argc, argv);
-	} else if (!strcmp(argv[0], "disable")) {
+	}
+
+	if (!strcmp(argv[0], "disable")) {
 		argc--;
 		argv++;
 		k3conf_print_version(stdout);
 		return process_disable_command(argc, argv);
-	} else if (!strcmp(argv[0], "set")) {
+	}
+
+	if (!strcmp(argv[0], "set")) {
 		argc--;
 		argv++;
 		k3conf_print_version(stdout);
 		return process_set_command(argc, argv);
-	} else if (!strcmp(argv[0], "read")) {
+	}
+
+	if (!strcmp(argv[0], "read")) {
 		argc--;
 		argv++;
 		k3conf_print_version(stdout);
 		return process_read_command(argc, argv);
-	} else if (!strcmp(argv[0], "write")) {
+	}
+
+	if (!strcmp(argv[0], "write")) {
 		argc--;
 		argv++;
 		k3conf_print_version(stdout);
 		return process_write_command(argc, argv);
-	} else {
-		fprintf(stderr, "Invalid argument %s", argv[0]);
-		help(HELP_USAGE);
-		ret = -1;
-		goto main_exit;
 	}
+
+	fprintf(stderr, "Invalid argument %s", argv[0]);
+	help(HELP_USAGE);
+	ret = -1;
+	/* Fallthrough */
 
 main_exit:
 	return ret;
