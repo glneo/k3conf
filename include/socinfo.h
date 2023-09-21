@@ -64,4 +64,6 @@ int soc_init(uint32_t host_id);
 
 extern int soc_info_valid;
 
+#define SOC_INFO_UNKNOWN_SILICON (-19)
+
 #endif

@@ -135,6 +135,25 @@ int main(int argc, char *argv[])
 		goto main_exit;
 	}
 
+	if (ret && ret != SOC_INFO_UNKNOWN_SILICON) {
+		fprintf(stderr, "Unable to execute '%s' command: Potentially no access to memory\n", argv[0]);
+		goto main_exit;
+	}
+
+	if (!strcmp(argv[0], "read")) {
+		argc--;
+		argv++;
+		k3conf_print_version(stdout);
+		return process_read_command(argc, argv);
+	}
+
+	if (!strcmp(argv[0], "write")) {
+		argc--;
+		argv++;
+		k3conf_print_version(stdout);
+		return process_write_command(argc, argv);
+	}
+
 	if (ret || !soc_info_valid) {
 		ret = ret ? ret :  -1;
 		fprintf(stderr, "Unable to execute '%s' command - no access to memory or unable to detect silicon\n", argv[0]);
@@ -180,20 +199,6 @@ int main(int argc, char *argv[])
 		argv++;
 		k3conf_print_version(stdout);
 		return process_set_command(argc, argv);
-	}
-
-	if (!strcmp(argv[0], "read")) {
-		argc--;
-		argv++;
-		k3conf_print_version(stdout);
-		return process_read_command(argc, argv);
-	}
-
-	if (!strcmp(argv[0], "write")) {
-		argc--;
-		argv++;
-		k3conf_print_version(stdout);
-		return process_write_command(argc, argv);
 	}
 
 	fprintf(stderr, "Invalid argument %s", argv[0]);

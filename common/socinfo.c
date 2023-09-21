@@ -371,13 +371,13 @@ int soc_init(uint32_t host_id)
 		break;
 	default:
 		fprintf(stderr, "Unknown Silicon %d\n", soc);
-		return -1;
+		return SOC_INFO_UNKNOWN_SILICON;
 	};
 
 	if (rev >= REV_PG_MAX) {
 		fprintf(stderr, "Unknown Silicon revision %d for SoC %s\n",
 			rev, soc_info.soc_name);
-		return -1;
+		return SOC_INFO_UNKNOWN_SILICON;
 	}
 
 	switch (soc) {
