@@ -51,6 +51,14 @@ int fd;
 static int map_address(off_t target)
 {
 	unsigned int width = 8 * sizeof(uint64_t);
+	uid_t uid = getuid();
+	uid_t euid = geteuid();
+
+	/* Ensure that user privilege is proper */
+	if (uid || uid != euid) {
+		fprintf(stderr, "Missing sudo to access %s?\n", MEMORY);
+		return NON_ROOT_USER;
+	}
 
 	fd = open(MEMORY, (O_RDWR | O_SYNC));
 	if (fd < 0) {

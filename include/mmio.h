@@ -75,4 +75,6 @@ static inline void mmio_clrsetbits_32(uintptr_t addr,
 	mmio_write_32(addr, (mmio_read_32(addr) & ~clear) | set);
 }
 
+#define NON_ROOT_USER (-13)
+
 #endif /* __MMIO_H */
