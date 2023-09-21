@@ -122,8 +122,7 @@ int main(int argc, char *argv[])
 		argc--; argv++;
 	}
 
-	if (soc_init(host_id))
-		goto main_exit;
+	ret = soc_init(host_id);
 
 	if (!strcmp(argv[0], "--help")) {
 		k3conf_print_version(stdout);
@@ -133,6 +132,12 @@ int main(int argc, char *argv[])
 
 	if (!strcmp(argv[0], "--version")) {
 		k3conf_print_version(stdout);
+		goto main_exit;
+	}
+
+	if (ret || !soc_info_valid) {
+		ret = ret ? ret :  -1;
+		fprintf(stderr, "Unable to execute '%s' command - no access to memory or unable to detect silicon\n", argv[0]);
 		goto main_exit;
 	}
 
