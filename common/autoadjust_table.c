@@ -152,7 +152,6 @@ int autoadjust_table_generic_fprint(FILE *stream,
 	row = has_title ? 1 : 0;
 
 	for (; row < row_nbr; row++) {
-		tmp = 0;
 		/* Get total length of strings in this line */
 		for (col = 0; col < col_nbr; col++) {
 			strln = strlen(table[row][col]);
