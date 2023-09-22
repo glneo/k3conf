@@ -49,6 +49,7 @@ set(K3CONF_SOURCES
 	soc/j7200/j7200_devices_info.c
 	soc/j7200/j7200_clocks_info.c
 	soc/j7200/j7200_rm_info.c
+	soc/j7200/j7200_ddr_info.c
 # AM64x
 	soc/am64x/am64x_host_info.c
 	soc/am64x/am64x_sec_proxy_info.c
