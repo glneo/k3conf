@@ -42,6 +42,7 @@ set(K3CONF_SOURCES
 	soc/j721e/j721e_devices_info.c
 	soc/j721e/j721e_clocks_info.c
 	soc/j721e/j721e_rm_info.c
+	soc/j721e/j721e_ddr_info.c
 	soc/j7200/j7200_host_info.c
 	soc/j7200/j7200_sec_proxy_info.c
 	soc/j7200/j7200_processors_info.c

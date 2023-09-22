@@ -55,6 +55,7 @@
 #include <soc/j721e/j721e_devices_info.h>
 #include <soc/j721e/j721e_clocks_info.h>
 #include <soc/j721e/j721e_rm_info.h>
+#include <soc/j721e/j721e_ddr_info.h>
 #include <soc/j7200/j7200_host_info.h>
 #include <soc/j7200/j7200_sec_proxy_info.h>
 #include <soc/j7200/j7200_processors_info.h>
@@ -222,6 +223,7 @@ static void j721e_init(void)
 	sci_info->num_res = J721E_MAX_RES;
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
+	soc_info.ddr_perf_info = &j721e_ddr_perf_info;
 }
 
 static void j7200_init(void)
