@@ -93,6 +93,7 @@ set(K3CONF_SOURCES
 
 # AM62Px
 	soc/am62px/am62px_clocks_info.c
+	soc/am62px/am62px_devices_info.c
 )
 
 # Set build timestamp
