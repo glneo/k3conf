@@ -109,6 +109,11 @@ int main(int argc, char *argv[])
 		goto main_exit;
 	}
 
+	if (!strcmp(argv[0], "--help")) {
+		help(HELP_ALL);
+		goto main_exit;
+	}
+
 	host_id = INVALID_HOST_ID;
 	if (!strcmp(argv[0], "--host")) {
 		argc--; argv++;
@@ -123,11 +128,6 @@ int main(int argc, char *argv[])
 	}
 
 	ret = soc_init(host_id);
-
-	if (!strcmp(argv[0], "--help")) {
-		help(HELP_ALL);
-		goto main_exit;
-	}
 
 	if (!strcmp(argv[0], "--version")) {
 		k3conf_print_version(stdout);
