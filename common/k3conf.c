@@ -125,7 +125,6 @@ int main(int argc, char *argv[])
 	ret = soc_init(host_id);
 
 	if (!strcmp(argv[0], "--help")) {
-		k3conf_print_version(stdout);
 		help(HELP_ALL);
 		goto main_exit;
 	}
