@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 project(k3conf C)
 
 set(VERSION_MAJOR 0)
-set(VERSION_MINOR 2)
+set(VERSION_MINOR 3)
 
 set(K3CONF_SOURCES
 # Common
