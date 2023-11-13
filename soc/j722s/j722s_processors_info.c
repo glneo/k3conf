@@ -1,8 +1,7 @@
 /*
- * SoC info header file
+ * J722S Processor Info
  *
- * Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com/
- *	Lokesh Vutla <lokeshvutla@ti.com>
+ * Copyright (C) 2024 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -33,41 +32,18 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __SOCINFO_H
-#define __SOCINFO_H
-
-#include <stdint.h>
 #include <tisci.h>
-#include "sec_proxy.h"
-#include "ddr_perf.h"
+#include <socinfo.h>
 
-#define AM62X	0xbb7e
-#define AM62AX	0xbb8d
-#define AM62PX	0xbb9d
-#define AM65X	0xbb5a
-#define J721E	0xbb64
-#define J7200	0xbb6d
-#define AM64X	0xbb38
-#define J721S2	0xbb75
-#define J722S	0xbba0
-#define J784S4	0xbb80
-
-struct k3conf_soc_info {
-	const char *soc_name;
-	const char *rev_name;
-	uint8_t host_id;
-	uint8_t ti_sci_enabled;
-	struct ti_sci_info sci_info;
-	struct ddr_perf_soc_info *ddr_perf_info;
-	struct k3_sec_proxy_base *sec_proxy;
+struct ti_sci_processors_info j722s_processors_info[] = {
+	{121, 0, 0x01, "WKUP_R5FSS0_CORE0"},
+	{9,   0, 0x03, "MCU_R5FSS0_CORE0"},
+	{262, 0, 0x04, "R5FSS0_CORE0"},
+	{135, 0, 0x20, "A53SS0_CORE_0"},
+	{136, 0, 0x21, "A53SS0_CORE_1"},
+	{137, 0, 0x22, "A53SS0_CORE_2"},
+	{138, 0, 0x23, "A53SS0_CORE_3"},
+	{208, 0, 0x30, "C7X256V0_C7XV_CORE_0"},
+	{268, 0, 0x31, "C7X256V1_C7XV_CORE_0"},
+	{225, 0, 0x80, "HSM0"},
 };
-
-extern struct k3conf_soc_info soc_info;
-
-int soc_init(uint32_t host_id);
-
-extern int soc_info_valid;
-
-#define SOC_INFO_UNKNOWN_SILICON (-19)
-
-#endif

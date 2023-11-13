@@ -1,8 +1,7 @@
 /*
- * SoC info header file
+ * J722S Clocks Info
  *
- * Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com/
- *	Lokesh Vutla <lokeshvutla@ti.com>
+ * Copyright (C) 2024 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -33,41 +32,11 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __SOCINFO_H
-#define __SOCINFO_H
+#ifndef __J722S_CLOCKS_INFO_H
+#define __J722S_CLOCKS_INFO_H
 
-#include <stdint.h>
-#include <tisci.h>
-#include "sec_proxy.h"
-#include "ddr_perf.h"
+#define J722S_MAX_CLOCKS	1478
 
-#define AM62X	0xbb7e
-#define AM62AX	0xbb8d
-#define AM62PX	0xbb9d
-#define AM65X	0xbb5a
-#define J721E	0xbb64
-#define J7200	0xbb6d
-#define AM64X	0xbb38
-#define J721S2	0xbb75
-#define J722S	0xbba0
-#define J784S4	0xbb80
+extern struct ti_sci_clocks_info j722s_clocks_info[];
 
-struct k3conf_soc_info {
-	const char *soc_name;
-	const char *rev_name;
-	uint8_t host_id;
-	uint8_t ti_sci_enabled;
-	struct ti_sci_info sci_info;
-	struct ddr_perf_soc_info *ddr_perf_info;
-	struct k3_sec_proxy_base *sec_proxy;
-};
-
-extern struct k3conf_soc_info soc_info;
-
-int soc_init(uint32_t host_id);
-
-extern int soc_info_valid;
-
-#define SOC_INFO_UNKNOWN_SILICON (-19)
-
-#endif
+#endif /* __J722S_CLOCKS_INFO_H */

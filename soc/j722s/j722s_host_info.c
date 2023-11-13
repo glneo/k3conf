@@ -1,8 +1,7 @@
 /*
- * SoC info header file
+ * J722S Hosts Info
  *
- * Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com/
- *	Lokesh Vutla <lokeshvutla@ti.com>
+ * Copyright (C) 2024 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -33,41 +32,27 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __SOCINFO_H
-#define __SOCINFO_H
-
-#include <stdint.h>
 #include <tisci.h>
-#include "sec_proxy.h"
-#include "ddr_perf.h"
+#include <socinfo.h>
 
-#define AM62X	0xbb7e
-#define AM62AX	0xbb8d
-#define AM62PX	0xbb9d
-#define AM65X	0xbb5a
-#define J721E	0xbb64
-#define J7200	0xbb6d
-#define AM64X	0xbb38
-#define J721S2	0xbb75
-#define J722S	0xbba0
-#define J784S4	0xbb80
-
-struct k3conf_soc_info {
-	const char *soc_name;
-	const char *rev_name;
-	uint8_t host_id;
-	uint8_t ti_sci_enabled;
-	struct ti_sci_info sci_info;
-	struct ddr_perf_soc_info *ddr_perf_info;
-	struct k3_sec_proxy_base *sec_proxy;
+struct ti_sci_host_info j722s_host_info[] = {
+	{0, "TIFS", "Secure", "TI Foundational Security"},
+	{10, "A53_0", "Secure", "Cortex A53 context 0 on MAIN domain"},
+	{11, "A53_1", "Secure", "Cortex A53 context 1 on MAIN domain"},
+	{12, "A53_2", "Non Secure", "Cortex A53 context 2 on MAIN domain"},
+	{13, "A53_3", "Non Secure", "Cortex A53 context 3 on MAIN domain"},
+	{14, "A53_4", "Non Secure", "Cortex A53 context 4 on MAIN domain"},
+	{20, "C7X_0_0", "Non Secure", "C7x_0 context 0 on MAIN domain"},
+	{22, "C7X_1_0", "Non Secure", "C7x_1 context 0 on MAIN domain"},
+	{30, "MCU_0_R5_0", "Non Secure", "MCU R5"},
+	{31, "GPU_0", "Non Secure", "GPU context 0 on MAIN domain"},
+	{32, "GPU_1", "Non Secure", "GPU context 1 on MAIN domain"},
+	{35, "WKUP_0_R5_0", "Secure", "Cortex R5_0 context 0 on WKUP domain (BOOT)"},
+	{36, "WKUP_0_R5_1", "Non Secure", "Cortex R5_0 context 1 on WKUP domain"},
+	{37, "MAIN_0_R5_0", "Secure", "Cortex R5_0 context 0 on MAIN domain"},
+	{38, "MAIN_0_R5_1", "Non Secure", "Cortex R5_0 context 1 on MAIN domain"},
+	{250, "DM2TIFS", "Secure", "DM to TIFS communication"},
+	{251, "TIFS2DM", "Non Secure", "TIFS to DM communication"},
+	{253, "HSM", "Secure", "HSM Controller"},
+	{254, "DM", "Non Secure", "Device Management"},
 };
-
-extern struct k3conf_soc_info soc_info;
-
-int soc_init(uint32_t host_id);
-
-extern int soc_info_valid;
-
-#define SOC_INFO_UNKNOWN_SILICON (-19)
-
-#endif

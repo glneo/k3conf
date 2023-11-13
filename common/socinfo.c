@@ -100,6 +100,12 @@
 #include <soc/am62px/am62px_processors_info.h>
 #include <soc/am62px/am62px_rm_info.h>
 #include <soc/am62px/am62px_sec_proxy_info.h>
+#include <soc/j722s/j722s_clocks_info.h>
+#include <soc/j722s/j722s_devices_info.h>
+#include <soc/j722s/j722s_host_info.h>
+#include <soc/j722s/j722s_processors_info.h>
+#include <soc/j722s/j722s_rm_info.h>
+#include <soc/j722s/j722s_sec_proxy_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -301,6 +307,29 @@ static void am62x_init(void)
 	soc_info.ddr_perf_info = &am62x_ddr_perf_info;
 }
 
+static void j722s_init(void)
+{
+	struct ti_sci_info *sci_info = &soc_info.sci_info;
+
+	sci_info->clocks_info = j722s_clocks_info;
+	sci_info->num_clocks = J722S_MAX_CLOCKS;
+	sci_info->devices_info = j722s_devices_info;
+	sci_info->num_devices = J722S_MAX_DEVICES;
+	sci_info->host_info = j722s_host_info;
+	sci_info->num_hosts = J722S_MAX_HOST_IDS;
+	sci_info->processors_info = j722s_processors_info;
+	sci_info->num_processors = J722S_MAX_PROCESSORS_IDS;
+	sci_info->rm_info = j722s_rm_info;
+	sci_info->num_res = J722S_MAX_RES;
+	sci_info->sp_info[MAIN_SEC_PROXY] = j722s_main_sp_info;
+	sci_info->num_sp_threads[MAIN_SEC_PROXY] = J722S_MAIN_SEC_PROXY_THREADS;
+	sci_info->sp_info[MCU_SEC_PROXY] = j722s_mcu_sp_info;
+	sci_info->num_sp_threads[MCU_SEC_PROXY] = J722S_MCU_SEC_PROXY_THREADS;
+
+	soc_info.host_id = 13;
+	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
+}
+
 static void j784s4_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
@@ -407,6 +436,9 @@ int soc_init(uint32_t host_id)
 	case J784S4:
 		soc_info.soc_name = "J784S4";
 		break;
+	case J722S:
+		soc_info.soc_name = "J722S";
+		break;
 	default:
 		fprintf(stderr, "Unknown Silicon %d\n", soc);
 		return SOC_INFO_UNKNOWN_SILICON;
@@ -446,6 +478,8 @@ int soc_init(uint32_t host_id)
 		am62px_init();
 	else if (soc == J784S4)
 		j784s4_init();
+	else if (soc == J722S)
+		j722s_init();
 
 	if (host_id != INVALID_HOST_ID)
 		soc_info.host_id = host_id;
