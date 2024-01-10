@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 project(k3conf C)
+option(static_exe "Build statically linked executable" OFF)
 
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 3)
@@ -125,5 +126,10 @@ target_include_directories(k3conf PUBLIC
 )
 
 target_compile_options(k3conf PRIVATE -Wall;-Wextra;-Wpedantic;-Wno-missing-field-initializers)
+
+if(static_exe)
+	target_link_libraries(k3conf -static)
+endif()
+
 
 install(TARGETS k3conf RUNTIME DESTINATION bin)

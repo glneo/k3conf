@@ -44,8 +44,18 @@ Build Instructions:
 * Copy the output binary `k3conf` to your Filesystem. That's it!!
 
 
+Build Instructions for static linked binary:
+--------------------------------------------
+
+* The default k3conf binary generated is with shared library, alternatively to
+  build a static linked binary replace the `cmake` command in build
+  instructions with below command.
+
+        # cmake .. -Dstatic_exe=ON
+
+
 Help:
 -----
 
-Type `./k3conf --help` to get complete list of available commands and options.  
+* Type `./k3conf --help` to get complete list of available commands and options.  
 Note that in case of incorrect command/option, help will also be displayed.
