@@ -1,10 +1,6 @@
-###############################################################################
-#                                                                             #
-#                                   K3CONF                                    #
-#                                                                             #
-#    A Powerful Diagnostic Tool for Texas Instruments K3 based Processors     #
-###############################################################################
-
+K3CONF
+======
+A Powerful Diagnostic Tool for Texas Instruments K3 based Processors
 
 
 INTRODUCTION:
@@ -19,7 +15,6 @@ OMAPCONF that runs on legacy TI platforms.
 dimension. Use at your own risk. And keep the reset button in reach.
 
 
-
 SUPPORT:
 --------
 
@@ -27,34 +22,30 @@ K3CONF currently supports AM654, J721E, J7200, AM64x, AM62x, J721S2, J784S4,
 AM62Ax and AM62Px devices. Legacy OMAP and DRA7 platforms are not supported.
 
 
-
 Build Instructions:
 -------------------
 
-Install build dependencies (Debian based example):
+* Install build dependencies (Debian based example):
 
-	# sudo apt install build-essential cmake
+        # sudo apt install build-essential cmake
 
-If cross-compiling, install and set your cross-compiler:
+* If cross-compiling, install and set your cross-compiler:
 
-	# sudo apt install gcc-aarch64-linux-gnu
-	# export CC=aarch64-linux-gnu-gcc
+        # sudo apt install gcc-aarch64-linux-gnu
+        # export CC=aarch64-linux-gnu-gcc
 
-To build the output binary file run the following commands:
+* To build the output binary file run the following commands:
 
-	# mkdir build
-	# cd build
-	# cmake ..
-	# make
+        # mkdir build
+        # cd build
+        # cmake ..
+        # make
 
-Copy the output binary "k3conf" to your Filesystem.
-
-That's it!!
-
+* Copy the output binary `k3conf` to your Filesystem. That's it!!
 
 
 Help:
 -----
 
-Type "./k3conf --help" to get complete list of available commands and options.
+Type `./k3conf --help` to get complete list of available commands and options.  
 Note that in case of incorrect command/option, help will also be displayed.
