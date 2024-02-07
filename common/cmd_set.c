@@ -40,6 +40,7 @@
 #include <socinfo.h>
 #include <help.h>
 #include <k3conf.h>
+#include <inttypes.h>
 
 #define HELP_SET_PARENT_URL1 "http://downloads.ti.com/tisci/esd/latest/2_tisci_msgs/pm/clocks.html#power-management-clock-frequency-configuration-example-with-mux-programming"
 #define HELP_SET_PARENT_URL2 "http://downloads.ti.com/tisci/esd/latest/2_tisci_msgs/pm/clocks.html#tisci-msg-set-clock-parent"
@@ -60,7 +61,7 @@ static int set_clock(int argc, char *argv[])
 	if (ret != 1)
 		return -1;
 
-	ret = sscanf(argv[2], "%lu", &freq);
+	ret = sscanf(argv[2], "%" PRIu64, &freq);
 	if (ret != 1)
 		return -1;
 

@@ -41,6 +41,7 @@
 #include <help.h>
 #include <autoadjust_table.h>
 #include <k3conf.h>
+#include <inttypes.h>
 
 int dump_cpu_info(void)
 {
@@ -62,7 +63,7 @@ int dump_cpu_info(void)
 		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%s",
 			 ti_sci_cmd_get_device_status(p[row].dev_id));
 		ti_sci_cmd_get_clk_freq(p[row].dev_id, p[row].clk_id, &freq);
-		snprintf(table[found + 1][2], TABLE_MAX_ELT_LEN, "%lu", freq);
+		snprintf(table[found + 1][2], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 		found++;
 	}
 
@@ -96,7 +97,7 @@ int dump_clocks_info(int argc, char *argv[])
 		snprintf(table[row + 1][3], TABLE_MAX_ELT_LEN, "%s",
 			 ti_sci_cmd_get_clk_state(c[row].dev_id, c[row].clk_id));
 		ti_sci_cmd_get_clk_freq(c[row].dev_id, c[row].clk_id, &freq);
-		snprintf(table[row + 1][4], TABLE_MAX_ELT_LEN, "%lu", freq);
+		snprintf(table[row + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 	}
 
 	return autoadjust_table_print(table, row + 1, 5);
@@ -119,8 +120,8 @@ print_single_device:
 				TABLE_MAX_ELT_LEN);
 			ti_sci_cmd_get_clk_freq(c[row].dev_id, c[row].clk_id,
 						&freq);
-			snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%lu",
-				 freq);
+			snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN,
+				 "%" PRIu64, freq);
 			found++;
 		}
 	}
@@ -173,7 +174,7 @@ int dump_clock_parent_info(int argc, char *argv[])
 			ti_sci_cmd_get_clk_state(dev_id, c[row].clk_id),
 			TABLE_MAX_ELT_LEN);
 		ti_sci_cmd_get_clk_freq(c[row].dev_id, c[row].clk_id, &freq);
-		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%lu", freq);
+		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 
 		ti_sci_cmd_get_clk_parent(dev_id, clk_id, &parent_clk_id);
 		strncpy(clk_name, c[row].clk_name, TABLE_MAX_ELT_LEN);
@@ -223,7 +224,7 @@ int dump_clock_parent_info(int argc, char *argv[])
 			ti_sci_cmd_get_clk_state(dev_id, c[row].clk_id),
 			TABLE_MAX_ELT_LEN);
 		ti_sci_cmd_get_clk_freq(c[row].dev_id, c[row].clk_id, &freq);
-		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%lu", freq);
+		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 		found++;
 	}
 
@@ -310,7 +311,7 @@ static int dump_processors_info(int argc, char *argv[])
 		snprintf(table[row + 1][3], TABLE_MAX_ELT_LEN, "%s",
 			 ti_sci_cmd_get_device_status(p[row].dev_id));
 		ti_sci_cmd_get_clk_freq(p[row].dev_id, p[row].clk_id, &freq);
-		snprintf(table[row + 1][4], TABLE_MAX_ELT_LEN, "%lu", freq);
+		snprintf(table[row + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 	}
 
 	return autoadjust_table_print(table, row + 1, 5);
@@ -332,7 +333,7 @@ print_single_processor:
 		snprintf(table[found + 1][3], TABLE_MAX_ELT_LEN, "%s",
 			 ti_sci_cmd_get_device_status(p[row].dev_id));
 		ti_sci_cmd_get_clk_freq(p[row].dev_id, p[row].clk_id, &freq);
-		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%lu", freq);
+		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 		found++;
 		break;
 	}

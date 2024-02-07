@@ -379,7 +379,7 @@ int autoadjust_table_strncpy(
 	}
 	if (strlen(s) >= TABLE_MAX_ELT_LEN) {
 		fprintf(stderr, "%s(): "
-			"strlen(%s)=%lu >= TABLE_MAX_ELT_LEN (%u)!\n", __func__,
+			"strlen(%s)=%zu >= TABLE_MAX_ELT_LEN (%u)!\n", __func__,
 			s, strlen(s), TABLE_MAX_ELT_LEN);
 		return -3;
 	}
