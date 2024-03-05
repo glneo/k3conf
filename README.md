@@ -21,6 +21,9 @@ SUPPORT:
 K3CONF currently supports AM654, J721E, J7200, AM64x, AM62x, J721S2, J784S4,
 J722S, AM62Ax and AM62Px devices. Legacy OMAP and DRA7 platforms are not supported.
 
+This tool makes usage of /dev/mem. If your kernel doesn't have CONFIG_DEVMEM,
+or enables CONFIG_DEVMEM_STRICT_IO, it will not work well.
+
 Build Instructions:
 -------------------
 
