@@ -109,14 +109,16 @@ print_single_device:
 
 	for (row = 0; row < soc_info.sci_info.num_clocks; row++) {
 		if (dev_id == c[row].dev_id) {
+			const char *clk_state = ti_sci_cmd_get_clk_state(dev_id, c[row].clk_id);
+			if (!clk_state)
+				return -1;
 			snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5d",
 				 c[row].dev_id);
 			snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d",
 				 c[row].clk_id);
 			strncpy(table[found + 1][2], c[row].clk_name,
 				TABLE_MAX_ELT_LEN);
-			strncpy(table[found + 1][3],
-				ti_sci_cmd_get_clk_state(dev_id, c[row].clk_id),
+			strncpy(table[found + 1][3], clk_state,
 				TABLE_MAX_ELT_LEN);
 			ti_sci_cmd_get_clk_freq(c[row].dev_id, c[row].clk_id,
 						&freq);
