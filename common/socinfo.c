@@ -117,6 +117,8 @@
 #define DEVICE_ID_SPEED_MASK	(0x1f << 6)
 #define DEVICE_ID_TEMP_SHIFT	3
 #define DEVICE_ID_TEMP_MASK	(0x7 << 3)
+#define DEVICE_ID_PKG_SHIFT	0
+#define DEVICE_ID_PKG_MASK	    0x7
 
 #define CTRLMMR_WKUP_JTAG_ID		0x43000014
 #define JTAG_ID_VARIANT_SHIFT	28
@@ -407,6 +409,8 @@ int soc_init(uint32_t host_id)
 
 	uint32_t soc = (mmio_read_32(CTRLMMR_WKUP_JTAG_ID) &
 			JTAG_ID_PARTNO_MASK) >> JTAG_ID_PARTNO_SHIFT;
+	uint32_t pkg = (mmio_read_32(CTRLMMR_WKUP_JTAG_DEVICE_ID)
+			& DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
 	k3_soc_rev rev = (mmio_read_32(CTRLMMR_WKUP_JTAG_ID) &
 			JTAG_ID_VARIANT_MASK) >> JTAG_ID_VARIANT_SHIFT;
 
@@ -436,7 +440,18 @@ int soc_init(uint32_t host_id)
 		soc_info.soc_name = "AM62Px";
 		break;
 	case J784S4:
-		soc_info.soc_name = "J784S4";
+		switch (pkg) {
+			case DEVICE_ID_PKG_J784S4:
+				soc_info.soc_name = "J784S4";
+				break;
+			case DEVICE_ID_PKG_J742S2:
+				soc_info.soc_name = "J742S2";
+				break;
+			default:
+				fprintf(stderr, "Can't detect J784s4 vs J742S2. Unknown pkg %d\n",
+						pkg);
+				return SOC_INFO_UNKNOWN_SILICON;
+		}
 		break;
 	case J722S:
 		soc_info.soc_name = "J722S";

@@ -52,6 +52,9 @@
 #define J722S	0xbba0
 #define J784S4	0xbb80
 
+#define DEVICE_ID_PKG_J784S4 0x5
+#define DEVICE_ID_PKG_J742S2 0x7
+
 struct k3conf_soc_info {
 	const char *soc_name;
 	const char *rev_name;
