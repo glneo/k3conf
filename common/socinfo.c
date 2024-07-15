@@ -137,12 +137,14 @@ int soc_info_valid = 0;
 typedef enum {
 	REV_1,
 	REV_2,
+	REV_3,
 	REV_PG_MAX
 } k3_soc_rev;
 
 static const char *soc_revision_j721e[] = {
 	[REV_1] = " SR1.0",
 	[REV_2] = " SR1.1",
+	[REV_3] = " SR2.0",
 };
 
 static const char *soc_revision_generic[] = {
