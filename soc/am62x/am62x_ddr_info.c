@@ -34,14 +34,12 @@
 
 #include <ddr_perf.h>
 
-#define MAX_PERF_NUM_DDR_INSTANCES 1
-
-static uintptr_t am62_ddr_base_address[MAX_PERF_NUM_DDR_INSTANCES] = {
+static uintptr_t am62_ddr_base_address[] = {
 	0x0F300100,
 };
 
 struct ddr_perf_soc_info am62x_ddr_perf_info = {
-	.num_perf_insts = MAX_PERF_NUM_DDR_INSTANCES,
+	.num_perf_insts = ARRAY_SIZE(am62_ddr_base_address),
 	.burst_size = 32,
 	.perf_inst_base = am62_ddr_base_address,
 };

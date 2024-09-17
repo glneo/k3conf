@@ -38,6 +38,8 @@
 
 #include <stdint.h>
 
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+
 struct ddr_perf_soc_info {
 	uint8_t num_perf_insts;
 	uint8_t burst_size;
