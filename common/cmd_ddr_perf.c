@@ -152,25 +152,11 @@ int ddrbw_info(int argc, char *argv[])
 		}
 
 		for (int i = 0; i < pinfo->num_perf_insts; i++) {
-			uint32_t read_count = 0, write_count = 0;
+			uint32_t read_count = dcap[i].final_read - dcap[i].initial_read;
+			uint32_t write_count = dcap[i].final_write - dcap[i].initial_write;
 			uint32_t read_bytes = 0, write_bytes = 0;
 			uint64_t time = 0;
 			float read_bw = 0, write_bw = 0;
-
-			if (dcap[i].final_read < dcap[i].initial_read) {
-				/* wrap around case */
-				read_count = (0xFFFFFFFFu - dcap[i].final_read);
-				read_count += dcap[i].initial_read;
-			} else {
-				read_count = dcap[i].final_read - dcap[i].initial_read;
-			}
-			if (dcap[i].final_write < dcap[i].initial_write) {
-				/* wrap around case */
-				write_count = (0xFFFFFFFFu - dcap[i].final_write);
-				write_count += dcap[i].initial_write;
-			} else {
-				write_count = dcap[i].final_write - dcap[i].initial_write;
-			}
 
 			read_bytes = read_count * pinfo->burst_size;
 			write_bytes = write_count * pinfo->burst_size;
