@@ -68,12 +68,12 @@ static inline uintptr_t ctrl_reg_addr(struct ddr_perf_soc_info *pinfo, uint8_t i
 	return pinfo->perf_inst_base[inst] + PERF_CNT_SEL_REG_OFFSET;
 }
 
-static inline uintptr_t read_counter_addr(struct ddr_perf_soc_info *pinfo, uint8_t inst)
+static inline uintptr_t write_counter_addr(struct ddr_perf_soc_info *pinfo, uint8_t inst)
 {
 	return pinfo->perf_inst_base[inst] + PERF_CTR0_REG_OFFSET;
 }
 
-static inline uintptr_t write_counter_addr(struct ddr_perf_soc_info *pinfo, uint8_t inst)
+static inline uintptr_t read_counter_addr(struct ddr_perf_soc_info *pinfo, uint8_t inst)
 {
 	return pinfo->perf_inst_base[inst] + PERF_CTR1_REG_OFFSET;
 }
@@ -118,7 +118,7 @@ int ddrbw_info(int argc, char *argv[])
 		return -2;
 	}
 
-	/* Set counter 0 and 1 to read and write resp. */
+	/* Set counter 0 and 1 to write and read resp. */
 	for (int i = 0; i < pinfo->num_perf_insts; i++) {
 		mmio_write_32(ctrl_reg_addr(pinfo, i), PERF_DDR_STATS_CTR1 << 8 |
 			      PERF_DDR_STATS_CTR0 << 0);
