@@ -40,6 +40,6 @@ static uintptr_t am62_ddr_base_address[] = {
 
 struct ddr_perf_soc_info am62x_ddr_perf_info = {
 	.num_perf_insts = ARRAY_SIZE(am62_ddr_base_address),
-	.burst_size = 32,
+	.burst_size = 16,
 	.perf_inst_base = am62_ddr_base_address,
 };
