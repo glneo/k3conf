@@ -58,6 +58,7 @@ set(K3CONF_SOURCES
 	soc/am64x/am64x_devices_info.c
 	soc/am64x/am64x_clocks_info.c
 	soc/am64x/am64x_rm_info.c
+	soc/am64x/am64x_ddr_info.c
 
 # AM62x
 	soc/am62x/am62x_devices_info.c
