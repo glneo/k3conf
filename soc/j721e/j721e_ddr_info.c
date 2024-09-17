@@ -34,14 +34,12 @@
 
 #include <ddr_perf.h>
 
-#define MAX_PERF_NUM_DDR_INSTANCES 1
-
-static uintptr_t j721e_ddr_base_address[MAX_PERF_NUM_DDR_INSTANCES] = {
+static uintptr_t j721e_ddr_base_address[] = {
 	0x02980100,
 };
 
 struct ddr_perf_soc_info j721e_ddr_perf_info = {
-	.num_perf_insts = MAX_PERF_NUM_DDR_INSTANCES,
+	.num_perf_insts = ARRAY_SIZE(j721e_ddr_base_address),
 	.burst_size = 64,
 	.perf_inst_base = j721e_ddr_base_address,
 };

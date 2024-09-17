@@ -46,7 +46,6 @@
 #include <autoadjust_table.h>
 
 #define TO_USEC(ts)			((ts).tv_sec * 1000000 + (ts).tv_nsec / 1000)
-#define MAX_PERF_NUM_DDR_INSTANCES	(4u)
 /* A value of 0x00 configures counter 0 to return number of write transactions */
 #define PERF_DDR_STATS_CTR0		(0x00)
 /* A value of 0x01 configures counter 1 to return number of read transactions */
