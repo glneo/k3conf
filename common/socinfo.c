@@ -69,6 +69,7 @@
 #include <soc/am64x/am64x_devices_info.h>
 #include <soc/am64x/am64x_clocks_info.h>
 #include <soc/am64x/am64x_rm_info.h>
+#include <soc/am64x/am64x_ddr_info.h>
 #include <soc/am62x/am62x_devices_info.h>
 #include <soc/am62x/am62x_clocks_info.h>
 #include <soc/am62x/am62x_host_info.h>
@@ -286,6 +287,7 @@ static void am64x_init(void)
 	sci_info->num_res = AM64X_MAX_RES;
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
+	soc_info.ddr_perf_info = &am64x_ddr_perf_info;
 }
 
 static void am62x_init(void)
