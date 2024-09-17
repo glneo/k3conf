@@ -154,21 +154,21 @@ int ddrbw_info(int argc, char *argv[])
 		for (int i = 0; i < pinfo->num_perf_insts; i++) {
 			uint32_t read_count = dcap[i].final_read - dcap[i].initial_read;
 			uint32_t write_count = dcap[i].final_write - dcap[i].initial_write;
-			uint32_t read_bytes = 0, write_bytes = 0;
 			uint64_t time = 0;
 			float read_bw = 0, write_bw = 0;
 
-			read_bytes = read_count * pinfo->burst_size;
-			write_bytes = write_count * pinfo->burst_size;
+			float read_bytes = (float)read_count * pinfo->burst_size;
+			float write_bytes = (float)write_count * pinfo->burst_size;
+
 			time = TO_USEC(dcap[i].last_time) - TO_USEC(dcap[i].first_time);
 			read_bw = read_bytes / time;
 			write_bw = write_bytes / time;
 
 			snprintf(table[i + 1][0], TABLE_MAX_ELT_LEN, "DDR%d", i);
-			snprintf(table[i + 1][1], TABLE_MAX_ELT_LEN, "%u",
+			snprintf(table[i + 1][1], TABLE_MAX_ELT_LEN, "%.3f",
 				 read_bytes / 1000000u);
 			snprintf(table[i + 1][2], TABLE_MAX_ELT_LEN, "%.3f", read_bw);
-			snprintf(table[i + 1][3], TABLE_MAX_ELT_LEN, "%u",
+			snprintf(table[i + 1][3], TABLE_MAX_ELT_LEN, "%.3f",
 				 write_bytes / 1000000u);
 			snprintf(table[i + 1][4], TABLE_MAX_ELT_LEN, "%.3f", write_bw);
 		}
