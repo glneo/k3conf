@@ -76,6 +76,7 @@ set(K3CONF_SOURCES
 	soc/j721s2/j721s2_processors_info.c
 	soc/j721s2/j721s2_rm_info.c
 	soc/j721s2/j721s2_sec_proxy_info.c
+	soc/j721s2/j721s2_ddr_info.c
 
 # J784s4
 	soc/j784s4/j784s4_clocks_info.c

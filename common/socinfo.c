@@ -83,6 +83,7 @@
 #include <soc/j721s2/j721s2_processors_info.h>
 #include <soc/j721s2/j721s2_rm_info.h>
 #include <soc/j721s2/j721s2_sec_proxy_info.h>
+#include <soc/j721s2/j721s2_ddr_info.h>
 #include <soc/j784s4/j784s4_clocks_info.h>
 #include <soc/j784s4/j784s4_devices_info.h>
 #include <soc/j784s4/j784s4_host_info.h>
@@ -221,6 +222,7 @@ static void j721s2_init(void)
 	sci_info->num_processors = J721S2_MAX_PROCESSORS_IDS;
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
+	soc_info.ddr_perf_info = &j721s2_ddr_perf_info;
 }
 
 static void j721e_init(void)
