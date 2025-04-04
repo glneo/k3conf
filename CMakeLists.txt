@@ -100,6 +100,7 @@ set(K3CONF_SOURCES
 	soc/am62px/am62px_processors_info.c
 	soc/am62px/am62px_rm_info.c
 	soc/am62px/am62px_sec_proxy_info.c
+	soc/am62px/am62px_ddr_info.c
 
 # J722S
 	soc/j722s/j722s_clocks_info.c

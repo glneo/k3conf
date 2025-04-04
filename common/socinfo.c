@@ -101,6 +101,7 @@
 #include <soc/am62px/am62px_processors_info.h>
 #include <soc/am62px/am62px_rm_info.h>
 #include <soc/am62px/am62px_sec_proxy_info.h>
+#include <soc/am62px/am62px_ddr_info.h>
 #include <soc/j722s/j722s_clocks_info.h>
 #include <soc/j722s/j722s_devices_info.h>
 #include <soc/j722s/j722s_host_info.h>
@@ -403,6 +404,7 @@ static void am62px_init(void)
 
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
+	soc_info.ddr_perf_info = &am62px_ddr_perf_info;
 }
 
 int soc_init(uint32_t host_id)
