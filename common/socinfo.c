@@ -90,6 +90,7 @@
 #include <soc/j784s4/j784s4_processors_info.h>
 #include <soc/j784s4/j784s4_rm_info.h>
 #include <soc/j784s4/j784s4_sec_proxy_info.h>
+#include <soc/j784s4/j784s4_ddr_info.h>
 #include <soc/am62ax/am62ax_clocks_info.h>
 #include <soc/am62ax/am62ax_devices_info.h>
 #include <soc/am62ax/am62ax_host_info.h>
@@ -361,6 +362,7 @@ static void j784s4_init(void)
 
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
+	soc_info.ddr_perf_info = &j784s4_ddr_perf_info;
 }
 
 static void am62ax_init(void)

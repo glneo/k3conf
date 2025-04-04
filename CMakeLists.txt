@@ -85,6 +85,7 @@ set(K3CONF_SOURCES
 	soc/j784s4/j784s4_processors_info.c
 	soc/j784s4/j784s4_rm_info.c
 	soc/j784s4/j784s4_sec_proxy_info.c
+	soc/j784s4/j784s4_ddr_info.c
 
 # AM62Ax
 	soc/am62ax/am62ax_clocks_info.c
