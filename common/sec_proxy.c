@@ -37,7 +37,6 @@
 #include <stdint.h>
 #include <sec_proxy.h>
 #include <mmio.h>
-#include <error.h>
 #include <socinfo.h>
 #include <string.h>
 

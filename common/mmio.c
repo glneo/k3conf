@@ -40,7 +40,6 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <mmio.h>
-#include <error.h>
 
 #define MEMORY "/dev/mem"
 
