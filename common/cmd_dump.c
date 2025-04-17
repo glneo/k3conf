@@ -345,8 +345,8 @@ print_single_processor:
 	return autoadjust_table_print(table, found + 1, 5);
 }
 
-static int dump_rm_resource(u_int32_t type, u_int32_t subtype,
-			u_int32_t host_id, char *value)
+static int dump_rm_resource(uint32_t type, uint32_t subtype,
+			uint32_t host_id, char *value)
 {
 	struct ti_sci_rm_desc desc;
 	int ret;
