@@ -40,6 +40,7 @@
 #include <sec_proxy.h>
 
 #define TI_SCI_MSG_VERSION		0x0002
+#define TISCI_MSG_QUERY_MSMC		0x0020
 /* Device requests */
 #define TI_SCI_MSG_SET_DEVICE_STATE	0x0200
 #define TI_SCI_MSG_GET_DEVICE_STATE	0x0201
@@ -74,6 +75,14 @@ struct ti_sci_msg_resp_version {
 	uint16_t version;
 	uint8_t abi_major;
 	uint8_t abi_minor;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_resp_query_msmc {
+	struct ti_sci_msg_hdr hdr;
+	uint32_t msmc_start_low;
+	uint32_t msmc_start_high;
+	uint32_t msmc_end_low;
+	uint32_t msmc_end_high;
 } __attribute__ ((__packed__));
 
 struct ti_sci_secure_msg_hdr {

@@ -302,6 +302,25 @@ static int show_processors_info(void)
 	return autoadjust_table_print(table, row + 1, 3);
 }
 
+static int show_msmc_info(void)
+{
+	uint32_t s_h, s_l, e_h, e_l;
+	int ret;
+	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
+
+	ret = ti_sci_cmd_get_msmc(&s_l, &s_h, &e_l, &e_h);
+	if (ret)
+		return ret;
+
+	autoadjust_table_init(table);
+	strncpy(table[0][0], "MSMC_START_ADDRESS", TABLE_MAX_ELT_LEN);
+	strncpy(table[0][1], "MSMC_END_ADDRESS", TABLE_MAX_ELT_LEN);
+
+	snprintf(table[1][0], TABLE_MAX_ELT_LEN, "0x%08x%08x", s_h, s_l);
+	snprintf(table[1][1], TABLE_MAX_ELT_LEN, "0x%08x%08x", e_h, e_l);
+	return autoadjust_table_print(table, 2, 2);
+}
+
 int process_show_command(int argc, char *argv[])
 {
 	int ret;
@@ -347,6 +366,10 @@ int process_show_command(int argc, char *argv[])
 			fprintf(stderr, "Invalid device_id arguments\n");
 			help(HELP_SHOW_RM);
 		}
+	} else if (!strncmp(argv[0], "msmc", 4)) {
+		ret = show_msmc_info();
+		if (ret)
+			help(HELP_SHOW_MSMC);
 	} else if (!strcmp(argv[0], "--help")) {
 		help(HELP_SHOW);
 		return 0;

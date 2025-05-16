@@ -115,6 +115,8 @@ struct ti_sci_rm_desc {
 #define MAX_CLOCK_STATE_LENGTH		25
 
 int ti_sci_init(void);
+int ti_sci_cmd_get_msmc(uint32_t *s_l, uint32_t *s_h,
+			uint32_t *e_l, uint32_t *e_h);
 const char *ti_sci_cmd_get_device_status(uint32_t dev_id);
 int ti_sci_cmd_disable_device(uint32_t dev_id);
 int ti_sci_cmd_enable_device(uint32_t dev_id);

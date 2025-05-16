@@ -15,6 +15,7 @@ set(K3CONF_SOURCES
 	common/tisci/tisci_core.c
 	common/tisci/tisci_device.c
 	common/tisci/tisci_clock.c
+	common/tisci/tisci_msmc.c
 	common/autoadjust_table.c
 	common/cmd_show.c
 	common/cmd_dump.c

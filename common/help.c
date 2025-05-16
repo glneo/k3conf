@@ -135,6 +135,13 @@ void help(help_category cat)
 		printf("	k3conf show rm <dev_id>\n");
 		printf("		Prints resources managed by System firmware for corresponding device\n");
 	}
+	if ((cat == HELP_ALL) || (cat == HELP_SHOW) ||
+	    (cat == HELP_SHOW_MSMC)) {
+		printf("\n");
+		printf("	k3conf show msmc\n");
+		printf("		Prints the valid MSMC memory area if run on applicable SoC\n");
+		printf("		Shows this help message if MSMC is not valid for the SoC\n");
+	}
 	if ((cat == HELP_ALL) || (cat == HELP_DUMP) ||
 	    (cat == HELP_DUMP_DEVICE)) {
 		printf("\n");
