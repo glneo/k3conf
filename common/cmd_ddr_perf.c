@@ -112,7 +112,7 @@ int ddrbw_info(int argc, char *argv[])
 		}
 	}
 
-	dcap = calloc(sizeof(struct data_capture_per_inst), pinfo->num_perf_insts);
+	dcap = calloc(pinfo->num_perf_insts, sizeof(struct data_capture_per_inst));
 	if (dcap == NULL) {
 		fprintf(stderr, "Unable to allocate capture memory\n");
 		return -2;
