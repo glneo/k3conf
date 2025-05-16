@@ -75,7 +75,9 @@ int ti_sci_xfer_msg(struct k3_sec_proxy_msg *msg)
 int ti_sci_init(void)
 {
 	struct ti_sci_msg_resp_version *version;
+	struct ti_sci_msg_dm_resp_version *dmversion;
 	struct ti_sci_version_info *glb_ver;
+	struct ti_sci_dm_version_info *glb_dm_ver;
 	struct ti_sci_caps_info *glb_caps;
 	struct ti_sci_msg_resp_caps *caps;
 	uint8_t buf[SEC_PROXY_MAX_MSG_SIZE];
@@ -116,6 +118,36 @@ int ti_sci_init(void)
 	caps = (struct ti_sci_msg_resp_caps *)buf;
 	glb_caps->valid = 1;
 	glb_caps->fw_caps = caps->fw_caps;
+
+	/* DM version is ONLY valid if caps is set for split mode DM */
+	glb_dm_ver = &soc_info.sci_info.version.dm_info;
+	glb_dm_ver->valid = 0;
+	if (!(caps->fw_caps & 0x100))
+		return 0;
+
+	/* Add DM Version information as well */
+	memset(buf, 0, sizeof(buf));
+	ti_sci_setup_header((struct ti_sci_msg_hdr *)buf, TI_SCI_MSG_DM_VERSION,
+			    0);
+
+	msg.len = sizeof(struct ti_sci_msg_hdr);
+	msg.buf = buf;
+	ret = ti_sci_xfer_msg(&msg);
+	/* if we did not get a DM rev info.. ignore.. old firmware */
+	if (ret)
+		return 0;
+
+	dmversion = (struct ti_sci_msg_dm_resp_version *)buf;
+	glb_dm_ver->valid = 1;
+	glb_dm_ver->dm_version = dmversion->dm_version;
+	glb_dm_ver->sub_version = dmversion->sub_version;
+	glb_dm_ver->patch_version = dmversion->patch_version;
+	glb_dm_ver->abi_major = dmversion->abi_major;
+	glb_dm_ver->abi_minor = dmversion->abi_minor;
+	strncpy(glb_dm_ver->rm_pm_hal_version, dmversion->rm_pm_hal_version,
+		sizeof(glb_dm_ver->rm_pm_hal_version));
+	strncpy(glb_dm_ver->sci_server_version, dmversion->sci_server_version,
+		sizeof(glb_dm_ver->sci_server_version));
 
 	return 0;
 }

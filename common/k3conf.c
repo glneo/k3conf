@@ -99,6 +99,31 @@ void k3conf_print_version(FILE *stream)
 			 (int)sizeof(ver.firmware_description),
 			 ver.firmware_description);
 		row++;
+
+		if (ver.dm_info.valid) {
+			strncpy(table[row][0], "DM ABI Info", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
+				 "%d.%d", ver.dm_info.abi_major, ver.dm_info.abi_minor);
+			row++;
+
+			strncpy(table[row][0], "DM F/w rev", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
+				 "%d.%d.%d",
+				 ver.dm_info.dm_version,
+				 ver.dm_info.sub_version,
+				 ver.dm_info.patch_version);
+			row++;
+
+			strncpy(table[row][0], "DM Component rev", TABLE_MAX_ELT_LEN);
+			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
+				 "RM/PM HAL:'%.*s' SCI_SERV:'%.*s'",
+				 (int)sizeof(ver.dm_info.rm_pm_hal_version),
+				 ver.dm_info.rm_pm_hal_version,
+				 (int)sizeof(ver.dm_info.sci_server_version),
+				 ver.dm_info.sci_server_version);
+			row++;
+		}
+
 		if (ver.caps_info.valid && ver.caps_info.fw_caps) {
 			int i;
 			uint64_t fw_caps = ver.caps_info.fw_caps;

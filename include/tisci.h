@@ -43,12 +43,24 @@ struct ti_sci_caps_info {
 	uint64_t fw_caps;
 };
 
+struct ti_sci_dm_version_info {
+	uint8_t valid;
+	uint16_t dm_version;
+	uint8_t sub_version;
+	uint8_t patch_version;
+	uint8_t abi_major;
+	uint8_t abi_minor;
+	char rm_pm_hal_version[12];
+	char sci_server_version[26];
+};
+
 struct ti_sci_version_info {
 	uint8_t abi_major;
 	uint8_t abi_minor;
 	uint16_t firmware_version;
 	char firmware_description[32];
 	struct ti_sci_caps_info caps_info;
+	struct ti_sci_dm_version_info dm_info;
 };
 
 struct ti_sci_host_info {

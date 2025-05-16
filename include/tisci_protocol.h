@@ -40,6 +40,7 @@
 #include <sec_proxy.h>
 
 #define TI_SCI_MSG_VERSION		0x0002
+#define TI_SCI_MSG_DM_VERSION		0x000F
 #define TISCI_MSG_QUERY_MSMC		0x0020
 #define TISCI_MSG_QUERY_FW_CAPS		0x0022
 /* Device requests */
@@ -76,6 +77,17 @@ struct ti_sci_msg_resp_version {
 	uint16_t version;
 	uint8_t abi_major;
 	uint8_t abi_minor;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_dm_resp_version {
+       struct ti_sci_msg_hdr hdr;
+       uint16_t dm_version;
+       uint8_t sub_version;
+       uint8_t patch_version;
+       uint8_t abi_major;
+       uint8_t abi_minor;
+       char rm_pm_hal_version[12];
+       char sci_server_version[26];
 } __attribute__ ((__packed__));
 
 struct ti_sci_msg_resp_query_msmc {
