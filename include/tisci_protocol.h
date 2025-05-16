@@ -41,6 +41,7 @@
 
 #define TI_SCI_MSG_VERSION		0x0002
 #define TISCI_MSG_QUERY_MSMC		0x0020
+#define TISCI_MSG_QUERY_FW_CAPS		0x0022
 /* Device requests */
 #define TI_SCI_MSG_SET_DEVICE_STATE	0x0200
 #define TI_SCI_MSG_GET_DEVICE_STATE	0x0201
@@ -83,6 +84,11 @@ struct ti_sci_msg_resp_query_msmc {
 	uint32_t msmc_start_high;
 	uint32_t msmc_end_low;
 	uint32_t msmc_end_high;
+} __attribute__ ((__packed__));
+
+struct ti_sci_msg_resp_caps {
+       struct ti_sci_msg_hdr hdr;
+       uint64_t fw_caps;
 } __attribute__ ((__packed__));
 
 struct ti_sci_secure_msg_hdr {

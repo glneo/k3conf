@@ -52,6 +52,19 @@
 #define dprintf(format, ...)
 #endif
 
+#define MAX_CAPS_DECODE 9
+static const char *caps_array[MAX_CAPS_DECODE] = {
+	"GEN",
+	"DEEP_SLP",
+	"MCU_ONLY",
+	"STDBY",
+	"PART_IO",
+	"DM_MGD_LPM",
+	"IO+DDR_RET",
+	"IO_ISO",
+	"DM-SPLT"
+};
+
 void k3conf_print_version(FILE *stream)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
@@ -86,6 +99,23 @@ void k3conf_print_version(FILE *stream)
 			 (int)sizeof(ver.firmware_description),
 			 ver.firmware_description);
 		row++;
+		if (ver.caps_info.valid && ver.caps_info.fw_caps) {
+			int i;
+			uint64_t fw_caps = ver.caps_info.fw_caps;
+			char caps_str[TABLE_MAX_ELT_LEN];
+			strncpy(table[row][0], "F/w Capabilities", TABLE_MAX_ELT_LEN);
+			snprintf(caps_str, TABLE_MAX_ELT_LEN, "%#lx:", fw_caps);
+			for (i = 0; i < MAX_CAPS_DECODE  && fw_caps; i++ ) {
+				if (fw_caps & 0x1) {
+					char this_cap[TABLE_MAX_ELT_LEN - 1];
+					snprintf(this_cap, TABLE_MAX_ELT_LEN, " %s", caps_array[i]);
+					strncat(caps_str, this_cap, TABLE_MAX_ELT_LEN - 1);
+				}
+				fw_caps = fw_caps >> 1;
+			}
+			strncpy(table[row][1], caps_str, TABLE_MAX_ELT_LEN);
+			row++;
+		}
 	}
 
 no_chip_info:

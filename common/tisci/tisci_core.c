@@ -76,6 +76,8 @@ int ti_sci_init(void)
 {
 	struct ti_sci_msg_resp_version *version;
 	struct ti_sci_version_info *glb_ver;
+	struct ti_sci_caps_info *glb_caps;
+	struct ti_sci_msg_resp_caps *caps;
 	uint8_t buf[SEC_PROXY_MAX_MSG_SIZE];
 	struct k3_sec_proxy_msg msg;
 	int ret;
@@ -97,6 +99,23 @@ int ti_sci_init(void)
 	glb_ver->firmware_version = version->version;
 	strncpy(glb_ver->firmware_description, version->firmware_description,
 		sizeof(glb_ver->firmware_description));
+
+	glb_caps = &soc_info.sci_info.version.caps_info;
+	glb_caps->valid = 0;
+	memset(buf, 0, sizeof(buf));
+	ti_sci_setup_header((struct ti_sci_msg_hdr *)buf, TISCI_MSG_QUERY_FW_CAPS,
+			    0);
+
+	msg.len = sizeof(struct ti_sci_msg_hdr);
+	msg.buf = buf;
+	ret = ti_sci_xfer_msg(&msg);
+	/* if we did not get a caps info.. ignore.. old firmware */
+	if (ret)
+		return 0;
+
+	caps = (struct ti_sci_msg_resp_caps *)buf;
+	glb_caps->valid = 1;
+	glb_caps->fw_caps = caps->fw_caps;
 
 	return 0;
 }
