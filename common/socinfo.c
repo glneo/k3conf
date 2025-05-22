@@ -159,6 +159,161 @@ static const char *soc_revision_generic[] = {
 	[REV_2] = " SR2.0",
 };
 
+static uint32_t generic_get_jtag_device_id(void)
+{
+	uint32_t val;
+	char device_id[100];
+
+	val = mmio_read_32(CTRLMMR_WKUP_JTAG_DEVICE_ID);
+	snprintf(device_id, 100, "[0x%08x] ", val);
+
+	strncat(soc_info.dev_part_identifier, device_id, TABLE_MAX_ELT_LEN - 1);
+
+	return val;
+}
+
+static void generic_decode_device_id(uint32_t jtag_device_id)
+{
+	uint32_t fam;
+	uint32_t base;
+	char device_id[100];
+
+	/* Device ID */
+	fam = (jtag_device_id & DEVICE_ID_FAMILY_MASK) >> DEVICE_ID_FAMILY_SHIFT;
+	base = (jtag_device_id & DEVICE_ID_BASE_MASK) >> DEVICE_ID_BASE_SHIFT;
+	snprintf(device_id, 100, "fam: 0x%08x base: 0x%08x ", fam, base);
+
+	strncat(soc_info.dev_part_identifier, device_id, TABLE_MAX_ELT_LEN - 1);
+}
+
+static void generic_decode_device_id_v2(uint32_t jtag_device_id)
+{
+	uint32_t did;
+	char device_id[100];
+
+	/* Device ID */
+	did = (jtag_device_id & 0xFFFFE000) >> 13;
+	snprintf(device_id, 100, "0x%x ", did);
+
+	strncat(soc_info.dev_part_identifier, device_id, TABLE_MAX_ELT_LEN - 1);
+}
+
+static void generic_decode_safety(uint32_t jtag_device_id)
+{
+	uint32_t val;
+	char *safe;
+
+	val = (jtag_device_id & 0x1000) >> 12;
+	if (val)
+		safe = "Func-Safe ";
+	else
+		safe = "Non-Safe ";
+
+	strncat(soc_info.dev_part_identifier, safe, TABLE_MAX_ELT_LEN - 1);
+}
+
+static void generic_decode_secure(uint32_t jtag_device_id)
+{
+	uint32_t val;
+	char *secure;
+
+	val = (jtag_device_id & 0x800) >> 11;
+	if (val)
+		secure = "Non-Secure ";
+	else
+		secure = "Secure ";
+
+	strncat(soc_info.dev_part_identifier, secure, TABLE_MAX_ELT_LEN - 1);
+}
+
+static void generic_decode_speed(uint32_t jtag_device_id)
+{
+	uint32_t val;
+	char speed[100];
+
+	/* Speed designator */
+	val = (jtag_device_id & DEVICE_ID_SPEED_MASK) >> DEVICE_ID_SPEED_SHIFT;
+	snprintf(speed, 100, "'%c' Grade ", val - 1 + 'A');
+
+	strncat(soc_info.dev_part_identifier, speed, TABLE_MAX_ELT_LEN - 1);
+}
+
+static void generic_decode_temp(uint32_t jtag_device_id)
+{
+	uint32_t val;
+	char *temp;
+	char tmp_str[100];
+
+	val = (jtag_device_id & DEVICE_ID_TEMP_MASK) >> DEVICE_ID_TEMP_SHIFT;
+	switch (val) {
+		case 3:
+			temp = "0°C to 95°C ";
+			break;
+		case 4:
+			temp = "-40°C to 105°C ";
+			break;
+		case 5:
+			temp = "-40°C to 125°C";
+			break;
+		default:
+			temp = "Unknown";
+			break;
+	}
+	snprintf(tmp_str, 100, "%s ", temp);
+
+	strncat(soc_info.dev_part_identifier, tmp_str, TABLE_MAX_ELT_LEN - 1);
+}
+
+static uint32_t generic_decode_jtag_id(void)
+{
+	uint32_t jtag_id = generic_get_jtag_device_id();
+	if (!jtag_id)
+		return 0;
+	generic_decode_device_id(jtag_id);
+	generic_decode_speed(jtag_id);
+	generic_decode_temp(jtag_id);
+
+	return jtag_id;
+}
+
+static uint32_t generic_decode_jtag_id_v2(void)
+{
+	uint32_t jtag_id = generic_get_jtag_device_id();
+	if (!jtag_id)
+		return 0;
+	generic_decode_device_id_v2(jtag_id);
+	generic_decode_safety(jtag_id);
+	generic_decode_secure(jtag_id);
+	generic_decode_speed(jtag_id);
+	generic_decode_temp(jtag_id);
+
+	return jtag_id;
+}
+
+static void generic_get_die_id(void)
+{
+	uint32_t id0 = mmio_read_32(CTRLMMR_WKUP_DIE_ID0);
+	uint32_t id1 = mmio_read_32(CTRLMMR_WKUP_DIE_ID1);
+	uint32_t id2 = mmio_read_32(CTRLMMR_WKUP_DIE_ID2);
+	uint32_t id3 = mmio_read_32(CTRLMMR_WKUP_DIE_ID3);
+
+	snprintf(soc_info.die_id, TABLE_MAX_ELT_LEN - 1,
+		 "[0] 0x%08X [1] 0x%08x [2] 0x%08x [3] 0x%08x",
+		 id0, id1, id2, id3);
+}
+
+static void generic_tda_die_decode(void)
+{
+	uint32_t jtag_id;
+
+	generic_get_die_id();
+
+	jtag_id = generic_get_jtag_device_id();
+	if (!jtag_id)
+		return;
+	generic_decode_device_id(jtag_id);
+}
+
 static void am654_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
@@ -184,6 +339,9 @@ static void am654_init(void)
 static void am654_sr2_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
+	uint32_t jtag_id, val;
+	char *pkg;
+	char tmp_str[100];
 
 	sci_info->host_info = am65x_sr2_host_info;
 	sci_info->num_hosts = AM65X_SR2_MAX_HOST_IDS;
@@ -201,6 +359,23 @@ static void am654_sr2_init(void)
 	sci_info->num_res = AM65X_SR2_MAX_RES;
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
+
+	jtag_id = generic_decode_jtag_id();
+	val = (jtag_id & DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
+	switch (val) {
+		case 1:
+			pkg = "ACD";
+			break;
+		case 7:
+			pkg = "DIE only";
+			break;
+		default:
+			pkg = "Unknown";
+			break;
+	}
+	snprintf(tmp_str, 100, "%s Package ", pkg);
+
+	strncat(soc_info.dev_part_identifier, tmp_str, TABLE_MAX_ELT_LEN - 1);
 }
 
 static void j721s2_init(void)
@@ -224,6 +399,8 @@ static void j721s2_init(void)
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 	soc_info.ddr_perf_info = &j721s2_ddr_perf_info;
+
+	generic_tda_die_decode();
 }
 
 static void j721e_init(void)
@@ -247,6 +424,8 @@ static void j721e_init(void)
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 	soc_info.ddr_perf_info = &j721e_ddr_perf_info;
+
+	generic_tda_die_decode();
 }
 
 static void j7200_init(void)
@@ -270,11 +449,16 @@ static void j7200_init(void)
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 	soc_info.ddr_perf_info = &j7200_ddr_perf_info;
+
+	generic_tda_die_decode();
 }
 
 static void am64x_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
+	uint32_t jtag_id, val;
+	char *pkg;
+	char tmp_str[100];
 
 	sci_info->host_info = am64x_host_info;
 	sci_info->num_hosts = AM64X_MAX_HOST_IDS;
@@ -293,11 +477,31 @@ static void am64x_init(void)
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 	soc_info.ddr_perf_info = &am64x_ddr_perf_info;
+
+	jtag_id = generic_decode_jtag_id_v2();
+	val = (jtag_id & DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
+	switch (val) {
+		case 4:
+			pkg = "ALV";
+			break;
+		case 5:
+			pkg = "ALX";
+			break;
+		default:
+			pkg = "Unknown";
+			break;
+	}
+	snprintf(tmp_str, 100, "%s Package ", pkg);
+
+	strncat(soc_info.dev_part_identifier, tmp_str, TABLE_MAX_ELT_LEN - 1);
 }
 
 static void am62x_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
+	uint32_t jtag_id, val;
+	char *pkg;
+	char tmp_str[100];
 
 	sci_info->sp_info[MAIN_SEC_PROXY] = am62x_main_sp_info;
 	sci_info->num_sp_threads[MAIN_SEC_PROXY] = AM62X_MAIN_SEC_PROXY_THREADS;
@@ -316,6 +520,23 @@ static void am62x_init(void)
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 	soc_info.ddr_perf_info = &am62x_ddr_perf_info;
+
+	jtag_id = generic_decode_jtag_id_v2();
+	val = (jtag_id & DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
+	switch (val) {
+		case 1:
+			pkg = "ALW";
+			break;
+		case 6:
+			pkg = "AMC";
+			break;
+		default:
+			pkg = "Unknown";
+			break;
+	}
+	snprintf(tmp_str, 100, "%s Package ", pkg);
+
+	strncat(soc_info.dev_part_identifier, tmp_str, TABLE_MAX_ELT_LEN - 1);
 }
 
 static void j722s_init(void)
@@ -339,6 +560,8 @@ static void j722s_init(void)
 
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
+
+	generic_tda_die_decode();
 }
 
 static void j784s4_init(void)
@@ -363,11 +586,16 @@ static void j784s4_init(void)
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 	soc_info.ddr_perf_info = &j784s4_ddr_perf_info;
+
+	generic_tda_die_decode();
 }
 
 static void am62ax_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
+	uint32_t jtag_id, val;
+	char *pkg;
+	char tmp_str[100];
 
 	sci_info->clocks_info = am62ax_clocks_info;
 	sci_info->num_clocks = AM62AX_MAX_CLOCKS;
@@ -387,11 +615,28 @@ static void am62ax_init(void)
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 	soc_info.ddr_perf_info = &am62ax_ddr_perf_info;
+
+	jtag_id = generic_decode_jtag_id_v2();
+	val = (jtag_id & DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
+	switch (val) {
+		case 6:
+			pkg = "AMB";
+			break;
+		default:
+			pkg = "Unknown";
+			break;
+	}
+	snprintf(tmp_str, 100, "%s Package ", pkg);
+
+	strncat(soc_info.dev_part_identifier, tmp_str, TABLE_MAX_ELT_LEN - 1);
 }
 
 static void am62px_init(void)
 {
 	struct ti_sci_info *sci_info = &soc_info.sci_info;
+	uint32_t jtag_id, val;
+	char *pkg;
+	char tmp_str[100];
 
 	sci_info->clocks_info = am62px_clocks_info;
 	sci_info->num_clocks = AM62PX_MAX_CLOCKS;
@@ -411,6 +656,20 @@ static void am62px_init(void)
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 	soc_info.ddr_perf_info = &am62px_ddr_perf_info;
+
+	jtag_id = generic_decode_jtag_id_v2();
+	val = (jtag_id & DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
+	switch (val) {
+		case 6:
+			pkg = "AMH";
+			break;
+		default:
+			pkg = "Unknown";
+			break;
+	}
+	snprintf(tmp_str, 100, "%s Package ", pkg);
+
+	strncat(soc_info.dev_part_identifier, tmp_str, TABLE_MAX_ELT_LEN - 1);
 }
 
 int soc_init(uint32_t host_id)

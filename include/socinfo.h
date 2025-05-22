@@ -38,6 +38,7 @@
 
 #include <stdint.h>
 #include <tisci.h>
+#include <autoadjust_table.h>
 #include "sec_proxy.h"
 #include "ddr_perf.h"
 
@@ -58,6 +59,8 @@
 struct k3conf_soc_info {
 	const char *soc_name;
 	const char *rev_name;
+	char dev_part_identifier[TABLE_MAX_ELT_LEN];
+	char die_id[TABLE_MAX_ELT_LEN];
 	uint8_t host_id;
 	uint8_t ti_sci_enabled;
 	struct ti_sci_info sci_info;

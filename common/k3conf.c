@@ -91,6 +91,18 @@ void k3conf_print_version(FILE *stream)
 	snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%s%s", soc_info.soc_name, soc_info.rev_name);
 	row++;
 
+	if (strnlen(soc_info.dev_part_identifier, TABLE_MAX_ELT_LEN)) {
+		strncpy(table[row][0], "SoC identifiers", TABLE_MAX_ELT_LEN);
+		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%s", soc_info.dev_part_identifier);
+		row++;
+	}
+
+	if (strnlen(soc_info.die_id, TABLE_MAX_ELT_LEN)) {
+		strncpy(table[row][0], "DIE-ID", TABLE_MAX_ELT_LEN);
+		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "%s", soc_info.die_id);
+		row++;
+	}
+
 	if (soc_info.ti_sci_enabled) {
 		strncpy(table[row][0], "SYSFW", TABLE_MAX_ELT_LEN);
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
