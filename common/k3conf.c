@@ -145,7 +145,7 @@ void k3conf_print_version(FILE *stream)
 			for (i = 0; i < MAX_CAPS_DECODE  && fw_caps; i++ ) {
 				if (fw_caps & 0x1) {
 					char this_cap[TABLE_MAX_ELT_LEN - 1];
-					snprintf(this_cap, TABLE_MAX_ELT_LEN, " %s", caps_array[i]);
+					snprintf(this_cap, TABLE_MAX_ELT_LEN - 1, " %s", caps_array[i]);
 					strncat(caps_str, this_cap, TABLE_MAX_ELT_LEN - 1);
 				}
 				fw_caps = fw_caps >> 1;
