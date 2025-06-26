@@ -161,8 +161,8 @@ int ddrbw_info(int argc, char *argv[])
 			float write_mibytes = ((float)write_count * pinfo->burst_size) / (1024 * 1024);
 
 			time = TO_USEC(dcap[i].last_time) - TO_USEC(dcap[i].first_time);
-			read_bw = read_mibytes / time;
-			write_bw = write_mibytes / time;
+			read_bw = read_mibytes / (time / 1000000.0f);
+			write_bw = write_mibytes / (time / 1000000.0f);
 
 			snprintf(table[i + 1][0], TABLE_MAX_ELT_LEN, "DDR%d", i);
 			snprintf(table[i + 1][1], TABLE_MAX_ELT_LEN, "%.3f", read_mibytes);
