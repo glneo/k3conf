@@ -334,6 +334,7 @@ static void am654_init(void)
 	sci_info->num_res = AM65X_MAX_RES;
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
+	soc_info.protocol = TISCI;
 }
 
 static void am654_sr2_init(void)
@@ -359,6 +360,7 @@ static void am654_sr2_init(void)
 	sci_info->num_res = AM65X_SR2_MAX_RES;
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
+	soc_info.protocol = TISCI;
 
 	jtag_id = generic_decode_jtag_id();
 	val = (jtag_id & DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
@@ -399,6 +401,7 @@ static void j721s2_init(void)
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 	soc_info.ddr_perf_info = &j721s2_ddr_perf_info;
+	soc_info.protocol = TISCI;
 
 	generic_tda_die_decode();
 }
@@ -424,6 +427,7 @@ static void j721e_init(void)
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 	soc_info.ddr_perf_info = &j721e_ddr_perf_info;
+	soc_info.protocol = TISCI;
 
 	generic_tda_die_decode();
 }
@@ -449,6 +453,7 @@ static void j7200_init(void)
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 	soc_info.ddr_perf_info = &j7200_ddr_perf_info;
+	soc_info.protocol = TISCI;
 
 	generic_tda_die_decode();
 }
@@ -477,6 +482,7 @@ static void am64x_init(void)
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 	soc_info.ddr_perf_info = &am64x_ddr_perf_info;
+	soc_info.protocol = TISCI;
 
 	jtag_id = generic_decode_jtag_id_v2();
 	val = (jtag_id & DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
@@ -520,6 +526,7 @@ static void am62x_init(void)
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 	soc_info.ddr_perf_info = &am62x_ddr_perf_info;
+	soc_info.protocol = TISCI;
 
 	jtag_id = generic_decode_jtag_id_v2();
 	val = (jtag_id & DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
@@ -560,6 +567,7 @@ static void j722s_init(void)
 
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
+	soc_info.protocol = TISCI;
 
 	generic_tda_die_decode();
 }
@@ -586,6 +594,7 @@ static void j784s4_init(void)
 	soc_info.host_id = DEFAULT_HOST_ID;
 	soc_info.sec_proxy = &k3_generic_sec_proxy_base;
 	soc_info.ddr_perf_info = &j784s4_ddr_perf_info;
+	soc_info.protocol = TISCI;
 
 	generic_tda_die_decode();
 }
@@ -615,6 +624,7 @@ static void am62ax_init(void)
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 	soc_info.ddr_perf_info = &am62ax_ddr_perf_info;
+	soc_info.protocol = TISCI;
 
 	jtag_id = generic_decode_jtag_id_v2();
 	val = (jtag_id & DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
@@ -656,6 +666,7 @@ static void am62px_init(void)
 	soc_info.host_id = 13;
 	soc_info.sec_proxy = &k3_lite_sec_proxy_base;
 	soc_info.ddr_perf_info = &am62px_ddr_perf_info;
+	soc_info.protocol = TISCI;
 
 	jtag_id = generic_decode_jtag_id_v2();
 	val = (jtag_id & DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;

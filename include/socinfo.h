@@ -56,6 +56,11 @@
 #define DEVICE_ID_PKG_J784S4 0x5
 #define DEVICE_ID_PKG_J742S2 0x7
 
+typedef enum {
+	TISCI,
+	SCMI,
+} comm_protocol;
+
 struct k3conf_soc_info {
 	const char *soc_name;
 	const char *rev_name;
@@ -63,6 +68,7 @@ struct k3conf_soc_info {
 	char die_id[TABLE_MAX_ELT_LEN];
 	uint8_t host_id;
 	uint8_t ti_sci_enabled;
+	comm_protocol protocol;
 	struct ti_sci_info sci_info;
 	struct ddr_perf_soc_info *ddr_perf_info;
 	struct k3_sec_proxy_base *sec_proxy;
