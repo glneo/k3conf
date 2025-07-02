@@ -57,4 +57,23 @@ const char *scmi_cmd_get_device_status(uint32_t dev_id);
 int scmi_cmd_disable_device(uint32_t dev_id);
 int scmi_cmd_enable_device(uint32_t dev_id);
 
+#define SCMI_MAX_STAT_CODE_LEN	50
+#define SCMI_NUM_STAT_CODES	13
+
+static const char scmi_status_code[SCMI_NUM_STAT_CODES][SCMI_MAX_STAT_CODE_LEN] = {
+	"SUCCESS",
+	"NOT_SUPPORTED",
+	"INVALID_PARAMETERS",
+	"DENIED",
+	"NOT_FOUND",
+	"OUT_OF_RANGE",
+	"BUSY",
+	"COMMS_ERROR",
+	"GENERIC_ERROR",
+	"HARDWARE_ERROR",
+	"PROTOCOL_ERROR",
+	"IN_USE",
+	"PARTIAL_ERROR"
+};
+
 #endif
