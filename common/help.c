@@ -168,7 +168,7 @@ void help(help_category cat)
 	    (cat == HELP_ENABLE_DEVICE)) {
 		printf("\n");
 		printf("	k3conf enable device <dev_id>\n");
-		printf("		Enables the TISCI device and prints the status\n");
+		printf("		Enables the device and prints the status\n");
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_ENABLE) ||
 	    (cat == HELP_ENABLE_CLOCK)) {
@@ -180,7 +180,7 @@ void help(help_category cat)
 	    (cat == HELP_DISABLE_DEVICE)) {
 		printf("\n");
 		printf("	k3conf disable device <dev_id>\n");
-		printf("		Disables the TISCI device and prints the status\n");
+		printf("		Disables the device and prints the status\n");
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_DISABLE) ||
 	    (cat == HELP_DISABLE_CLOCK)) {

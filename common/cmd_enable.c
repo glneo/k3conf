@@ -25,7 +25,11 @@ static int enable_device(int argc, char *argv[])
 	if (ret != 1)
 		return -1;
 
-	ret = ti_sci_cmd_enable_device(dev_id);
+	if (soc_info.protocol == TISCI)
+		ret = ti_sci_cmd_enable_device(dev_id);
+	else
+		ret = scmi_cmd_enable_device(dev_id);
+
 	if (ret)
 		return ret;
 
@@ -68,6 +72,8 @@ int process_enable_command(int argc, char *argv[])
 		argv++;
 		ret = enable_device(argc, argv);
 		if (ret) {
+			if (soc_info.protocol == SCMI)
+				fprintf(stderr, "SCMI_ERROR: %s %d\n", scmi_status_code[-ret], ret);
 			fprintf(stderr, "Invalid device arguments\n");
 			help(HELP_ENABLE_DEVICE);
 		}
