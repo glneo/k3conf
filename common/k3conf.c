@@ -68,7 +68,7 @@ static const char *caps_array[MAX_CAPS_DECODE] = {
 void k3conf_print_version(FILE *stream)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
-	struct ti_sci_version_info ver = soc_info.sci_info.version;
+	struct ti_sci_version_info tisci_ver = soc_info.sci_info.version;
 	uint32_t row = 0;
 
 	if (stream == NULL) {
@@ -107,38 +107,38 @@ void k3conf_print_version(FILE *stream)
 		strncpy(table[row][0], "SYSFW", TABLE_MAX_ELT_LEN);
 		snprintf(table[row][1], TABLE_MAX_ELT_LEN,
 			 "ABI: %d.%d (firmware version 0x%04x '%.*s)')",
-			 ver.abi_major, ver.abi_minor, ver.firmware_version,
-			 (int)sizeof(ver.firmware_description),
-			 ver.firmware_description);
+			 tisci_ver.abi_major, tisci_ver.abi_minor, tisci_ver.firmware_version,
+			 (int)sizeof(tisci_ver.firmware_description),
+			 tisci_ver.firmware_description);
 		row++;
 
-		if (ver.dm_info.valid) {
+		if (tisci_ver.dm_info.valid) {
 			strncpy(table[row][0], "DM ABI Info", TABLE_MAX_ELT_LEN);
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
-				 "%d.%d", ver.dm_info.abi_major, ver.dm_info.abi_minor);
+				 "%d.%d", tisci_ver.dm_info.abi_major, tisci_ver.dm_info.abi_minor);
 			row++;
 
 			strncpy(table[row][0], "DM F/w rev", TABLE_MAX_ELT_LEN);
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
 				 "%d.%d.%d",
-				 ver.dm_info.dm_version,
-				 ver.dm_info.sub_version,
-				 ver.dm_info.patch_version);
+				 tisci_ver.dm_info.dm_version,
+				 tisci_ver.dm_info.sub_version,
+				 tisci_ver.dm_info.patch_version);
 			row++;
 
 			strncpy(table[row][0], "DM Component rev", TABLE_MAX_ELT_LEN);
 			snprintf(table[row][1], TABLE_MAX_ELT_LEN,
 				 "RM/PM HAL:'%.*s' SCI_SERV:'%.*s'",
-				 (int)sizeof(ver.dm_info.rm_pm_hal_version),
-				 ver.dm_info.rm_pm_hal_version,
-				 (int)sizeof(ver.dm_info.sci_server_version),
-				 ver.dm_info.sci_server_version);
+				 (int)sizeof(tisci_ver.dm_info.rm_pm_hal_version),
+				 tisci_ver.dm_info.rm_pm_hal_version,
+				 (int)sizeof(tisci_ver.dm_info.sci_server_version),
+				 tisci_ver.dm_info.sci_server_version);
 			row++;
 		}
 
-		if (ver.caps_info.valid && ver.caps_info.fw_caps) {
+		if (tisci_ver.caps_info.valid && tisci_ver.caps_info.fw_caps) {
 			int i;
-			uint64_t fw_caps = ver.caps_info.fw_caps;
+			uint64_t fw_caps = tisci_ver.caps_info.fw_caps;
 			char caps_str[TABLE_MAX_ELT_LEN];
 			strncpy(table[row][0], "F/w Capabilities", TABLE_MAX_ELT_LEN);
 			snprintf(caps_str, TABLE_MAX_ELT_LEN, "%#lx:", fw_caps);
