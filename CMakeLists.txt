@@ -19,6 +19,7 @@ set(K3CONF_SOURCES
 	common/tisci/tisci_msmc.c
 	common/scmi/scmi_raw_transport.c
 	common/scmi/scmi_core.c
+	common/scmi/scmi_device.c
 	common/autoadjust_table.c
 	common/cmd_show.c
 	common/cmd_dump.c
