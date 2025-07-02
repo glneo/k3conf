@@ -56,6 +56,7 @@ int scmi_init(void);
 const char *scmi_cmd_get_device_status(uint32_t dev_id);
 int scmi_cmd_disable_device(uint32_t dev_id);
 int scmi_cmd_enable_device(uint32_t dev_id);
+const char *scmi_cmd_get_clk_state(uint32_t clk_id, uint32_t flags);
 
 #define SCMI_MAX_STAT_CODE_LEN	50
 #define SCMI_NUM_STAT_CODES	13

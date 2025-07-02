@@ -20,6 +20,7 @@ set(K3CONF_SOURCES
 	common/scmi/scmi_raw_transport.c
 	common/scmi/scmi_core.c
 	common/scmi/scmi_device.c
+	common/scmi/scmi_clock.c
 	common/autoadjust_table.c
 	common/cmd_show.c
 	common/cmd_dump.c

@@ -16,6 +16,7 @@
 /* Protocol IDs */
 #define SCMI_BASE_ID	0x10
 #define SCMI_PWR_DOMAIN_ID	0x11
+#define SCMI_CLK_ID	0x14
 
 /* Message IDs */
 #define SCMI_GET_IMPL_VERS_MSG_ID	0x05
@@ -24,11 +25,17 @@
 #define SCMI_SET_PWR_DOMAIN_STATE_MSG_ID	0x04
 #define SCMI_GET_PWR_DOMAIN_STATE_MSG_ID	0x05
 
+/* Clock */
+#define SCMI_GET_CLK_STATE_MSG_ID	0x0B
+
 /* Message Types */
 #define SCMI_CMD_MSG_TYPE	0x00
 
 #define SCMI_DEVICE_STATE_ON	0x00000000
 #define SCMI_DEVICE_STATE_OFF	0x40000000
+
+#define SCMI_CLOCK_STATE_DISABLED	0
+#define SCMI_CLOCK_STATE_ENABLED	1
 
 struct scmi_msg_hdr {
 	uint32_t hdr;
@@ -56,6 +63,20 @@ struct scmi_msg_req_set_pwr_domain_state {
 	uint32_t flags;
 	uint32_t id;
 	uint32_t power_state;
+} __attribute__ ((__packed__));
+
+struct scmi_msg_req_get_clk_state {
+	struct scmi_msg_hdr hdr;
+	uint32_t id;
+	uint32_t flags;
+} __attribute__ ((__packed__));
+
+struct scmi_msg_resp_get_clk_state {
+	struct scmi_msg_hdr hdr;
+	int32_t status;
+	uint32_t attributes;
+	uint32_t config;
+	uint32_t extended_config_val;
 } __attribute__ ((__packed__));
 
 void scmi_setup_header(struct scmi_msg_hdr *msg_hdr, uint32_t protocol_id, uint32_t msg_id,
