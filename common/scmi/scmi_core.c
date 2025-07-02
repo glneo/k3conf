@@ -52,3 +52,24 @@ int scmi_xfer_msg(struct scmi_raw_msg *msg)
 	return 0;
 }
 
+int scmi_init(void)
+{
+	int ret;
+	struct scmi_raw_msg msg;
+	uint8_t buf[SCMI_RAW_MAX_MSG_SIZE];
+	struct scmi_msg_resp_impl_version *resp;
+
+	memset(buf, 0, sizeof(buf));
+	scmi_setup_header((struct scmi_msg_hdr *)buf, SCMI_BASE_ID, SCMI_GET_IMPL_VERS_MSG_ID,
+				SCMI_CMD_MSG_TYPE);
+	msg.len = sizeof(struct scmi_msg_hdr);
+	msg.buf = buf;
+	ret = scmi_xfer_msg(&msg);
+	if (ret)
+		return ret;
+
+	resp = (struct scmi_msg_resp_impl_version *)msg.buf;
+	soc_info.scmi_info.version.impl_version = resp->impl_version;
+
+	return 0;
+}

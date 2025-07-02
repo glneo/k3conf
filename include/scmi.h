@@ -52,4 +52,6 @@ struct arm_scmi_info {
 	uint32_t num_clocks;
 };
 
+int scmi_init(void);
+
 #endif
