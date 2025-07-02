@@ -38,6 +38,10 @@ struct arm_scmi_version_info {
 	uint32_t impl_version;
 };
 
+struct arm_scmi_raw_interface_info {
+	uint32_t max_rx_timeout_ms;
+};
+
 struct arm_scmi_info {
 	struct arm_scmi_version_info version;
 	struct arm_scmi_processors_info *processors_info;
