@@ -69,6 +69,7 @@ void k3conf_print_version(FILE *stream)
 {
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	struct ti_sci_version_info tisci_ver = soc_info.sci_info.version;
+	struct arm_scmi_version_info scmi_ver = soc_info.scmi_info.version;
 	uint32_t row = 0;
 
 	if (stream == NULL) {
@@ -153,6 +154,12 @@ void k3conf_print_version(FILE *stream)
 			strncpy(table[row][1], caps_str, TABLE_MAX_ELT_LEN);
 			row++;
 		}
+	}
+
+	if (soc_info.scmi_enabled) {
+		strncpy(table[row][0], "SCMI Implementation Version", TABLE_MAX_ELT_LEN);
+		snprintf(table[row][1], TABLE_MAX_ELT_LEN, "0x%x", scmi_ver.impl_version);
+		row++;
 	}
 
 no_chip_info:
