@@ -37,6 +37,7 @@
 #include <mmio.h>
 #include <string.h>
 #include <sec_proxy.h>
+#include <scmi_raw_interface.h>
 #include <soc/am65x/am65x_host_info.h>
 #include <soc/am65x/am65x_sec_proxy_info.h>
 #include <soc/am65x/am65x_processors_info.h>
@@ -782,9 +783,15 @@ int soc_init(uint32_t host_id)
 		soc_info.host_id = host_id;
 
 	/* ToDo: Add error if sec_proxy_init/sci_init is failed */
-	if(!k3_sec_proxy_init())
-		if (!ti_sci_init())
-			soc_info.ti_sci_enabled = 1;
+	if (soc_info.protocol == SCMI) {
+		if (!scmi_raw_init())
+			if (!scmi_init())
+				soc_info.scmi_enabled = 1;
+	} else {
+		if (!k3_sec_proxy_init())
+			if (!ti_sci_init())
+				soc_info.ti_sci_enabled = 1;
+	}
 
 	soc_info_valid = 1;
 	return 0;

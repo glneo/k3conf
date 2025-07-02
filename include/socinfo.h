@@ -69,6 +69,7 @@ struct k3conf_soc_info {
 	char die_id[TABLE_MAX_ELT_LEN];
 	uint8_t host_id;
 	uint8_t ti_sci_enabled;
+	uint8_t scmi_enabled;
 	comm_protocol protocol;
 	struct ti_sci_info sci_info;
 	struct arm_scmi_info scmi_info;
