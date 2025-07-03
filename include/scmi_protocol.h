@@ -28,6 +28,7 @@
 /* Clock */
 #define SCMI_SET_CLK_FREQ_MSG_ID	0x05
 #define SCMI_GET_CLK_FREQ_MSG_ID	0x06
+#define SCMI_SET_CLK_STATE_MSD_ID	0x07
 #define SCMI_GET_CLK_STATE_MSG_ID	0x0B
 
 /* Message Types */
@@ -65,6 +66,13 @@ struct scmi_msg_req_set_pwr_domain_state {
 	uint32_t flags;
 	uint32_t id;
 	uint32_t power_state;
+} __attribute__ ((__packed__));
+
+struct scmi_msg_req_set_clk_state {
+	struct scmi_msg_hdr hdr;
+	uint32_t id;
+	uint32_t attributes;
+	uint32_t ext_config_val;
 } __attribute__ ((__packed__));
 
 struct scmi_msg_req_get_clk_state {

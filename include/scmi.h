@@ -56,6 +56,8 @@ int scmi_init(void);
 const char *scmi_cmd_get_device_status(uint32_t dev_id);
 int scmi_cmd_disable_device(uint32_t dev_id);
 int scmi_cmd_enable_device(uint32_t dev_id);
+int scmi_cmd_enable_clk(uint32_t clk_id);
+int scmi_cmd_disable_clk(uint32_t clk_id);
 const char *scmi_cmd_get_clk_state(uint32_t clk_id, uint32_t flags);
 int scmi_cmd_set_clk_freq(uint32_t clk_id, uint64_t freq, uint32_t flags);
 int scmi_cmd_get_clk_freq(uint32_t clk_id, uint64_t *freq);
