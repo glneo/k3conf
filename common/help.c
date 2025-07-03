@@ -195,6 +195,7 @@ void help(help_category cat)
 		printf("\n");
 		printf("	k3conf set clock <dev_id> <clk_id> <freq>\n");
 		printf("		Sets the clock frequency and prints the status\n");
+		printf(HELP_DEV_ID_IGNORED);
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_SET) ||
 	    (cat == HELP_SET_CLOCK_PARENT)) {
