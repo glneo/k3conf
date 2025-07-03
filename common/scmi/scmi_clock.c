@@ -45,6 +45,27 @@ const char *scmi_cmd_get_clk_state(uint32_t clk_id, uint32_t flags)
 	}
 }
 
+int scmi_cmd_set_clk_freq(uint32_t clk_id, uint64_t freq, uint32_t flags)
+{
+	struct scmi_msg_req_set_clk_freq *req;
+	uint8_t buf[SCMI_RAW_MAX_MSG_SIZE];
+	struct scmi_raw_msg msg;
+
+	memset(buf, 0, sizeof(buf));
+	scmi_setup_header((struct scmi_msg_hdr *)buf, SCMI_CLK_ID,
+				SCMI_SET_CLK_FREQ_MSG_ID, SCMI_CMD_MSG_TYPE);
+
+	req = (struct scmi_msg_req_set_clk_freq *)buf;
+	req->id = clk_id;
+	req->flags = flags;
+	req->rate = freq;
+
+	msg.len = sizeof(*req);
+	msg.buf = buf;
+
+	return scmi_xfer_msg(&msg);
+}
+
 int scmi_cmd_get_clk_freq(uint32_t clk_id, uint64_t *freq)
 {
 	struct scmi_msg_resp_get_clk_freq *resp;
