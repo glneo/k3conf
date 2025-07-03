@@ -46,10 +46,17 @@ int dump_cpu_info(void)
 int dump_clocks_info(int argc, char *argv[])
 {
 	struct ti_sci_clocks_info *tisci_c = soc_info.sci_info.clocks_info;
+	struct arm_scmi_clocks_info *scmi_c = soc_info.scmi_info.clocks_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
-	uint32_t row = 0, dev_id;
+	uint32_t row = 0, dev_id, clk_id, num_clocks;
 	int found = 0, ret;
 	uint64_t freq;
+	const char *clk_status, *clk_name;
+
+	if (soc_info.protocol == TISCI)
+		num_clocks = soc_info.sci_info.num_clocks;
+	else
+		num_clocks = soc_info.scmi_info.num_clocks;
 
 	autoadjust_table_init(table);
 	strncpy(table[row][0], "Device ID", TABLE_MAX_ELT_LEN);
@@ -58,18 +65,32 @@ int dump_clocks_info(int argc, char *argv[])
 	strncpy(table[row][3], "Status", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][4], "Clock Frequency", TABLE_MAX_ELT_LEN);
 
-	if (argc)
+	/* only SoCs using TISCI have the option to print_single_device */
+	if (argc && soc_info.protocol == TISCI)
 		goto print_single_device;
 
-	for (row = 0; row < soc_info.sci_info.num_clocks; row++) {
-		snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
-			 tisci_c[row].dev_id);
+	for (row = 0; row < num_clocks; row++) {
+		if (soc_info.protocol == TISCI) {
+			clk_id = tisci_c[row].clk_id;
+			clk_name = tisci_c[row].clk_name;
+			clk_status = ti_sci_cmd_get_clk_state(tisci_c[row].dev_id, tisci_c[row].clk_id);
+			ti_sci_cmd_get_clk_freq(tisci_c[row].dev_id, tisci_c[row].clk_id, &freq);
+			/* TISCI first column is a dev_id */
+			snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
+				tisci_c[row].dev_id);
+		} else {
+			clk_id = scmi_c[row].clk_id;
+			clk_name = scmi_c[row].clk_name;
+			clk_status = scmi_cmd_get_clk_state(scmi_c[row].clk_id, 0);
+			scmi_cmd_get_clk_freq(scmi_c[row].clk_id, &freq);
+			/* SCMI clocks do not have associated dev_id, use dev_name instead. */
+			strncpy(table[row + 1][0], scmi_c[row].dev_name, TABLE_MAX_ELT_LEN);
+		}
 		snprintf(table[row + 1][1], TABLE_MAX_ELT_LEN, "%5d",
-			 tisci_c[row].clk_id);
-		strncpy(table[row + 1][2], tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
+			clk_id);
+		strncpy(table[row + 1][2], clk_name, TABLE_MAX_ELT_LEN);
 		snprintf(table[row + 1][3], TABLE_MAX_ELT_LEN, "%s",
-			 ti_sci_cmd_get_clk_state(tisci_c[row].dev_id, tisci_c[row].clk_id));
-		ti_sci_cmd_get_clk_freq(tisci_c[row].dev_id, tisci_c[row].clk_id, &freq);
+			clk_status);
 		snprintf(table[row + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 	}
 
@@ -502,6 +523,8 @@ int process_dump_command(int argc, char *argv[])
 		argv++;
 		ret = dump_clocks_info(argc, argv);
 		if (ret) {
+			if (soc_info.protocol == SCMI)
+				fprintf(stderr, "SCMI_ERROR: %s %d\n", scmi_status_code[-ret], ret);
 			fprintf(stderr, "Invalid clock arguments\n");
 			help(HELP_DUMP_CLOCK);
 		}
