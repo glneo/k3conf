@@ -82,7 +82,7 @@ void help(help_category cat)
 	    (cat == HELP_SHOW_DEVICE)) {
 		printf("\n");
 		printf("	k3conf show device\n");
-		printf("		Prints all the available TISCI devices\n");
+		printf("		Prints all the available devices\n");
 		printf("\n");
 		printf("	k3conf show device <dev_id>\n");
 		printf("		Prints the corresponding device id information\n");
