@@ -345,6 +345,9 @@ static int show_msmc_info(void)
 	int ret;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 
+	if (soc_info.protocol == SCMI)
+		return -1;
+
 	ret = ti_sci_cmd_get_msmc(&s_l, &s_h, &e_l, &e_h);
 	if (ret)
 		return ret;
@@ -417,8 +420,12 @@ int process_show_command(int argc, char *argv[])
 		}
 	} else if (!strncmp(argv[0], "msmc", 4)) {
 		ret = show_msmc_info();
-		if (ret)
-			help(HELP_SHOW_MSMC);
+		if (ret) {
+			if (soc_info.protocol == SCMI)
+				fprintf(stderr, "SCMI_ERROR: %s %d\n", scmi_status_code[-ret], ret);
+			else
+				help(HELP_SHOW_MSMC);
+		}
 	} else if (!strcmp(argv[0], "--help")) {
 		help(HELP_SHOW);
 		return 0;
