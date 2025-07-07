@@ -142,6 +142,7 @@ void help(help_category cat)
 		printf("\n");
 		printf("	k3conf dump parent_clock <dev_id> <clk_id>\n");
 		printf("		Prints the clock parent of provided clock\n");
+		printf(HELP_DEV_ID_IGNORED);
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_DUMP) ||
 	    (cat == HELP_DUMP_PROCESSOR)) {

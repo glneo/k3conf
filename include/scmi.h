@@ -52,6 +52,8 @@ struct arm_scmi_info {
 	uint32_t num_clocks;
 };
 
+#define SCMI_MAX_POS_PARENT_CLKS	20
+
 int scmi_init(void);
 const char *scmi_cmd_get_device_status(uint32_t dev_id);
 int scmi_cmd_disable_device(uint32_t dev_id);

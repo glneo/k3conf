@@ -146,12 +146,15 @@ print_single_device:
 int dump_clock_parent_info(int argc, char *argv[])
 {
 	struct ti_sci_clocks_info *tisci_c = soc_info.sci_info.clocks_info;
+	struct arm_scmi_clocks_info *scmi_c = soc_info.scmi_info.clocks_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	char clk_name[TABLE_MAX_ELT_LEN];
 	char clk_name_len = 0;
 	uint32_t row = 0, dev_id, clk_id, parent_clk_id = 0xffffffff;
+	uint32_t possible_parents[SCMI_MAX_POS_PARENT_CLKS], num_parents;
 	int found = 0, ret;
 	uint64_t freq;
+	const char *status;
 
 	if (argc != 2)
 		return -1;
@@ -173,26 +176,48 @@ int dump_clock_parent_info(int argc, char *argv[])
 	strncpy(table[row][3], "Status", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][4], "Clock Frequency", TABLE_MAX_ELT_LEN);
 
-	for (found = 1, row = 0; row < soc_info.sci_info.num_clocks; row++) {
-		if (dev_id != tisci_c[row].dev_id)
-			continue;
-		if (tisci_c[row].clk_id != clk_id)
-			continue;
-		snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5d", tisci_c[row].dev_id);
-		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", tisci_c[row].clk_id);
-		strncpy(table[found + 1][2], tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
-		strncpy(table[found + 1][3],
-			ti_sci_cmd_get_clk_state(dev_id, tisci_c[row].clk_id),
-			TABLE_MAX_ELT_LEN);
-		ti_sci_cmd_get_clk_freq(tisci_c[row].dev_id, tisci_c[row].clk_id, &freq);
+	if (soc_info.protocol == TISCI) {
+		for (found = 1, row = 0; row < soc_info.sci_info.num_clocks; row++) {
+			if (dev_id != tisci_c[row].dev_id)
+				continue;
+			if (tisci_c[row].clk_id != clk_id)
+				continue;
+			snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5d", tisci_c[row].dev_id);
+			snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", tisci_c[row].clk_id);
+			strncpy(table[found + 1][2], tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
+			strncpy(table[found + 1][3],
+				ti_sci_cmd_get_clk_state(dev_id, tisci_c[row].clk_id),
+				TABLE_MAX_ELT_LEN);
+			ti_sci_cmd_get_clk_freq(tisci_c[row].dev_id, tisci_c[row].clk_id, &freq);
+			snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
+
+			ti_sci_cmd_get_clk_parent(dev_id, clk_id, &parent_clk_id);
+			strncpy(clk_name, tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
+			clk_name_len = strnlen(clk_name, TABLE_MAX_ELT_LEN);
+			found++;
+
+			break;
+		}
+	} else {
+		/* dev_id is ignored for SoCs using SCMI */
+		found = 1;
+		ret = scmi_cmd_get_clk_freq(clk_id, &freq);
+		if (ret)
+			return ret;
+		status = scmi_cmd_get_clk_state(clk_id, 0);
+		if (status == NULL)
+			return -1;
+
+		strncpy(table[found + 1][0], scmi_c[clk_id].dev_name, TABLE_MAX_ELT_LEN);
+		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", clk_id);
+		strncpy(table[found + 1][2], scmi_c[clk_id].clk_name, TABLE_MAX_ELT_LEN);
+		strncpy(table[found + 1][3], status, TABLE_MAX_ELT_LEN);
 		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 
-		ti_sci_cmd_get_clk_parent(dev_id, clk_id, &parent_clk_id);
-		strncpy(clk_name, tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
+		scmi_cmd_get_clk_parent(clk_id, &parent_clk_id);
+		strncpy(clk_name, scmi_c[clk_id].clk_name, TABLE_MAX_ELT_LEN);
 		clk_name_len = strnlen(clk_name, TABLE_MAX_ELT_LEN);
 		found++;
-
-		break;
 	}
 
 	if (found == 1)
@@ -214,29 +239,61 @@ int dump_clock_parent_info(int argc, char *argv[])
 	strncpy(table[row][3], "Status", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][4], "Clock Frequency", TABLE_MAX_ELT_LEN);
 
-	for (found = 1, row = 0; row < soc_info.sci_info.num_clocks; row++) {
-		int found_parent = 0;
+	if (soc_info.protocol == TISCI) {
+		for (found = 1, row = 0; row < soc_info.sci_info.num_clocks; row++) {
+			int found_parent = 0;
 
-		if (dev_id != tisci_c[row].dev_id)
-			continue;
-		if (tisci_c[row].clk_id == clk_id)
-			continue;
+			if (dev_id != tisci_c[row].dev_id)
+				continue;
+			if (tisci_c[row].clk_id == clk_id)
+				continue;
 
-		if (tisci_c[row].clk_id == parent_clk_id)
-			found_parent = 1;
-		else if (strncmp(tisci_c[row].clk_name, clk_name, clk_name_len))
-			continue;
+			if (tisci_c[row].clk_id == parent_clk_id)
+				found_parent = 1;
+			else if (strncmp(tisci_c[row].clk_name, clk_name, clk_name_len))
+				continue;
 
-		snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5s",
-			 found_parent ? "==>" : "");
-		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", tisci_c[row].clk_id);
-		strncpy(table[found + 1][2], tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
-		strncpy(table[found + 1][3],
-			ti_sci_cmd_get_clk_state(dev_id, tisci_c[row].clk_id),
-			TABLE_MAX_ELT_LEN);
-		ti_sci_cmd_get_clk_freq(tisci_c[row].dev_id, tisci_c[row].clk_id, &freq);
-		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
-		found++;
+			snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5s",
+				found_parent ? "==>" : "");
+			snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", tisci_c[row].clk_id);
+			strncpy(table[found + 1][2], tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
+			strncpy(table[found + 1][3],
+				ti_sci_cmd_get_clk_state(dev_id, tisci_c[row].clk_id),
+				TABLE_MAX_ELT_LEN);
+			ti_sci_cmd_get_clk_freq(tisci_c[row].dev_id, tisci_c[row].clk_id, &freq);
+			snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
+			found++;
+		}
+	} else {
+		ret = scmi_cmd_get_clk_possible_parents(clk_id, &num_parents, possible_parents);
+		if (ret)
+			return ret;
+
+		for (found = 1, row = 0; row < num_parents; row++) {
+			int found_parent = 0;
+
+			if (strncmp(scmi_c[possible_parents[row]].clk_name, clk_name, clk_name_len))
+				continue;
+
+			if (possible_parents[row] == parent_clk_id)
+				found_parent = 1;
+
+			ret = scmi_cmd_get_clk_freq(possible_parents[row], &freq);
+			if (ret)
+				return ret;
+
+			status = scmi_cmd_get_clk_state(possible_parents[row], 0);
+			if (status == NULL)
+				return -1;
+
+			snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5s",
+				found_parent ? "==>" : "");
+			snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", possible_parents[row]);
+			strncpy(table[found + 1][2], scmi_c[possible_parents[row]].clk_name, TABLE_MAX_ELT_LEN);
+			strncpy(table[found + 1][3], status, TABLE_MAX_ELT_LEN);
+			snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
+			found++;
+		}
 	}
 
 	if (!found)
@@ -570,6 +627,8 @@ int process_dump_command(int argc, char *argv[])
 		argv++;
 		ret = dump_clock_parent_info(argc, argv);
 		if (ret) {
+			if (soc_info.protocol == SCMI)
+				fprintf(stderr, "SCMI_ERROR: %s %d\n", scmi_status_code[-ret], ret);
 			fprintf(stderr, "Invalid clock_parent arguments\n");
 			help(HELP_DUMP_CLOCK_PARENT);
 		}
