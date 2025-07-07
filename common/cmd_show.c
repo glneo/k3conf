@@ -102,9 +102,16 @@ static int show_sp_threads_info(void)
 static int show_clocks_info(int argc, char *argv[])
 {
 	struct ti_sci_clocks_info *tisci_c = soc_info.sci_info.clocks_info;
+	struct arm_scmi_clocks_info *scmi_c = soc_info.scmi_info.clocks_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
-	uint32_t row = 0, dev_id;
+	uint32_t row = 0, dev_id, clk_id, num_clks;
 	int found = 0, ret;
+	const char *clk_name, *clk_function;
+
+	if (soc_info.protocol == TISCI)
+		num_clks = soc_info.sci_info.num_clocks;
+	else
+		num_clks = soc_info.scmi_info.num_clocks;
 
 	autoadjust_table_init(table);
 	strncpy(table[row][0], "Device ID", TABLE_MAX_ELT_LEN);
@@ -112,16 +119,27 @@ static int show_clocks_info(int argc, char *argv[])
 	strncpy(table[row][2], "Clock Name", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][3], "Clock Function", TABLE_MAX_ELT_LEN);
 
-	if (argc)
+	/* only SoCs using TISCI have the option to print_single_device */
+	if (argc && soc_info.protocol == TISCI)
 		goto print_single_device;
 
-	for (row = 0; row < soc_info.sci_info.num_clocks; row++) {
-		snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
-			 tisci_c[row].dev_id);
+	for (row = 0; row < num_clks; row++) {
+		if (soc_info.protocol == TISCI) {
+			clk_id = tisci_c[row].clk_id;
+			clk_name = tisci_c[row].clk_name;
+			clk_function = tisci_c[row].clk_function;
+			snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
+				tisci_c[row].dev_id);
+		} else {
+			clk_id = scmi_c[row].clk_id;
+			clk_name = scmi_c[row].clk_name;
+			clk_function = scmi_c[row].clk_function;
+			strncpy(table[row + 1][0], scmi_c[row].dev_name, TABLE_MAX_ELT_LEN);
+		}
 		snprintf(table[row + 1][1], TABLE_MAX_ELT_LEN, "%5d",
-			 tisci_c[row].clk_id);
-		strncpy(table[row + 1][2], tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
-		strncpy(table[row + 1][3], tisci_c[row].clk_function, TABLE_MAX_ELT_LEN);
+			clk_id);
+		strncpy(table[row + 1][2], clk_name, TABLE_MAX_ELT_LEN);
+		strncpy(table[row + 1][3], clk_function, TABLE_MAX_ELT_LEN);
 	}
 
 	return autoadjust_table_print(table, row + 1, 4);

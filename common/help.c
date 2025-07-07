@@ -90,9 +90,10 @@ void help(help_category cat)
 	if ((cat == HELP_ALL) || (cat == HELP_SHOW) ||
 	    (cat == HELP_SHOW_CLOCK)) {
 		printf("\n	k3conf show clock\n");
-		printf("		Prints all the available TISCI clocks\n");
+		printf("		Prints all the available clocks\n");
 		printf("\n	k3conf show clock <dev_id>\n");
 		printf("		Prints the clocks for corresponding device id\n");
+		printf(HELP_DEV_ID_IGNORED);
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_SHOW) ||
 	    (cat == HELP_SHOW_PROCESSOR)) {
