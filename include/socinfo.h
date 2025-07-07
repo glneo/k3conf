@@ -38,6 +38,7 @@
 
 #include <stdint.h>
 #include <tisci.h>
+#include <scmi.h>
 #include <autoadjust_table.h>
 #include "sec_proxy.h"
 #include "ddr_perf.h"
@@ -70,6 +71,7 @@ struct k3conf_soc_info {
 	uint8_t ti_sci_enabled;
 	comm_protocol protocol;
 	struct ti_sci_info sci_info;
+	struct arm_scmi_info scmi_info;
 	struct ddr_perf_soc_info *ddr_perf_info;
 	struct k3_sec_proxy_base *sec_proxy;
 };
