@@ -248,6 +248,9 @@ static int show_rm_info(int argc, char *argv[])
 	uint32_t filter_type = 0, type, subtype, i, j, row;
 	char *subtype_name;
 
+	if (soc_info.protocol == SCMI)
+		return -1;
+
 	if (argc > 1)
 		return -1;
 	if (argc == 1)
@@ -405,8 +408,12 @@ int process_show_command(int argc, char *argv[])
 		argv++;
 		ret = show_rm_info(argc, argv);
 		if (ret) {
-			fprintf(stderr, "Invalid device_id arguments\n");
-			help(HELP_SHOW_RM);
+			if (soc_info.protocol == SCMI)
+				fprintf(stderr, "SCMI_ERROR: %s %d\n", scmi_status_code[-ret], ret);
+			else {
+				fprintf(stderr, "Invalid device_id arguments\n");
+				help(HELP_SHOW_RM);
+			}
 		}
 	} else if (!strncmp(argv[0], "msmc", 4)) {
 		ret = show_msmc_info();

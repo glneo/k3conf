@@ -448,6 +448,9 @@ static int dump_rm_info(int argc, char *argv[])
 	uint32_t i, j, row, col;
 	int ret;
 
+	if (soc_info.protocol == SCMI)
+		return -1;
+
 	if (argc > 0 && !strcmp(argv[0], "-h")) {
 
 		if (argc == 1)
@@ -581,8 +584,12 @@ int process_dump_command(int argc, char *argv[])
 		argv++;
 		ret = dump_rm_info(argc, argv);
 		if (ret) {
-			fprintf(stderr, "Invalid arguments\n");
-			help(HELP_DUMP_RM);
+			if (soc_info.protocol == SCMI)
+				fprintf(stderr, "SCMI_ERROR: %s %d\n", scmi_status_code[-ret], ret);
+			else {
+				fprintf(stderr, "Invalid arguments\n");
+				help(HELP_DUMP_RM);
+			}
 		}
 	} else if (!strcmp(argv[0], "--help")) {
 		help(HELP_DUMP);
