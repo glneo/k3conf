@@ -22,6 +22,9 @@ static int show_hosts_info(void)
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	uint32_t row = 0;
 
+	if (soc_info.protocol == SCMI)
+		return -1;
+
 	autoadjust_table_init(table);
 	strncpy(table[row][0], "Host ID", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][1], "Host Name", TABLE_MAX_ELT_LEN);
@@ -360,8 +363,12 @@ int process_show_command(int argc, char *argv[])
 
 	if (!strncmp(argv[0], "host", 4)) {
 		ret = show_hosts_info();
-		if (ret)
-			help(HELP_SHOW_HOST);
+		if (ret) {
+			if (soc_info.protocol == SCMI)
+				fprintf(stderr, "SCMI_ERROR: %s %d\n", scmi_status_code[-ret], ret);
+			else
+				help(HELP_SHOW_HOST);
+		}
 	} else if (!strncmp(argv[0], "thread", 6)) {
 		ret = show_sp_threads_info();
 		if (ret)
