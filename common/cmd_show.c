@@ -51,6 +51,9 @@ static int show_sp_threads_info(void)
 	struct ti_sci_sec_proxy_info *sp;
 	uint32_t row = 0, i;
 
+	if (soc_info.protocol == SCMI)
+		return -1;
+
 	autoadjust_table_init(table);
 	strncpy(table[row][0],
 		"Secure Proxy thread allocation for main_sec_proxy0",
@@ -371,8 +374,12 @@ int process_show_command(int argc, char *argv[])
 		}
 	} else if (!strncmp(argv[0], "thread", 6)) {
 		ret = show_sp_threads_info();
-		if (ret)
-			help(HELP_SHOW_SEC_PROXY);
+		if (ret) {
+			if (soc_info.protocol == SCMI)
+				fprintf(stderr, "SCMI_ERROR: %s %d\n", scmi_status_code[-ret], ret);
+			else
+				help(HELP_SHOW_SEC_PROXY);
+		}
 	} else if (!strncmp(argv[0], "device", 6)) {
 		argc--;
 		argv++;
