@@ -19,25 +19,40 @@
 int dump_cpu_info(void)
 {
 	struct ti_sci_processors_info *tisci_p = soc_info.sci_info.processors_info;
+	struct arm_scmi_processors_info *scmi_p = soc_info.scmi_info.processors_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
-	uint32_t row = 0, found = 0;
+	uint32_t row = 0, found = 0, num_procs;
 	uint64_t freq;
+
+	if (soc_info.protocol == TISCI)
+		num_procs = soc_info.sci_info.num_processors;
+	else
+		num_procs = soc_info.scmi_info.num_processors;
 
 	autoadjust_table_init(table);
 	strncpy(table[row][0], "Processor Name", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][1], "Processor State", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][2], "Processor Frequency", TABLE_MAX_ELT_LEN);
 
-	for (row = 0; row < soc_info.sci_info.num_processors; row++) {
-		if (strncmp(tisci_p[row].name, "A", 1))
-			continue;
-		strncpy(table[found + 1][0], tisci_p[row].name, TABLE_MAX_ELT_LEN);
-		/* ToDo: Should we get the state from proc ops */
-		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%s",
-			 ti_sci_cmd_get_device_status(tisci_p[row].dev_id));
-		ti_sci_cmd_get_clk_freq(tisci_p[row].dev_id, tisci_p[row].clk_id, &freq);
-		snprintf(table[found + 1][2], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
-		found++;
+	for (row = 0; row < num_procs; row++) {
+		if (soc_info.protocol == TISCI) {
+			if (strncmp(tisci_p[row].name, "A", 1))
+				continue;
+			strncpy(table[found + 1][0], tisci_p[row].name, TABLE_MAX_ELT_LEN);
+			/* ToDo: Should we get the state from proc ops */
+			snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%s",
+				ti_sci_cmd_get_device_status(tisci_p[row].dev_id));
+			ti_sci_cmd_get_clk_freq(tisci_p[row].dev_id, tisci_p[row].clk_id, &freq);
+			snprintf(table[found + 1][2], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
+			found++;
+		} else {
+			strncpy(table[found + 1][0], scmi_p[row].dev_name, TABLE_MAX_ELT_LEN);
+			snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%s",
+				"SCMI: NOT SUPPORTED");
+			scmi_cmd_get_clk_freq(scmi_p[row].clk_id, &freq);
+			snprintf(table[found + 1][2], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
+			found++;
+		}
 	}
 
 	return autoadjust_table_print(table, found + 1, 3);
