@@ -101,7 +101,7 @@ static int show_sp_threads_info(void)
 
 static int show_clocks_info(int argc, char *argv[])
 {
-	struct ti_sci_clocks_info *c = soc_info.sci_info.clocks_info;
+	struct ti_sci_clocks_info *tisci_c = soc_info.sci_info.clocks_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	uint32_t row = 0, dev_id;
 	int found = 0, ret;
@@ -117,11 +117,11 @@ static int show_clocks_info(int argc, char *argv[])
 
 	for (row = 0; row < soc_info.sci_info.num_clocks; row++) {
 		snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
-			 c[row].dev_id);
+			 tisci_c[row].dev_id);
 		snprintf(table[row + 1][1], TABLE_MAX_ELT_LEN, "%5d",
-			 c[row].clk_id);
-		strncpy(table[row + 1][2], c[row].clk_name, TABLE_MAX_ELT_LEN);
-		strncpy(table[row + 1][3], c[row].clk_function, TABLE_MAX_ELT_LEN);
+			 tisci_c[row].clk_id);
+		strncpy(table[row + 1][2], tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
+		strncpy(table[row + 1][3], tisci_c[row].clk_function, TABLE_MAX_ELT_LEN);
 	}
 
 	return autoadjust_table_print(table, row + 1, 4);
@@ -132,14 +132,14 @@ print_single_device:
 		return -1;
 
 	for (row = 0; row < soc_info.sci_info.num_clocks; row++) {
-		if (dev_id == c[row].dev_id) {
+		if (dev_id == tisci_c[row].dev_id) {
 			snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5d",
-				 c[row].dev_id);
+				 tisci_c[row].dev_id);
 			snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d",
-				 c[row].clk_id);
-			strncpy(table[found + 1][2], c[row].clk_name,
+				 tisci_c[row].clk_id);
+			strncpy(table[found + 1][2], tisci_c[row].clk_name,
 				TABLE_MAX_ELT_LEN);
-			strncpy(table[found + 1][3], c[row].clk_function, TABLE_MAX_ELT_LEN);
+			strncpy(table[found + 1][3], tisci_c[row].clk_function, TABLE_MAX_ELT_LEN);
 			found++;
 		}
 	}
