@@ -152,7 +152,7 @@ print_single_device:
 
 static int show_devices_info(int argc, char *argv[])
 {
-	struct ti_sci_devices_info *p = soc_info.sci_info.devices_info;
+	struct ti_sci_devices_info *tisci_p = soc_info.sci_info.devices_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	uint32_t row = 0, dev_id;
 	int found = 0, ret;
@@ -166,8 +166,8 @@ static int show_devices_info(int argc, char *argv[])
 
 	for (row = 0; row < soc_info.sci_info.num_devices; row++) {
 		snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
-			 p[row].dev_id);
-		strncpy(table[row + 1][1], p[row].name, TABLE_MAX_ELT_LEN);
+			 tisci_p[row].dev_id);
+		strncpy(table[row + 1][1], tisci_p[row].name, TABLE_MAX_ELT_LEN);
 	}
 
 	return autoadjust_table_print(table, row + 1, 2);
@@ -178,10 +178,10 @@ print_single_device:
 		return -1;
 
 	for (row = 0; row < soc_info.sci_info.num_devices; row++) {
-		if (dev_id == p[row].dev_id) {
+		if (dev_id == tisci_p[row].dev_id) {
 			snprintf(table[1][0], TABLE_MAX_ELT_LEN, "%5d",
-				 p[row].dev_id);
-			strncpy(table[1][1], p[row].name,
+				 tisci_p[row].dev_id);
+			strncpy(table[1][1], tisci_p[row].name,
 				TABLE_MAX_ELT_LEN);
 			found = 1;
 			break;
