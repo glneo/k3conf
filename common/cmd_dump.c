@@ -145,7 +145,7 @@ print_single_device:
 
 int dump_clock_parent_info(int argc, char *argv[])
 {
-	struct ti_sci_clocks_info *c = soc_info.sci_info.clocks_info;
+	struct ti_sci_clocks_info *tisci_c = soc_info.sci_info.clocks_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	char clk_name[TABLE_MAX_ELT_LEN];
 	char clk_name_len = 0;
@@ -174,21 +174,21 @@ int dump_clock_parent_info(int argc, char *argv[])
 	strncpy(table[row][4], "Clock Frequency", TABLE_MAX_ELT_LEN);
 
 	for (found = 1, row = 0; row < soc_info.sci_info.num_clocks; row++) {
-		if (dev_id != c[row].dev_id)
+		if (dev_id != tisci_c[row].dev_id)
 			continue;
-		if (c[row].clk_id != clk_id)
+		if (tisci_c[row].clk_id != clk_id)
 			continue;
-		snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5d", c[row].dev_id);
-		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", c[row].clk_id);
-		strncpy(table[found + 1][2], c[row].clk_name, TABLE_MAX_ELT_LEN);
+		snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5d", tisci_c[row].dev_id);
+		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", tisci_c[row].clk_id);
+		strncpy(table[found + 1][2], tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
 		strncpy(table[found + 1][3],
-			ti_sci_cmd_get_clk_state(dev_id, c[row].clk_id),
+			ti_sci_cmd_get_clk_state(dev_id, tisci_c[row].clk_id),
 			TABLE_MAX_ELT_LEN);
-		ti_sci_cmd_get_clk_freq(c[row].dev_id, c[row].clk_id, &freq);
+		ti_sci_cmd_get_clk_freq(tisci_c[row].dev_id, tisci_c[row].clk_id, &freq);
 		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 
 		ti_sci_cmd_get_clk_parent(dev_id, clk_id, &parent_clk_id);
-		strncpy(clk_name, c[row].clk_name, TABLE_MAX_ELT_LEN);
+		strncpy(clk_name, tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
 		clk_name_len = strnlen(clk_name, TABLE_MAX_ELT_LEN);
 		found++;
 
@@ -217,24 +217,24 @@ int dump_clock_parent_info(int argc, char *argv[])
 	for (found = 1, row = 0; row < soc_info.sci_info.num_clocks; row++) {
 		int found_parent = 0;
 
-		if (dev_id != c[row].dev_id)
+		if (dev_id != tisci_c[row].dev_id)
 			continue;
-		if (c[row].clk_id == clk_id)
+		if (tisci_c[row].clk_id == clk_id)
 			continue;
 
-		if (c[row].clk_id == parent_clk_id)
+		if (tisci_c[row].clk_id == parent_clk_id)
 			found_parent = 1;
-		else if (strncmp(c[row].clk_name, clk_name, clk_name_len))
+		else if (strncmp(tisci_c[row].clk_name, clk_name, clk_name_len))
 			continue;
 
 		snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5s",
 			 found_parent ? "==>" : "");
-		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", c[row].clk_id);
-		strncpy(table[found + 1][2], c[row].clk_name, TABLE_MAX_ELT_LEN);
+		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%5d", tisci_c[row].clk_id);
+		strncpy(table[found + 1][2], tisci_c[row].clk_name, TABLE_MAX_ELT_LEN);
 		strncpy(table[found + 1][3],
-			ti_sci_cmd_get_clk_state(dev_id, c[row].clk_id),
+			ti_sci_cmd_get_clk_state(dev_id, tisci_c[row].clk_id),
 			TABLE_MAX_ELT_LEN);
-		ti_sci_cmd_get_clk_freq(c[row].dev_id, c[row].clk_id, &freq);
+		ti_sci_cmd_get_clk_freq(tisci_c[row].dev_id, tisci_c[row].clk_id, &freq);
 		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 		found++;
 	}
