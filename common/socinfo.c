@@ -666,6 +666,33 @@ static void am62px_init(void)
 	strncat(soc_info.dev_part_identifier, tmp_str, TABLE_MAX_ELT_LEN - 1);
 }
 
+static void am62lx_init(void)
+{
+	uint32_t jtag_id, val;
+	char *pkg;
+	char tmp_str[100];
+
+	soc_info.protocol = SCMI;
+
+	jtag_id = generic_decode_jtag_id_v2();
+	val = (jtag_id & DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
+
+	switch (val) {
+		case 5:
+			pkg = "ANQ";
+			break;
+		case 6:
+			pkg = "ANB";
+			break;
+		default:
+			pkg = "Unknown";
+			break;
+	}
+
+	snprintf(tmp_str, 100, "%s Package ", pkg);
+	strncat(soc_info.dev_part_identifier, tmp_str, TABLE_MAX_ELT_LEN - 1);
+}
+
 int soc_init(uint32_t host_id)
 {
 	memset(&soc_info, 0, sizeof(soc_info));
@@ -702,6 +729,9 @@ int soc_init(uint32_t host_id)
 		break;
 	case AM62PX:
 		soc_info.soc_name = "AM62Px";
+		break;
+	case AM62LX:
+		soc_info.soc_name = "AM62Lx";
 		break;
 	case J784S4:
 		switch (pkg) {
@@ -761,6 +791,8 @@ int soc_init(uint32_t host_id)
 		am62ax_init();
 	else if (soc == AM62PX)
 		am62px_init();
+	else if (soc == AM62LX)
+		am62lx_init();
 	else if (soc == J784S4)
 		j784s4_init();
 	else if (soc == J722S)

@@ -19,6 +19,7 @@
 #define AM62X	0xbb7e
 #define AM62AX	0xbb8d
 #define AM62PX	0xbb9d
+#define AM62LX	0xbba7
 #define AM65X	0xbb5a
 #define J721E	0xbb64
 #define J7200	0xbb6d
