@@ -87,6 +87,7 @@
 #include <soc/j722s/j722s_sec_proxy_info.h>
 #include <soc/am62lx/am62lx_clocks_info.h>
 #include <soc/am62lx/am62lx_devices_info.h>
+#include <soc/am62lx/am62lx_ddr_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -671,7 +672,7 @@ static void am62px_init(void)
 static void am62lx_init(void)
 {
 	struct arm_scmi_info *scmi_info = &soc_info.scmi_info;
-	uint32_t jtag_id, val;
+	uint32_t jtag_id, val, ddr_type;
 	char *pkg;
 	char tmp_str[100];
 
@@ -698,6 +699,16 @@ static void am62lx_init(void)
 
 	snprintf(tmp_str, 100, "%s Package ", pkg);
 	strncat(soc_info.dev_part_identifier, tmp_str, TABLE_MAX_ELT_LEN - 1);
+
+	soc_info.ddr_perf_info = &am62lx_ddr_perf_info;
+
+	/* ddr type:
+	 *	0xA: ddr4, burst size is 16 bytes
+	 *	0xB: lpddr4, burst size is 32 bytes
+	 */
+	ddr_type = mmio_read_32(AM62LX_DDR_CLASS_REG);
+	ddr_type = AM62LX_DDR_CLASS_MASK(ddr_type);
+	soc_info.ddr_perf_info->burst_size = (ddr_type == AM62LX_DDR_TYPE_DDR4) ? 16 : 32;
 }
 
 int soc_init(uint32_t host_id)

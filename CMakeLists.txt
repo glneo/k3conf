@@ -122,6 +122,7 @@ set(K3CONF_SOURCES
 # AM62Lx
 	soc/am62lx/am62lx_clocks_info.c
 	soc/am62lx/am62lx_devices_info.c
+	soc/am62lx/am62lx_ddr_info.c
 )
 
 # Set build timestamp
