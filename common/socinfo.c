@@ -85,6 +85,7 @@
 #include <soc/j722s/j722s_processors_info.h>
 #include <soc/j722s/j722s_rm_info.h>
 #include <soc/j722s/j722s_sec_proxy_info.h>
+#include <soc/am62lx/am62lx_clocks_info.h>
 
 /* Assuming these addresses and definitions stay common across K3 devices */
 #define CTRLMMR_WKUP_JTAG_DEVICE_ID	0x43000018
@@ -668,10 +669,13 @@ static void am62px_init(void)
 
 static void am62lx_init(void)
 {
+	struct arm_scmi_info *scmi_info = &soc_info.scmi_info;
 	uint32_t jtag_id, val;
 	char *pkg;
 	char tmp_str[100];
 
+	scmi_info->clocks_info = am62lx_clocks_info;
+	scmi_info->num_clocks = AM62LX_MAX_CLOCKS;
 	soc_info.protocol = SCMI;
 
 	jtag_id = generic_decode_jtag_id_v2();

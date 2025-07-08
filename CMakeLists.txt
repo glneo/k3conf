@@ -118,6 +118,9 @@ set(K3CONF_SOURCES
 	soc/j722s/j722s_processors_info.c
 	soc/j722s/j722s_rm_info.c
 	soc/j722s/j722s_sec_proxy_info.c
+
+# AM62Lx
+	soc/am62lx/am62lx_clocks_info.c
 )
 
 # Set build timestamp
