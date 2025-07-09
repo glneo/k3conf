@@ -151,6 +151,26 @@ int scmi_cmd_get_clk_parent(uint32_t clk_id, uint32_t *parent_clk_id)
 	return 0;
 }
 
+int scmi_cmd_set_clk_parent(uint32_t clk_id, uint32_t parent_clk_id)
+{
+	struct scmi_msg_req_set_clk_parent *req;
+	uint8_t buf[SCMI_RAW_MAX_MSG_SIZE];
+	struct scmi_raw_msg msg;
+
+	memset(buf, 0, sizeof(buf));
+	scmi_setup_header((struct scmi_msg_hdr *)buf, SCMI_CLK_ID,
+				SCMI_SET_CLK_PARENT_MSG_ID, SCMI_CMD_MSG_TYPE);
+
+	req = (struct scmi_msg_req_set_clk_parent *)buf;
+	req->clk_id = clk_id;
+	req->parent_id = parent_clk_id;
+
+	msg.len = sizeof(*req);
+	msg.buf = buf;
+
+	return scmi_xfer_msg(&msg);
+}
+
 int scmi_cmd_get_clk_possible_parents(uint32_t clk_id, uint32_t *num_parents, uint32_t *parent_arr)
 {
 	struct scmi_msg_resp_get_clk_pos_parents *resp;

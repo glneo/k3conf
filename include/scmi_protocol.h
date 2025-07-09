@@ -31,6 +31,7 @@
 #define SCMI_SET_CLK_STATE_MSD_ID	0x07
 #define SCMI_GET_CLK_STATE_MSG_ID	0x0B
 #define SCMI_GET_CLK_POS_PARENTS_MSG_ID	0x0C
+#define SCMI_SET_CLK_PARENT_MSG_ID	0x0D
 #define SCMI_GET_CLK_PARENT_MSG_ID	0x0E
 
 /* Message Types */
@@ -119,6 +120,12 @@ struct scmi_msg_resp_get_clk_parent {
 	int32_t status;
 	uint32_t parent_id;
 } __attribute__((__packed__));
+
+struct scmi_msg_req_set_clk_parent {
+	struct scmi_msg_hdr hdr;
+	uint32_t clk_id;
+	uint32_t parent_id;
+} __attribute__ ((__packed__));
 
 struct scmi_msg_req_get_clk_pos_parents {
 	struct scmi_msg_hdr hdr;
