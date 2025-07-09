@@ -70,15 +70,27 @@ static int set_clock_parent(int argc, char *argv[])
 	if (ret != 1)
 		return -1;
 
-	ret = ti_sci_cmd_set_clk_parent(dev_id, clk_id, parent_clk_id);
+	if (soc_info.protocol == TISCI)
+		ret = ti_sci_cmd_set_clk_parent(dev_id, clk_id, parent_clk_id);
+	else {
+		/* dev_id is ignored for SoCs using SCMI */
+		ret = scmi_cmd_set_clk_parent(clk_id, parent_clk_id);
+	}
 	if (ret) {
 		fprintf(stderr, "Request to set parent failed: %d\n",ret);
 		fprintf(stderr, "Clock state is probably wrong!\n");
-		fprintf(stderr, "Clock state of clk_id %d: %s\n",
-			clk_id, ti_sci_cmd_get_clk_state(dev_id, clk_id));
-		fprintf(stderr, "Clock state of parent_clk_id %d: %s\n",
-			parent_clk_id,
-			ti_sci_cmd_get_clk_state(dev_id, parent_clk_id));
+		if (soc_info.protocol == TISCI) {
+			fprintf(stderr, "Clock state of clk_id %d: %s\n",
+				clk_id, ti_sci_cmd_get_clk_state(dev_id, clk_id));
+			fprintf(stderr, "Clock state of parent_clk_id %d: %s\n",
+				parent_clk_id,
+				ti_sci_cmd_get_clk_state(dev_id, parent_clk_id));
+		} else {
+			fprintf(stderr, "Clock state of clk_id %d: %s\n",
+				clk_id, scmi_cmd_get_clk_state(clk_id, 0));
+			fprintf(stderr, "Clock state of parent_clk_id %d: %s\n",
+				parent_clk_id, scmi_cmd_get_clk_state(parent_clk_id, 0));
+		}
 		fprintf(stderr, "\nRefer to:\n\t%s\n\t%s\n",
 			HELP_SET_PARENT_URL1, HELP_SET_PARENT_URL2);
 
@@ -112,10 +124,11 @@ int process_set_command(int argc, char *argv[])
 		argv++;
 		ret = set_clock_parent(argc, argv);
 		if (ret) {
-			if (ret == -1) {
+			if (soc_info.protocol == SCMI)
+				fprintf(stderr, "SCMI_ERROR: %s %d\n", scmi_status_code[-ret], ret);
+			if (ret == -1)
 				fprintf(stderr, "Invalid parent_clock arguments\n");
-				help(HELP_SET_CLOCK_PARENT);
-			}
+			help(HELP_SET_CLOCK_PARENT);
 		}
 	} else if (!strcmp(argv[0], "--help")) {
 		help(HELP_SET);

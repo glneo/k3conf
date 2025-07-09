@@ -211,6 +211,7 @@ void help(help_category cat)
 		printf("		Refer to the following documentation for preconditions:\n");
 		printf("		%s\n", HELP_CLK_SET_PARENT_URL1);
 		printf("		%s\n", HELP_CLK_SET_PARENT_URL2);
+		printf(HELP_DEV_ID_IGNORED);
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_READ)) {
 		printf("\n");
