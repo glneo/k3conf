@@ -119,7 +119,7 @@ void help(help_category cat)
 	    (cat == HELP_DUMP_DEVICE)) {
 		printf("\n");
 		printf("	k3conf dump device\n");
-		printf("		Prints device status of all the TISCI devices\n");
+		printf("		Prints device status of all the devices\n");
 		printf("\n");
 		printf("	k3conf dump device <dev_id>\n");
 		printf("		Prints the corresponding device id status\n");

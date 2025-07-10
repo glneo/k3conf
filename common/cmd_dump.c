@@ -212,9 +212,16 @@ int dump_clock_parent_info(int argc, char *argv[])
 int dump_devices_info(int argc, char *argv[])
 {
 	struct ti_sci_devices_info *tisci_p = soc_info.sci_info.devices_info;
+	struct arm_scmi_devices_info *scmi_p = soc_info.scmi_info.devices_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
-	uint32_t row = 0, dev_id;
+	uint32_t row = 0, dev_id, num_devices;
 	int found = 0, ret;
+	const char *dev_status, *dev_name;
+
+	if (soc_info.protocol == TISCI)
+		num_devices = soc_info.sci_info.num_devices;
+	else
+		num_devices = soc_info.scmi_info.num_devices;
 
 	autoadjust_table_init(table);
 	strncpy(table[row][0], "Device ID", TABLE_MAX_ELT_LEN);
@@ -224,12 +231,21 @@ int dump_devices_info(int argc, char *argv[])
 	if (argc)
 		goto print_single_device;
 
-	for (row = 0; row < soc_info.sci_info.num_devices; row++) {
+	for (row = 0; row < num_devices; row++) {
+		if (soc_info.protocol == TISCI) {
+			dev_id = tisci_p[row].dev_id;
+			dev_name = tisci_p[row].name;
+			dev_status = ti_sci_cmd_get_device_status(dev_id);
+		} else {
+			dev_id = scmi_p[row].dev_id;
+			dev_name = scmi_p[row].name;
+			dev_status = scmi_cmd_get_device_status(dev_id);
+		}
 		snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
-			 tisci_p[row].dev_id);
-		strncpy(table[row + 1][1], tisci_p[row].name, TABLE_MAX_ELT_LEN);
+			dev_id);
+		strncpy(table[row + 1][1], dev_name, TABLE_MAX_ELT_LEN);
 		snprintf(table[row + 1][2], TABLE_MAX_ELT_LEN, "%s",
-			 ti_sci_cmd_get_device_status(tisci_p[row].dev_id));
+			dev_status);
 	}
 
 	return autoadjust_table_print(table, row + 1, 3);
@@ -239,16 +255,29 @@ print_single_device:
 	if (ret != 1)
 		return -1;
 
-	for (row = 0; row < soc_info.sci_info.num_devices; row++) {
-		if (dev_id == tisci_p[row].dev_id) {
+	if (soc_info.protocol == TISCI) {
+		for (row = 0; row < num_devices; row++) {
+			if (dev_id == tisci_p[row].dev_id) {
+				snprintf(table[1][0], TABLE_MAX_ELT_LEN, "%5d",
+					tisci_p[row].dev_id);
+				strncpy(table[1][1], tisci_p[row].name,
+					TABLE_MAX_ELT_LEN);
+				snprintf(table[1][2], TABLE_MAX_ELT_LEN, "%s",
+					ti_sci_cmd_get_device_status(tisci_p[row].dev_id));
+				found = 1;
+				break;
+			}
+		}
+	} else {
+		dev_status = scmi_cmd_get_device_status(dev_id);
+		if (dev_status != NULL) {
 			snprintf(table[1][0], TABLE_MAX_ELT_LEN, "%5d",
-				 tisci_p[row].dev_id);
-			strncpy(table[1][1], tisci_p[row].name,
+				dev_id);
+			strncpy(table[1][1], scmi_p[dev_id].name,
 				TABLE_MAX_ELT_LEN);
 			snprintf(table[1][2], TABLE_MAX_ELT_LEN, "%s",
-				 ti_sci_cmd_get_device_status(tisci_p[row].dev_id));
+				dev_status);
 			found = 1;
-			break;
 		}
 	}
 
