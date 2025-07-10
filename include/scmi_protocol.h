@@ -21,6 +21,7 @@
 #define SCMI_GET_IMPL_VERS_MSG_ID	0x05
 
 /* Power Domain */
+#define SCMI_SET_PWR_DOMAIN_STATE_MSG_ID	0x04
 #define SCMI_GET_PWR_DOMAIN_STATE_MSG_ID	0x05
 
 /* Message Types */
@@ -47,6 +48,13 @@ struct scmi_msg_req_get_device_state {
 struct scmi_msg_resp_get_device_state {
 	struct scmi_msg_hdr hdr;
 	int32_t status;
+	uint32_t power_state;
+} __attribute__ ((__packed__));
+
+struct scmi_msg_req_set_pwr_domain_state {
+	struct scmi_msg_hdr hdr;
+	uint32_t flags;
+	uint32_t id;
 	uint32_t power_state;
 } __attribute__ ((__packed__));
 

@@ -54,5 +54,7 @@ struct arm_scmi_info {
 
 int scmi_init(void);
 const char *scmi_cmd_get_device_status(uint32_t dev_id);
+int scmi_cmd_disable_device(uint32_t dev_id);
+int scmi_cmd_enable_device(uint32_t dev_id);
 
 #endif
