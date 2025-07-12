@@ -1,7 +1,7 @@
 /*
  * J784S4 Sec Proxy Info
  *
- * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2022-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -221,15 +221,15 @@ struct ti_sci_sec_proxy_info j784s4_main_sp_info[] = {
 };
 
 struct ti_sci_sec_proxy_info j784s4_mcu_sp_info[] = {
-	{78, "read", 13, "DM", "nonsec_high_priority_rx"},
-	{77, "read", 13, "DM", "nonsec_low_priority_rx"},
-	{76, "read", 5, "DM", "nonsec_notify_resp_rx"},
-	{75, "write", 2, "DM", "nonsec_MCU_0_R5_0_notify_tx"},
-	{74, "write", 20, "DM", "nonsec_MCU_0_R5_0_response_tx"},
-	{73, "write", 1, "DM", "nonsec_MCU_0_R5_2_notify_tx"},
-	{72, "write", 2, "DM", "nonsec_MCU_0_R5_2_response_tx"},
-	{71, "write", 2, "DM", "nonsec_TIFS2DM_notify_tx"},
-	{70, "write", 4, "DM", "nonsec_TIFS2DM_response_tx"},
+	{80, "read", 13, "DM", "nonsec_high_priority_rx"},
+	{79, "read", 13, "DM", "nonsec_low_priority_rx"},
+	{78, "read", 5, "DM", "nonsec_notify_resp_rx"},
+	{77, "write", 2, "DM", "nonsec_MCU_0_R5_0_notify_tx"},
+	{76, "write", 20, "DM", "nonsec_MCU_0_R5_0_response_tx"},
+	{75, "write", 1, "DM", "nonsec_MCU_0_R5_2_notify_tx"},
+	{74, "write", 2, "DM", "nonsec_MCU_0_R5_2_response_tx"},
+	{73, "write", 2, "DM", "nonsec_TIFS2DM_notify_tx"},
+	{72, "write", 4, "DM", "nonsec_TIFS2DM_response_tx"},
 	{0, "read", 2, "MCU_0_R5_0", "notify"},
 	{1, "read", 20, "MCU_0_R5_0", "response"},
 	{2, "write", 10, "MCU_0_R5_0", "high_priority"},
@@ -260,9 +260,4 @@ struct ti_sci_sec_proxy_info j784s4_mcu_sp_info[] = {
 	{27, "write", 2, "TIFS2DM", "high_priority"},
 	{28, "write", 2, "TIFS2DM", "low_priority"},
 	{29, "write", 2, "TIFS2DM", "notify_resp"},
-	{30, "read", 1, "HSM", "notify"},
-	{31, "read", 2, "HSM", "response"},
-	{32, "write", 1, "HSM", "high_priority"},
-	{33, "write", 1, "HSM", "low_priority"},
-	{34, "write", 1, "HSM", "notify_resp"},
 };
