@@ -1,7 +1,7 @@
 /*
  * AM62AX Sec Proxy Info
  *
- * Copyright (C) 2023 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2023-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -68,7 +68,7 @@ struct ti_sci_sec_proxy_info am62ax_main_sp_info[] = {
 	{20, "read", 7, "C7X_0_0", "response"},
 	{21, "write", 5, "C7X_0_0", "low_priority"},
 	{22, "read", 4, "DM2TIFS", "response"},
-	{23, "write", 2, "DM2TIFS", "low_priority"},
+	{23, "write", 4, "DM2TIFS", "low_priority"},
 	{24, "read", 4, "TIFS2DM", "response"},
 	{25, "write", 2, "TIFS2DM", "low_priority"},
 };

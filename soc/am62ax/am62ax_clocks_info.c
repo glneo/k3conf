@@ -1,7 +1,7 @@
 /*
  * AM62AX Clocks Info
  *
- * Copyright (C) 2023 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2023-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -169,6 +169,8 @@ struct ti_sci_clocks_info am62ax_clocks_info[] = {
 	{157, 159, "DEV_BOARD0_WKUP_CLKOUT0_IN", "Input muxed clock"},
 	{157, 160, "DEV_BOARD0_WKUP_CLKOUT0_IN_PARENT_WKUP_CLKOUT_SEL_OUT0", "Parent input clock option to DEV_BOARD0_WKUP_CLKOUT0_IN"},
 	{157, 161, "DEV_BOARD0_WKUP_CLKOUT0_IN_PARENT_GLUELOGIC_HFOSC0_CLKOUT", "Parent input clock option to DEV_BOARD0_WKUP_CLKOUT0_IN"},
+	{157, 162, "DEV_BOARD0_CSI0_RXCLKP_OUT", "Output clock"},
+	{157, 163, "DEV_BOARD0_CSI0_RXCLKN_OUT", "Output clock"},
 	{208, 0, "DEV_C7X256V0_C7XV_CORE_0_C7XV_CLK", "Input clock"},
 	{211, 0, "DEV_C7X256V0_CLK_C7XV_CLK", "Input clock"},
 	{211, 1, "DEV_C7X256V0_CLK_C7XV_DIVH_CLK4_OBSCLK_OUT_CLK", "Output clock"},
@@ -344,9 +346,7 @@ struct ti_sci_clocks_info am62ax_clocks_info[] = {
 	{199, 0, "DEV_DMASS1_BCDMA_0_CLK", "Input clock"},
 	{200, 0, "DEV_DMASS1_INTAGGR_0_CLK", "Input clock"},
 	{185, 2, "DEV_DPHY_RX0_IO_RX_CL_L_M", "Input clock"},
-	{185, 2, "DEV_DPHY_RX0_IO_RX_CL_L_M", "Output clock"},
 	{185, 3, "DEV_DPHY_RX0_IO_RX_CL_L_P", "Input clock"},
-	{185, 3, "DEV_DPHY_RX0_IO_RX_CL_L_P", "Output clock"},
 	{185, 4, "DEV_DPHY_RX0_JTAG_TCK", "Input clock"},
 	{185, 5, "DEV_DPHY_RX0_MAIN_CLK_CLK", "Input clock"},
 	{185, 6, "DEV_DPHY_RX0_PPI_RX_BYTE_CLK", "Output clock"},
@@ -582,7 +582,7 @@ struct ti_sci_clocks_info am62ax_clocks_info[] = {
 	{35, 1, "DEV_MCU_TIMER0_TIMER_PWM", "Output clock"},
 	{35, 2, "DEV_MCU_TIMER0_TIMER_TCLK_CLK", "Input muxed clock"},
 	{35, 3, "DEV_MCU_TIMER0_TIMER_TCLK_CLK_PARENT_GLUELOGIC_HFOSC0_CLKOUT", "Parent input clock option to DEV_MCU_TIMER0_TIMER_TCLK_CLK"},
-	{35, 4, "DEV_MCU_TIMER0_TIMER_TCLK_CLK_PARENT_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK4", "Parent input clock option to DEV_MCU_TIMER0_TIMER_TCLK_CLK"},
+	{35, 4, "DEV_MCU_TIMER0_TIMER_TCLK_CLK_PARENT_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK2", "Parent input clock option to DEV_MCU_TIMER0_TIMER_TCLK_CLK"},
 	{35, 5, "DEV_MCU_TIMER0_TIMER_TCLK_CLK_PARENT_GLUELOGIC_RCOSC_CLKOUT", "Parent input clock option to DEV_MCU_TIMER0_TIMER_TCLK_CLK"},
 	{35, 6, "DEV_MCU_TIMER0_TIMER_TCLK_CLK_PARENT_POSTDIV1_16FFT_MCU_0_HSDIVOUT5_CLK", "Parent input clock option to DEV_MCU_TIMER0_TIMER_TCLK_CLK"},
 	{35, 7, "DEV_MCU_TIMER0_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT", "Parent input clock option to DEV_MCU_TIMER0_TIMER_TCLK_CLK"},
@@ -598,7 +598,7 @@ struct ti_sci_clocks_info am62ax_clocks_info[] = {
 	{49, 1, "DEV_MCU_TIMER2_TIMER_PWM", "Output clock"},
 	{49, 2, "DEV_MCU_TIMER2_TIMER_TCLK_CLK", "Input muxed clock"},
 	{49, 3, "DEV_MCU_TIMER2_TIMER_TCLK_CLK_PARENT_GLUELOGIC_HFOSC0_CLKOUT", "Parent input clock option to DEV_MCU_TIMER2_TIMER_TCLK_CLK"},
-	{49, 4, "DEV_MCU_TIMER2_TIMER_TCLK_CLK_PARENT_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK4", "Parent input clock option to DEV_MCU_TIMER2_TIMER_TCLK_CLK"},
+	{49, 4, "DEV_MCU_TIMER2_TIMER_TCLK_CLK_PARENT_SAM62_PLL_CTRL_WRAP_MCU_0_CHIP_DIV1_CLK_CLK2", "Parent input clock option to DEV_MCU_TIMER2_TIMER_TCLK_CLK"},
 	{49, 5, "DEV_MCU_TIMER2_TIMER_TCLK_CLK_PARENT_GLUELOGIC_RCOSC_CLKOUT", "Parent input clock option to DEV_MCU_TIMER2_TIMER_TCLK_CLK"},
 	{49, 6, "DEV_MCU_TIMER2_TIMER_TCLK_CLK_PARENT_POSTDIV1_16FFT_MCU_0_HSDIVOUT5_CLK", "Parent input clock option to DEV_MCU_TIMER2_TIMER_TCLK_CLK"},
 	{49, 7, "DEV_MCU_TIMER2_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT", "Parent input clock option to DEV_MCU_TIMER2_TIMER_TCLK_CLK"},
@@ -647,7 +647,7 @@ struct ti_sci_clocks_info am62ax_clocks_info[] = {
 	{228, 8, "DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK_PARENT_SAM62_PLL_CTRL_WRAP_MAIN_0_CHIP_DIV1_CLK_CLK", "Parent input clock option to DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK"},
 	{228, 9, "DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK_PARENT_CLK_32K_RC_SEL_OUT0", "Parent input clock option to DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK"},
 	{228, 10, "DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK_PARENT_HSDIV2_16FFT_MAIN_5_HSDIVOUT0_CLK", "Parent input clock option to DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK"},
-	{228, 11, "DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK_PARENT_SAM62A_C7XV_WRAP_MAIN_0_CLOCK_CONTROL_0_C7XV_DIVH_CLK4_OBSCK_", "Parent input clock option to DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK"},
+	{228, 11, "DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK_PARENT_SAM62A_C7XV_WRAP_MAIN_0_CLOCK_CONTROL_0_C7XV_DIVH_CLK4_OBSCLK", "Parent input clock option to DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK"},
 	{228, 12, "DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK_PARENT_HSDIV4_16FFT_MAIN_2_HSDIVOUT0_CLK", "Parent input clock option to DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK"},
 	{228, 13, "DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK_PARENT_SAM62A_A53_512KB_WRAP_MAIN_0_ARM_COREPACK_0_A53_DIVH_CLK4_OBS", "Parent input clock option to DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK"},
 	{228, 14, "DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK_PARENT_SAM62A_DDR_WRAP_MAIN_0_DDR_PLL_DIVH_CLK4_OBSCLK_OUT_CLK", "Parent input clock option to DEV_OBSCLK0_MUX_SEL_DEV_VD_CLK"},
@@ -879,7 +879,7 @@ struct ti_sci_clocks_info am62ax_clocks_info[] = {
 	{110, 3, "DEV_WKUP_TIMER0_TIMER_PWM", "Output clock"},
 	{110, 4, "DEV_WKUP_TIMER0_TIMER_TCLK_CLK", "Input muxed clock"},
 	{110, 5, "DEV_WKUP_TIMER0_TIMER_TCLK_CLK_PARENT_GLUELOGIC_HFOSC0_CLKOUT", "Parent input clock option to DEV_WKUP_TIMER0_TIMER_TCLK_CLK"},
-	{110, 6, "DEV_WKUP_TIMER0_TIMER_TCLK_CLK_PARENT_WKUP_CLKSEL_OUT04", "Parent input clock option to DEV_WKUP_TIMER0_TIMER_TCLK_CLK"},
+	{110, 6, "DEV_WKUP_TIMER0_TIMER_TCLK_CLK_PARENT_WKUP_CLKSEL_OUT02", "Parent input clock option to DEV_WKUP_TIMER0_TIMER_TCLK_CLK"},
 	{110, 7, "DEV_WKUP_TIMER0_TIMER_TCLK_CLK_PARENT_GLUELOGIC_RCOSC_CLKOUT", "Parent input clock option to DEV_WKUP_TIMER0_TIMER_TCLK_CLK"},
 	{110, 8, "DEV_WKUP_TIMER0_TIMER_TCLK_CLK_PARENT_POSTDIV1_16FFT_MCU_0_HSDIVOUT5_CLK", "Parent input clock option to DEV_WKUP_TIMER0_TIMER_TCLK_CLK"},
 	{110, 9, "DEV_WKUP_TIMER0_TIMER_TCLK_CLK_PARENT_BOARD_0_MCU_EXT_REFCLK0_OUT", "Parent input clock option to DEV_WKUP_TIMER0_TIMER_TCLK_CLK"},
