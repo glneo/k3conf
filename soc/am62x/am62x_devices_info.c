@@ -1,7 +1,7 @@
 /*
  * AM62X Devices Info
  *
- * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2022-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -88,12 +88,6 @@ struct ti_sci_devices_info am62x_devices_info[] = {
 	{62, "AM62X_DEV_EQEP2"},
 	{63, "AM62X_DEV_ESM0"},
 	{64, "AM62X_DEV_WKUP_ESM0"},
-	{65, "AM62X_DEV_SA3_SS0"},
-	{66, "AM62X_DEV_SA3_SS0_DMSS_ECCAGGR_0"},
-	{67, "AM62X_DEV_SA3_SS0_INTAGGR_0"},
-	{68, "AM62X_DEV_SA3_SS0_PKTDMA_0"},
-	{69, "AM62X_DEV_SA3_SS0_RINGACC_0"},
-	{70, "AM62X_DEV_SA3_SS0_SA_UL_0"},
 	{73, "AM62X_DEV_FSS0"},
 	{74, "AM62X_DEV_FSS0_FSAS_0"},
 	{75, "AM62X_DEV_FSS0_OSPI_0"},
@@ -125,9 +119,9 @@ struct ti_sci_devices_info am62x_devices_info[] = {
 	{114, "AM62X_DEV_WKUP_UART0"},
 	{116, "AM62X_DEV_MCRC64_0"},
 	{117, "AM62X_DEV_WKUP_RTCSS0"},
-	{118, "AM62X_DEV_R5FSS0_SS0"},
-	{119, "AM62X_DEV_R5FSS0"},
-	{121, "AM62X_DEV_R5FSS0_CORE0"},
+	{118, "AM62X_DEV_WKUP_R5FSS0_SS0"},
+	{119, "AM62X_DEV_WKUP_R5FSS0"},
+	{121, "AM62X_DEV_WKUP_R5FSS0_CORE0"},
 	{125, "AM62X_DEV_RTI0"},
 	{126, "AM62X_DEV_RTI1"},
 	{127, "AM62X_DEV_RTI2"},
@@ -140,7 +134,7 @@ struct ti_sci_devices_info am62x_devices_info[] = {
 	{136, "AM62X_DEV_A53SS0_CORE_1"},
 	{137, "AM62X_DEV_A53SS0_CORE_2"},
 	{138, "AM62X_DEV_A53SS0_CORE_3"},
-	{139, "AM62X_DEV_PSC0"},
+	{139, "AM62X_DEV_PSCSS0"},
 	{140, "AM62X_DEV_WKUP_PSC0"},
 	{141, "AM62X_DEV_MCSPI0"},
 	{142, "AM62X_DEV_MCSPI1"},
@@ -165,7 +159,7 @@ struct ti_sci_devices_info am62x_devices_info[] = {
 	{166, "AM62X_DEV_A53SS0"},
 	{167, "AM62X_DEV_COMPUTE_CLUSTER0_PBIST_0"},
 	{168, "AM62X_DEV_PSC0_FW_0"},
-	{169, "AM62X_DEV_PSC0_PSC_0"},
+	{169, "AM62X_DEV_PSC0"},
 	{170, "AM62X_DEV_DDR16SS0"},
 	{171, "AM62X_DEV_DEBUGSS0"},
 	{172, "AM62X_DEV_A53_RS_BW_LIMITER0"},
@@ -190,4 +184,6 @@ struct ti_sci_devices_info am62x_devices_info[] = {
 	{191, "AM62X_DEV_MCASP1"},
 	{192, "AM62X_DEV_MCASP2"},
 	{193, "AM62X_DEV_CLK_32K_RC_SEL_DEV_VD"},
+	{225, "AM62X_DEV_HSM0"},
+	{227, "AM62X_DEV_MCU_OBSCLK_MUX_SEL_DEV_VD"},
 };
