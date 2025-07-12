@@ -1,7 +1,7 @@
 /*
  * J721S2 Devices Info
  *
- * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2022-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -363,4 +363,21 @@ struct ti_sci_devices_info j721s2_devices_info[] = {
 	{372, "J721S2_DEV_FFI_MAIN_RC_CBASS_VD"},
 	{373, "J721S2_DEV_J7AEP_GPU_BXS464_WRAP0_GPUCORE_0"},
 	{374, "J721S2_DEV_DMPAC0_UTC_0"},
+	{375, "J721S2_DEV_ACSPCIE_BUFFER0"},
+	{376, "J721S2_DEV_MCU_TIMER1_CLKSEL_VD"},
+	{377, "J721S2_DEV_MCU_TIMER3_CLKSEL_VD"},
+	{378, "J721S2_DEV_MCU_TIMER5_CLKSEL_VD"},
+	{379, "J721S2_DEV_MCU_TIMER7_CLKSEL_VD"},
+	{380, "J721S2_DEV_MCU_TIMER9_CLKSEL_VD"},
+	{381, "J721S2_DEV_TIMER1_CLKSEL_VD"},
+	{382, "J721S2_DEV_TIMER3_CLKSEL_VD"},
+	{383, "J721S2_DEV_TIMER5_CLKSEL_VD"},
+	{384, "J721S2_DEV_TIMER7_CLKSEL_VD"},
+	{385, "J721S2_DEV_TIMER9_CLKSEL_VD"},
+	{386, "J721S2_DEV_TIMER11_CLKSEL_VD"},
+	{387, "J721S2_DEV_TIMER13_CLKSEL_VD"},
+	{388, "J721S2_DEV_TIMER15_CLKSEL_VD"},
+	{389, "J721S2_DEV_TIMER17_CLKSEL_VD"},
+	{390, "J721S2_DEV_TIMER19_CLKSEL_VD"},
+	{391, "J721S2_DEV_MAIN_PLL8_SEL_EXTWAVE_VD"},
 };
