@@ -1,7 +1,7 @@
 /*
  * J7200 Devices Info
  *
- * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2022-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -292,4 +292,5 @@ struct ti_sci_devices_info j7200_devices_info[] = {
 	{320, "J7200_DEV_TIMER15_CLKSEL_VD"},
 	{321, "J7200_DEV_TIMER17_CLKSEL_VD"},
 	{322, "J7200_DEV_TIMER19_CLKSEL_VD"},
+	{323, "J7200_DEV_MAIN_PLL8_SEL_EXTWAVE_VD"},
 };
