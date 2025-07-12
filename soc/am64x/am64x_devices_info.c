@@ -1,7 +1,7 @@
 /*
  * AM64X Devices Info
  *
- * Copyright (C) 2020 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2020-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -43,6 +43,7 @@ struct ti_sci_devices_info am64x_devices_info[] = {
 	{5, "AM64X_DEV_MCU_MCU_GPIOMUX_INTROUTER0"},
 	{6, "AM64X_DEV_TIMESYNC_EVENT_INTROUTER0"},
 	{7, "AM64X_DEV_MCU_M4FSS0"},
+	{8, "AM64X_DEV_MCU_M4FSS0_CBASS_0"},
 	{9, "AM64X_DEV_MCU_M4FSS0_CORE0"},
 	{13, "AM64X_DEV_CPSW0"},
 	{14, "AM64X_DEV_CPT2_AGGR0"},
@@ -62,8 +63,6 @@ struct ti_sci_devices_info am64x_devices_info[] = {
 	{28, "AM64X_DEV_DMASS0_INTAGGR_0"},
 	{29, "AM64X_DEV_DMASS0_IPCSS_0"},
 	{30, "AM64X_DEV_DMASS0_PKTDMA_0"},
-	{31, "AM64X_DEV_DMASS0_PSILCFG_0"},
-	{32, "AM64X_DEV_DMASS0_PSILSS_0"},
 	{33, "AM64X_DEV_DMASS0_RINGACC_0"},
 	{35, "AM64X_DEV_MCU_TIMER0"},
 	{36, "AM64X_DEV_TIMER0"},
@@ -137,17 +136,7 @@ struct ti_sci_devices_info am64x_devices_info[] = {
 	{105, "AM64X_DEV_I2C3"},
 	{106, "AM64X_DEV_MCU_I2C0"},
 	{107, "AM64X_DEV_MCU_I2C1"},
-	{108, "AM64X_DEV_MSRAM_256K0"},
-	{109, "AM64X_DEV_MSRAM_256K1"},
-	{110, "AM64X_DEV_MSRAM_256K2"},
-	{111, "AM64X_DEV_MSRAM_256K3"},
-	{112, "AM64X_DEV_MSRAM_256K4"},
-	{113, "AM64X_DEV_MSRAM_256K5"},
 	{114, "AM64X_DEV_PCIE0"},
-	{115, "AM64X_DEV_POSTDIV1_16FFT1"},
-	{116, "AM64X_DEV_POSTDIV4_16FF0"},
-	{117, "AM64X_DEV_POSTDIV4_16FF2"},
-	{118, "AM64X_DEV_PSRAMECC0"},
 	{119, "AM64X_DEV_R5FSS0"},
 	{120, "AM64X_DEV_R5FSS1"},
 	{121, "AM64X_DEV_R5FSS0_CORE0"},

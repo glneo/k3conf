@@ -1,7 +1,7 @@
 /*
  * AM64X Sec Proxy Info
  *
- * Copyright (C) 2020 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2020-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -35,7 +35,7 @@
 #ifndef __AM64X_SEC_PROXY_INFO_H
 #define __AM64X_SEC_PROXY_INFO_H
 
-#define AM64X_MAIN_SEC_PROXY_THREADS	28
+#define AM64X_MAIN_SEC_PROXY_THREADS	32
 
 extern struct ti_sci_sec_proxy_info am64x_main_sp_info[];
 
