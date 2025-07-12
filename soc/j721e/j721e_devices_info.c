@@ -1,7 +1,7 @@
 /*
  * J721E Devices Info
  *
- * Copyright (C) 2022 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2022-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -365,9 +365,10 @@ struct ti_sci_devices_info j721e_devices_info[] = {
 	{334, "J721E_DEV_TIMER15_CLKSEL_VD"},
 	{335, "J721E_DEV_TIMER17_CLKSEL_VD"},
 	{336, "J721E_DEV_TIMER19_CLKSEL_VD"},
-	{337, "J721E_DEV_ASCPCIE_BUFFER0"},
-	{338, "J721E_DEV_ASCPCIE_BUFFER1"},
+	{337, "J721E_DEV_ACSPCIE_BUFFER0"},
+	{338, "J721E_DEV_ACSPCIE_BUFFER1"},
 	{339, "J721E_DEV_NAVSS0_PVU_0"},
 	{340, "J721E_DEV_NAVSS0_PVU_1"},
 	{341, "J721E_DEV_NAVSS0_PVU_2"},
+	{342, "J721E_DEV_MAIN_PLL8_SEL_EXTWAVE_VD"},
 };
