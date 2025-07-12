@@ -1,7 +1,7 @@
 /*
  * AM62PX RM Info
  *
- * Copyright (C) 2023 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2023-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -41,9 +41,11 @@ struct ti_sci_rm_info am62px_rm_info[] = {
 	{0x0180, "RESASG_SUBTYPE_IR_OUTPUT"},
 	{0x0682, "RESASG_SUBTYPE_GLOBAL_EVENT_TRIGGER"},
 	{0x0683, "RESASG_SUBTYPE_UDMAP_GLOBAL_CONFIG"},
+	{0x068C, "RESASG_SUBTYPE_BCDMA_RING_BLOCK_COPY_HCCHAN"},
 	{0x068D, "RESASG_SUBTYPE_BCDMA_RING_BLOCK_COPY_CHAN"},
 	{0x068E, "RESASG_SUBTYPE_BCDMA_RING_SPLIT_TR_RX_CHAN"},
 	{0x068F, "RESASG_SUBTYPE_BCDMA_RING_SPLIT_TR_TX_CHAN"},
+	{0x069F, "RESASG_SUBTYPE_BCDMA_BLOCK_COPY_HCCHAN"},
 	{0x06A0, "RESASG_SUBTYPE_BCDMA_BLOCK_COPY_CHAN"},
 	{0x06A1, "RESASG_SUBTYPE_BCDMA_SPLIT_TR_RX_CHAN"},
 	{0x06A2, "RESASG_SUBTYPE_BCDMA_SPLIT_TR_TX_CHAN"},

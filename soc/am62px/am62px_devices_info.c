@@ -1,7 +1,7 @@
 /*
  * AM62PX Devices Info
  *
- * Copyright (C) 2023 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2023-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -208,4 +208,5 @@ struct ti_sci_devices_info am62px_devices_info[] = {
 	{242, "AM62PX_DEV_GPU0_CORE_VD"},
 	{243, "AM62PX_DEV_OLDI0_VD"},
 	{244, "AM62PX_DEV_OLDI1_VD"},
+	{245, "AM62PX_DEV_DPI0_OUT_SEL_DEV_VD"},
 };

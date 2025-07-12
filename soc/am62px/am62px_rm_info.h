@@ -1,7 +1,7 @@
 /*
  * AM62PX RM Info
  *
- * Copyright (C) 2023 Texas Instruments Incorporated - https://www.ti.com/
+ * Copyright (C) 2023-2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -35,7 +35,7 @@
 #ifndef __AM62PX_RM_INFO_H
 #define __AM62PX_RM_INFO_H
 
-#define AM62PX_MAX_RES	65
+#define AM62PX_MAX_RES	67
 
 extern struct ti_sci_rm_info am62px_rm_info[];
 
