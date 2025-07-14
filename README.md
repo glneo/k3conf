@@ -19,10 +19,16 @@ SUPPORT:
 --------
 
 K3CONF currently supports AM654, J721E, J7200, AM64x, AM62x, J721S2, J784S4,
-J722S, AM62Ax and AM62Px devices. Legacy OMAP and DRA7 platforms are not supported.
+J722S, AM62Ax, AM62Px, and AM62Lx devices. AM62Lx platform support is
+experimental. Legacy OMAP and DRA7 platforms are not supported.
 
 This tool makes usage of /dev/mem. If your kernel doesn't have CONFIG_DEVMEM,
 or enables CONFIG_DEVMEM_STRICT_IO, it will not work well.
+
+Support for the AM62Lx makes use of the SCMI Raw Interface. This tool makes
+usage of /sys/kernel/debug/scmi/0. If your kernel doesn't have
+CONFIG_ARM_SCMI_NEED_DEBUGFS, CONFIG_ARM_SCMI_RAW_MODE_SUPPORT, and
+CONFIG_ARM_SCMI_RAW_MODE_SUPPORT_COEX, it will not have full functionality.
 
 Build Instructions:
 -------------------
