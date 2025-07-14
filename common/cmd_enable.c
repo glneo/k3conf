@@ -51,7 +51,12 @@ static int enable_clock(int argc, char *argv[])
 	if (ret != 1)
 		return -1;
 
-	ret = ti_sci_cmd_get_clk(dev_id, clk_id);
+	if (soc_info.protocol == TISCI)
+		ret = ti_sci_cmd_get_clk(dev_id, clk_id);
+	else
+		/* dev_id is ignored for SoCs using SCMI */
+		ret = scmi_cmd_enable_clk(clk_id);
+
 	if (ret)
 		return ret;
 
@@ -82,6 +87,8 @@ int process_enable_command(int argc, char *argv[])
 		argv++;
 		ret = enable_clock(argc, argv);
 		if (ret) {
+			if (soc_info.protocol == SCMI)
+				fprintf(stderr, "SCMI_ERROR: %s %d\n", scmi_status_code[-ret], ret);
 			fprintf(stderr, "Invalid clock arguments\n");
 			help(HELP_ENABLE_CLOCK);
 		}
