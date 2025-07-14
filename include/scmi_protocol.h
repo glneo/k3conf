@@ -30,6 +30,7 @@
 #define SCMI_GET_CLK_FREQ_MSG_ID	0x06
 #define SCMI_SET_CLK_STATE_MSD_ID	0x07
 #define SCMI_GET_CLK_STATE_MSG_ID	0x0B
+#define SCMI_GET_CLK_PARENT_MSG_ID	0x0E
 
 /* Message Types */
 #define SCMI_CMD_MSG_TYPE	0x00
@@ -106,6 +107,17 @@ struct scmi_msg_resp_get_clk_freq {
 	int32_t status;
 	uint64_t rate;
 } __attribute__ ((__packed__));
+
+struct scmi_msg_req_get_clk_parent {
+	struct scmi_msg_hdr hdr;
+	uint32_t clk_id;
+} __attribute__ ((__packed__));
+
+struct scmi_msg_resp_get_clk_parent {
+	struct scmi_msg_hdr hdr;
+	int32_t status;
+	uint32_t parent_id;
+} __attribute__((__packed__));
 
 void scmi_setup_header(struct scmi_msg_hdr *msg_hdr, uint32_t protocol_id, uint32_t msg_id,
 			 uint32_t msg_type);

@@ -61,6 +61,7 @@ int scmi_cmd_disable_clk(uint32_t clk_id);
 const char *scmi_cmd_get_clk_state(uint32_t clk_id, uint32_t flags);
 int scmi_cmd_set_clk_freq(uint32_t clk_id, uint64_t freq, uint32_t flags);
 int scmi_cmd_get_clk_freq(uint32_t clk_id, uint64_t *freq);
+int scmi_cmd_get_clk_parent(uint32_t clk_id, uint32_t *parent_clk_id);
 
 #define SCMI_MAX_STAT_CODE_LEN	50
 #define SCMI_NUM_STAT_CODES	13
