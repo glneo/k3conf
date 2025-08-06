@@ -105,6 +105,9 @@
 #define JTAG_ID_PARTNO_SHIFT	12
 #define JTAG_ID_PARTNO_MASK	(0xffff << 12)
 
+#define CTRLMMR_WKUP_GP_SW1	0x43000234
+#define GP_SW1_VARIANT_MOD_OPR	16
+
 #define CTRLMMR_WKUP_DIE_ID0	0x43000020
 #define CTRLMMR_WKUP_DIE_ID1	0x43000024
 #define CTRLMMR_WKUP_DIE_ID2	0x43000028
@@ -126,6 +129,12 @@ static const char *soc_revision_j721e[] = {
 	[REV_1] = " SR1.0",
 	[REV_2] = " SR1.1",
 	[REV_3] = " SR2.0",
+};
+
+static const char *soc_gpsw_revision_am62p[] = {
+	[REV_1] = " SR1.0",
+	[REV_2] = " SR1.1",
+	[REV_3] = " SR1.2",
 };
 
 static const char *soc_revision_generic[] = {
@@ -667,6 +676,7 @@ int soc_init(uint32_t host_id)
 			& DEVICE_ID_PKG_MASK) >> DEVICE_ID_PKG_SHIFT;
 	k3_soc_rev rev = (mmio_read_32(CTRLMMR_WKUP_JTAG_ID) &
 			JTAG_ID_VARIANT_MASK) >> JTAG_ID_VARIANT_SHIFT;
+	k3_soc_rev gpsw1_val = 0;
 
 	switch (soc) {
 	case AM65X:
@@ -724,6 +734,10 @@ int soc_init(uint32_t host_id)
 	switch (soc) {
 	case J721E:
 		soc_info.rev_name = soc_revision_j721e[rev];
+		break;
+	case AM62PX:
+		gpsw1_val = mmio_read_32(CTRLMMR_WKUP_GP_SW1);
+		soc_info.rev_name = soc_gpsw_revision_am62p[gpsw1_val % GP_SW1_VARIANT_MOD_OPR];
 		break;
 	default:
 		soc_info.rev_name = soc_revision_generic[rev];
