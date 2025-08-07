@@ -2,7 +2,7 @@
 /*
  * SCMI Raw Interface driver
  *
- * Copyright (C) 2025 Texas Instruments Incorporated
+ * Copyright (C) 2025 Texas Instruments Incorporated - https://www.ti.com/
  *
  * SCMI Specification: https://developer.arm.com/documentation/den0056/latest/
  */
