@@ -100,7 +100,7 @@ void help(help_category cat)
 	    (cat == HELP_SHOW_PROCESSOR)) {
 		printf("\n");
 		printf("	k3conf show processor\n");
-		printf("		Prints all the available TISCI processors\n");
+		printf("		Prints all the available processors\n");
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_SHOW) ||
 	    (cat == HELP_SHOW_RM)) {

@@ -296,20 +296,35 @@ static int show_rm_info(int argc, char *argv[])
 static int show_processors_info(void)
 {
 	struct ti_sci_processors_info *tisci_p = soc_info.sci_info.processors_info;
+	struct arm_scmi_processors_info *scmi_p = soc_info.scmi_info.processors_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
-	uint32_t row = 0;
+	uint32_t row = 0, num_procs;
+
+	if (soc_info.protocol == TISCI)
+		num_procs = soc_info.sci_info.num_processors;
+	else
+		num_procs = soc_info.scmi_info.num_processors;
 
 	autoadjust_table_init(table);
 	strncpy(table[row][0], "Device ID", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][1], "Processor ID", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][2], "Processor Name", TABLE_MAX_ELT_LEN);
 
-	for (row = 0; row < soc_info.sci_info.num_processors; row++) {
-		snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
-			 tisci_p[row].dev_id);
-		snprintf(table[row + 1][1], TABLE_MAX_ELT_LEN, "%7d",
-			 tisci_p[row].processor_id);
-		strncpy(table[row + 1][2], tisci_p[row].name, TABLE_MAX_ELT_LEN);
+	for (row = 0; row < num_procs; row++) {
+		if (soc_info.protocol == TISCI) {
+			snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
+				tisci_p[row].dev_id);
+			snprintf(table[row + 1][1], TABLE_MAX_ELT_LEN, "%7d",
+				tisci_p[row].processor_id);
+			strncpy(table[row + 1][2], tisci_p[row].name, TABLE_MAX_ELT_LEN);
+		}
+		else {
+			snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%s",
+				"SCMI: NA");
+			snprintf(table[row + 1][1], TABLE_MAX_ELT_LEN, "%s",
+				"SCMI: NOT SUPPORTED");
+			strncpy(table[row + 1][2], scmi_p[row].dev_name, TABLE_MAX_ELT_LEN);
+		}
 	}
 
 	return autoadjust_table_print(table, row + 1, 3);
