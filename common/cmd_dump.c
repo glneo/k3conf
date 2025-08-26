@@ -18,7 +18,7 @@
 
 int dump_cpu_info(void)
 {
-	struct ti_sci_processors_info *p = soc_info.sci_info.processors_info;
+	struct ti_sci_processors_info *tisci_p = soc_info.sci_info.processors_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	uint32_t row = 0, found = 0;
 	uint64_t freq;
@@ -29,13 +29,13 @@ int dump_cpu_info(void)
 	strncpy(table[row][2], "Processor Frequency", TABLE_MAX_ELT_LEN);
 
 	for (row = 0; row < soc_info.sci_info.num_processors; row++) {
-		if (strncmp(p[row].name, "A", 1))
+		if (strncmp(tisci_p[row].name, "A", 1))
 			continue;
-		strncpy(table[found + 1][0], p[row].name, TABLE_MAX_ELT_LEN);
+		strncpy(table[found + 1][0], tisci_p[row].name, TABLE_MAX_ELT_LEN);
 		/* ToDo: Should we get the state from proc ops */
 		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%s",
-			 ti_sci_cmd_get_device_status(p[row].dev_id));
-		ti_sci_cmd_get_clk_freq(p[row].dev_id, p[row].clk_id, &freq);
+			 ti_sci_cmd_get_device_status(tisci_p[row].dev_id));
+		ti_sci_cmd_get_clk_freq(tisci_p[row].dev_id, tisci_p[row].clk_id, &freq);
 		snprintf(table[found + 1][2], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 		found++;
 	}
@@ -310,7 +310,7 @@ print_single_device:
 
 static int dump_processors_info(int argc, char *argv[])
 {
-	struct ti_sci_processors_info *p = soc_info.sci_info.processors_info;
+	struct ti_sci_processors_info *tisci_p = soc_info.sci_info.processors_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	uint32_t row = 0, proc_id;
 	int found = 0, ret;
@@ -328,14 +328,14 @@ static int dump_processors_info(int argc, char *argv[])
 
 	for (row = 0; row < soc_info.sci_info.num_processors; row++) {
 		snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
-			 p[row].dev_id);
+			 tisci_p[row].dev_id);
 		snprintf(table[row + 1][1], TABLE_MAX_ELT_LEN, "%7d",
-			 p[row].processor_id);
-		strncpy(table[row + 1][2], p[row].name, TABLE_MAX_ELT_LEN);
+			 tisci_p[row].processor_id);
+		strncpy(table[row + 1][2], tisci_p[row].name, TABLE_MAX_ELT_LEN);
 		/* ToDo: Should we get the state from proc ops */
 		snprintf(table[row + 1][3], TABLE_MAX_ELT_LEN, "%s",
-			 ti_sci_cmd_get_device_status(p[row].dev_id));
-		ti_sci_cmd_get_clk_freq(p[row].dev_id, p[row].clk_id, &freq);
+			 ti_sci_cmd_get_device_status(tisci_p[row].dev_id));
+		ti_sci_cmd_get_clk_freq(tisci_p[row].dev_id, tisci_p[row].clk_id, &freq);
 		snprintf(table[row + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 	}
 
@@ -347,17 +347,17 @@ print_single_processor:
 		return -1;
 
 	for (row = 0; row < soc_info.sci_info.num_processors; row++) {
-		if (proc_id != p[row].processor_id)
+		if (proc_id != tisci_p[row].processor_id)
 			continue;
 		snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5d",
-			 p[row].dev_id);
+			 tisci_p[row].dev_id);
 		snprintf(table[found + 1][1], TABLE_MAX_ELT_LEN, "%7d",
-			 p[row].processor_id);
-		strncpy(table[found + 1][2], p[row].name, TABLE_MAX_ELT_LEN);
+			 tisci_p[row].processor_id);
+		strncpy(table[found + 1][2], tisci_p[row].name, TABLE_MAX_ELT_LEN);
 		/* ToDo: Should we get the state from proc ops */
 		snprintf(table[found + 1][3], TABLE_MAX_ELT_LEN, "%s",
-			 ti_sci_cmd_get_device_status(p[row].dev_id));
-		ti_sci_cmd_get_clk_freq(p[row].dev_id, p[row].clk_id, &freq);
+			 ti_sci_cmd_get_device_status(tisci_p[row].dev_id));
+		ti_sci_cmd_get_clk_freq(tisci_p[row].dev_id, tisci_p[row].clk_id, &freq);
 		snprintf(table[found + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
 		found++;
 		break;
