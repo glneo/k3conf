@@ -12,6 +12,7 @@
 #define HELP_CLK_SET_PARENT_URL1 "http://downloads.ti.com/tisci/esd/latest/2_tisci_msgs/pm/clocks.html#power-management-clock-frequency-configuration-example-with-mux-programming"
 #define HELP_CLK_SET_PARENT_URL2 "http://downloads.ti.com/tisci/esd/latest/2_tisci_msgs/pm/clocks.html#tisci-msg-set-clock-parent"
 #define HELP_DEV_ID_IGNORED "\t\tNOTICE: On SoCs using SCMI, set <dev_id> value to 0. All other parameters should be set as desired.\n"
+#define HELP_PROC_ID_IGNORED "\t\tNOTICE: On SoCs using SCMI, set <proc_id> value to 0. All other parameters should be set as desired.\n"
 
 void help(help_category cat)
 {
@@ -146,10 +147,11 @@ void help(help_category cat)
 	    (cat == HELP_DUMP_PROCESSOR)) {
 		printf("\n");
 		printf("	k3conf dump processor\n");
-		printf("		Prints status of all the available TISCI processors\n");
+		printf("		Prints status of all the available processors\n");
 		printf("\n");
 		printf("	k3conf dump processor <proc_id>\n");
-		printf("		Prints status of the given TISCI processors\n");
+		printf("		Prints status of the given processor\n");
+		printf(HELP_PROC_ID_IGNORED);
 	}
 	if ((cat == HELP_ALL) || (cat == HELP_DUMP) ||
 	    (cat == HELP_DUMP_RM)) {

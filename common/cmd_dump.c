@@ -326,10 +326,16 @@ print_single_device:
 static int dump_processors_info(int argc, char *argv[])
 {
 	struct ti_sci_processors_info *tisci_p = soc_info.sci_info.processors_info;
+	struct arm_scmi_processors_info *scmi_p = soc_info.scmi_info.processors_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
-	uint32_t row = 0, proc_id;
+	uint32_t row = 0, proc_id, num_procs;
 	int found = 0, ret;
 	uint64_t freq;
+
+	if (soc_info.protocol == TISCI)
+		num_procs = soc_info.sci_info.num_processors;
+	else
+		num_procs = soc_info.scmi_info.num_processors;
 
 	autoadjust_table_init(table);
 	strncpy(table[row][0], "Device ID", TABLE_MAX_ELT_LEN);
@@ -338,20 +344,33 @@ static int dump_processors_info(int argc, char *argv[])
 	strncpy(table[row][3], "Processor State", TABLE_MAX_ELT_LEN);
 	strncpy(table[row][4], "Processor Frequency", TABLE_MAX_ELT_LEN);
 
-	if (argc)
+	if (argc && soc_info.protocol == TISCI)
 		goto print_single_processor;
 
-	for (row = 0; row < soc_info.sci_info.num_processors; row++) {
-		snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
-			 tisci_p[row].dev_id);
-		snprintf(table[row + 1][1], TABLE_MAX_ELT_LEN, "%7d",
-			 tisci_p[row].processor_id);
-		strncpy(table[row + 1][2], tisci_p[row].name, TABLE_MAX_ELT_LEN);
-		/* ToDo: Should we get the state from proc ops */
-		snprintf(table[row + 1][3], TABLE_MAX_ELT_LEN, "%s",
-			 ti_sci_cmd_get_device_status(tisci_p[row].dev_id));
-		ti_sci_cmd_get_clk_freq(tisci_p[row].dev_id, tisci_p[row].clk_id, &freq);
-		snprintf(table[row + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
+	for (row = 0; row < num_procs; row++) {
+		if (soc_info.protocol == TISCI) {
+			snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
+				tisci_p[row].dev_id);
+			snprintf(table[row + 1][1], TABLE_MAX_ELT_LEN, "%7d",
+				tisci_p[row].processor_id);
+			strncpy(table[row + 1][2], tisci_p[row].name, TABLE_MAX_ELT_LEN);
+			/* ToDo: Should we get the state from proc ops */
+			snprintf(table[row + 1][3], TABLE_MAX_ELT_LEN, "%s",
+				ti_sci_cmd_get_device_status(tisci_p[row].dev_id));
+			ti_sci_cmd_get_clk_freq(tisci_p[row].dev_id, tisci_p[row].clk_id, &freq);
+			snprintf(table[row + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
+		}
+		else {
+			snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%s",
+				"SCMI: NA");
+			snprintf(table[row + 1][1], TABLE_MAX_ELT_LEN, "%s",
+				"SCMI: NA");
+			strncpy(table[row + 1][2], scmi_p[row].dev_name, TABLE_MAX_ELT_LEN);
+			snprintf(table[row + 1][3], TABLE_MAX_ELT_LEN, "%s",
+				"SCMI: NOT SUPPORTED");
+			scmi_cmd_get_clk_freq(scmi_p[row].clk_id, &freq);
+			snprintf(table[row + 1][4], TABLE_MAX_ELT_LEN, "%" PRIu64, freq);
+		}
 	}
 
 	return autoadjust_table_print(table, row + 1, 5);
@@ -361,7 +380,7 @@ print_single_processor:
 	if (ret != 1)
 		return -1;
 
-	for (row = 0; row < soc_info.sci_info.num_processors; row++) {
+	for (row = 0; row < num_procs; row++) {
 		if (proc_id != tisci_p[row].processor_id)
 			continue;
 		snprintf(table[found + 1][0], TABLE_MAX_ELT_LEN, "%5d",
