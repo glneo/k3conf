@@ -295,7 +295,7 @@ static int show_rm_info(int argc, char *argv[])
 
 static int show_processors_info(void)
 {
-	struct ti_sci_processors_info *p = soc_info.sci_info.processors_info;
+	struct ti_sci_processors_info *tisci_p = soc_info.sci_info.processors_info;
 	char table[TABLE_MAX_ROW][TABLE_MAX_COL][TABLE_MAX_ELT_LEN];
 	uint32_t row = 0;
 
@@ -306,10 +306,10 @@ static int show_processors_info(void)
 
 	for (row = 0; row < soc_info.sci_info.num_processors; row++) {
 		snprintf(table[row + 1][0], TABLE_MAX_ELT_LEN, "%5d",
-			 p[row].dev_id);
+			 tisci_p[row].dev_id);
 		snprintf(table[row + 1][1], TABLE_MAX_ELT_LEN, "%7d",
-			 p[row].processor_id);
-		strncpy(table[row + 1][2], p[row].name, TABLE_MAX_ELT_LEN);
+			 tisci_p[row].processor_id);
+		strncpy(table[row + 1][2], tisci_p[row].name, TABLE_MAX_ELT_LEN);
 	}
 
 	return autoadjust_table_print(table, row + 1, 3);
