@@ -233,13 +233,13 @@ static void generic_decode_temp(uint32_t jtag_device_id)
 	val = (jtag_device_id & DEVICE_ID_TEMP_MASK) >> DEVICE_ID_TEMP_SHIFT;
 	switch (val) {
 		case 3:
-			temp = "0°C to 95°C ";
+			temp = "0 C to 95 C ";
 			break;
 		case 4:
-			temp = "-40°C to 105°C ";
+			temp = "-40 C to 105 C ";
 			break;
 		case 5:
-			temp = "-40°C to 125°C";
+			temp = "-40 C to 125 C";
 			break;
 		default:
 			temp = "Unknown";
